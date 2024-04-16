@@ -5,7 +5,7 @@
         <el-avatar :size="50" :src="avatar"></el-avatar>
       </div>
       <div class="head-card-content">
-        <h2 class="title">{{ sayHi }}!  {{ t('indexPage.descTitle') }}</h2>
+        <h2 class="title">{{ sayHi }}! {{ t('indexPage.descTitle') }}</h2>
         <p class="desc">
           学生在线管理系统
         </p>
@@ -56,6 +56,38 @@
 
           <el-card class="card" shadow="hover">
             <template #header>
+              <h3 class="title">{{ t('indexPage.PersonalInformation') }}</h3>
+            </template>
+            <div class="box-content">
+              <div class="avatar">
+                <el-avatar :size="100" :src="avatar"></el-avatar>
+              </div>
+              <div class="right">
+                <PersonalInfo></PersonalInfo>
+              </div>
+            </div>
+            <p class="grey-text">上次登录时间：2024-04-16</p>
+            <p class="grey-text">上次登录IP：127.0.0.1</p>
+
+          </el-card><!-- 个人信息 -->
+
+          <el-card class="card" shadow="hover">
+            <template #header>
+              <h3 class="title">{{ t('route.Notice') }}</h3>
+            </template>
+            <el-tabs v-model="activeName" stretch>
+              <el-tab-pane :label="`${t('tabs.notice')} (5)`" name="first">
+                <Cell :list="noticeList" />
+              </el-tab-pane>
+              <el-tab-pane :label="`${t('tabs.message')} (0)`" name="second">暂无消息</el-tab-pane>
+              <el-tab-pane :label="`${t('tabs.email')} (0)`" name="third">暂无邮件</el-tab-pane>
+            </el-tabs>
+          </el-card>
+
+
+
+          <el-card class="card" shadow="hover">
+            <template #header>
               <h3 class="title">{{ t('indexPage.orderTitle') }}</h3>
             </template>
             <div class="count-box">
@@ -67,18 +99,6 @@
             </div>
           </el-card>
 
-          <el-card class="card" shadow="hover">
-            <template #header>
-              <h3 class="title">{{ t('indexPage.PersonalInformation') }}</h3>
-            </template>
-            <div>
-              <div class="avatar">
-                <el-avatar :size="50" :src="avatar"></el-avatar>
-              </div>
-              <PersonalInfo></PersonalInfo>
-            </div>
-
-          </el-card><!-- 个人信息 -->
 
           <el-card class="card" shadow="hover">
             <template #header>
@@ -120,6 +140,10 @@ import PersonalInfo from '@/components/Card/index.vue';
 import packpage from '../../../package.json';
 import { useI18n } from 'vue-i18n';
 import { getResouceList } from '@/api/index';
+
+import Cell from '@/components/Cell/index.vue';
+import { noticeList } from '@/layouts/components/NavBar/data.js';
+let activeName = ref('first');
 
 import { useStore } from 'vuex';
 const store = useStore();
@@ -261,6 +285,8 @@ onBeforeMount(() => {
           grid-template-columns: repeat(1, 1fr);
         }
 
+
+
         .item {
           box-sizing: border-box;
           padding: 10px 20px;
@@ -302,6 +328,19 @@ onBeforeMount(() => {
             color: $base-font-color;
           }
         }
+      }
+
+      .box-content {
+        display: flex;
+
+        .right {
+          margin-left: 2rem;
+        }
+      }
+
+      .grey-text {
+        color: #666;
+        font-size: 12px;
       }
     }
   }

@@ -1,11 +1,14 @@
 <template>
     <div class="MySchedule">
         <el-dropdown size="large">
-            第{{ selectedWeek }}周<icon-ad-product theme="outline" size="24" fill="#333" />
-            <down theme="outline" size="24" fill="#333" />
+            <span class="el-dropdown-link">
+                第{{ selectedWeek }}周
+                <icon-down class="icon-hover refresh" theme="outline" size="16" :fill="color" :strokeWidth="3" />
+            </span>
             <template #dropdown>
                 <el-dropdown-menu>
-                    <el-dropdown-item v-for="week in weeks" :key="week" @click="selectWeek(week)">第{{ week
+                    <el-dropdown-item v-for="week in weeks" :key="week" @click="selectWeek(week)"
+                        :disabled="week == selectedWeek">第{{ week
                         }}周</el-dropdown-item>
                 </el-dropdown-menu>
             </template>
@@ -16,8 +19,8 @@
                 <div class="time-slot" v-for="timeSlot in timeSlots" :key="timeSlot"
                     :style="{ top: timeSlot * 50 + 10 + 'px' }">
                     {{
-                timeSlot
-            }}</div>
+                    timeSlot
+                }}</div>
             </div>
             <div class="day" v-for="(day, index) in days" :key="index">
                 <h3>{{ day }}</h3>
@@ -108,7 +111,7 @@ const Courselocation = (value) => {
     if (value == 1) {
         return 60;
     } else {
-        return (value - 1) * 50 + 60 + (value - 1);
+        return (value - 1) * 50 + 60;
     }
 };
 
@@ -119,9 +122,10 @@ const selectWeek = (week) => {
 </script>
 
 <style lang="scss" scoped>
-.MySchedule{
+.MySchedule {
     overflow: hidden;
 }
+
 .week-selector {
     display: flex;
     justify-content: flex-start;
@@ -143,7 +147,7 @@ const selectWeek = (week) => {
     width: 80px;
     position: relative;
     height: 500px;
-    z-index: 999;
+    z-index: 10;
 }
 
 .time-slot {
@@ -173,8 +177,9 @@ const selectWeek = (week) => {
     padding: 10px;
     box-sizing: border-box;
     position: absolute;
-    z-index: 9999;
+    z-index: 20;
     cursor: pointer;
+    
 }
 
 .course-name {

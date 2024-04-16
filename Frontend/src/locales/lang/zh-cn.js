@@ -22,6 +22,7 @@ export default {
     student:"学生信息",
     personalStudent:"查询个人信息",
     Schedule:"学生课表查询",
+    Notice:"学生公告"
   },
   navbar: {
     logOut: '退出登录',

@@ -192,6 +192,7 @@
         "element-plus/es/components/table/style/index",
         "element-plus/es/components/tabs/style/css",
         "element-plus/es/components/tabs/style/index",
+        "element-plus/es/components/tag/style/index",
         "element-plus/lib/locale/lang/en",
         "element-plus/lib/locale/lang/zh-cn",
         "js-cookie",
