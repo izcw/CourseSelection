@@ -2,7 +2,7 @@
   <div class="index-conntainer">
     <div class="head-card">
       <div class="avatar">
-        <el-avatar :size="50" :src="avatar"></el-avatar>
+        <el-avatar :size="50" :src="avatar1"></el-avatar>
       </div>
       <div class="head-card-content">
         <h2 class="title">{{ sayHi }}! {{ t('indexPage.descTitle') }}</h2>
@@ -60,7 +60,7 @@
             </template>
             <div class="box-content">
               <div class="avatar">
-                <el-avatar :size="100" :src="avatar"></el-avatar>
+                <el-avatar :size="100" :src="avatar1"></el-avatar>
               </div>
               <div class="right">
                 <PersonalInfo></PersonalInfo>
@@ -82,8 +82,7 @@
               <el-tab-pane :label="`${t('tabs.message')} (0)`" name="second">暂无消息</el-tab-pane>
               <el-tab-pane :label="`${t('tabs.email')} (0)`" name="third">暂无邮件</el-tab-pane>
             </el-tabs>
-          </el-card>
-
+          </el-card><!-- 学生公告 -->
 
 
           <el-card class="card" shadow="hover">
@@ -169,7 +168,8 @@ const thisTime =
           ? t('sayHi.afternoon')
           : t('sayHi.evening');
 const sayHi = ref(thisTime);
-const avatar = ref('https://i.gtimg.cn/club/item/face/img/2/15922_100.gif');
+const avatar1 = ref('https://picserver.duoyu.link/picfile/image/202404/22-1713717087790.png'); // 学生头像
+const avatar2 = ref('https://picserver.duoyu.link/picfile/image/202404/22-1713717150586.png'); // 管理员头像
 
 const series2 = reactive([
   {
