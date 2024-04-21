@@ -1,6 +1,26 @@
-node_modules/
-.DS_Store
 dist-ssr/
-dist/
 *.local
-*.vscode
+
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+
+### IntelliJ IDEA ###
+/Backend/.idea/modules.xml
+/Backend/.idea/jarRepositories.xml
+/Backend/.idea/compiler.xml
+/Backend/.idea/libraries/
+/Backend/out/
+/Backend/target/
+/Backend/.iws
+/Backend/.iml
+/Backend/.ipr
+
+### VS Code ###
+.vscode/
+node_modules/
+dist/
+
+### Mac OS ###
+.DS_Store
