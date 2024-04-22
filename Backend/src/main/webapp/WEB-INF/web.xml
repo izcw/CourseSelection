@@ -1,11 +1,29 @@
 <!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
-<web-app>
+<web-app version="2.5"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
   <display-name>Archetype Created Web Application</display-name>
-<listener>
-  <listener-class>com.Tools.InitListener</listener-class>
-</listener>
+
+  <listener>
+    <listener-class>com.Tools.InitListener</listener-class>
+  </listener>
+  <!-- 拦截器属性 -->
+  <filter>
+    <filter-name>LoginFilter</filter-name>  <!-- 拦截器名称，建议与类同名 -->
+    <filter-class>com.Tools.LoginFilter</filter-class><!-- 拦截器类 -->
+  </filter>
+
+  <!-- 拦截器映射 -->
+  <filter-mapping>
+    <filter-name>LoginFilter</filter-name>	<!-- 要映射的拦截器名称 -->
+    <url-pattern>/*</url-pattern>	<!-- 拦截器拦截地址 -->
+  </filter-mapping>
 </web-app>
+
 
