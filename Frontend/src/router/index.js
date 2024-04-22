@@ -105,6 +105,7 @@ export const asyncRoutes = [
           icon: 'icon-like',
         },
       }
+      
     ],
   },
   {

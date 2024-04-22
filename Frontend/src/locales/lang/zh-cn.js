@@ -124,7 +124,7 @@ export default {
   },
   indexPage: {
     descTitle: '开始您一天的工作吧！',
-    resourceTitle: 'Vue3相关资源推荐',
+    resourceTitle: '快速通道',
     orderTitle: '订单清单',
     order: {
       planned: '计划订单',
@@ -135,7 +135,8 @@ export default {
     envTitle: '生产环境依赖信息',
     chartTitle: '基础平滑折线图',
     PersonalInformation:'个人信息',
-    Myschedule:'我的课表'
+    Myschedule:'我的课表',
+    countdownTime:"自主选课"
   },
   errorPages: {
     title: '抱歉!',

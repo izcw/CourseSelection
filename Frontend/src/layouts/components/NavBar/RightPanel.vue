@@ -1,23 +1,16 @@
 <template>
   <div class="right-panel">
-    <icon-theme
-      class="icon-hover theme"
-      :title="t('navbar.theme')"
-      theme="outline"
-      :strokeWidth="4"
-      size="16"
-      :fill="color"
-      @click="handleChangeTheme"
-    />
+    <icon-theme class="icon-hover theme" :title="t('navbar.theme')" theme="outline" :strokeWidth="4" size="16"
+      :fill="color" @click="handleChangeTheme" />
     <el-popover v-if="settings.notice" placement="bottom" :width="320" trigger="hover">
       <template #reference>
-        <icon-remind
-          class="icon-hover refresh"
-          theme="outline"
-          size="16"
-          :fill="color"
-          :strokeWidth="3"
-        />
+        <div class="remind-box icon-hover refresh remind-icon">
+          <el-badge :value="12" class="">
+            <icon-remind class="icon-hover refresh remind-icon" theme="outline" size="16" :fill="color"
+              :strokeWidth="3" />
+          </el-badge>
+        </div>
+
       </template>
       <div class="message-box">
         <el-tabs v-model="activeName" stretch>
@@ -32,89 +25,95 @@
 
     <FullScreen :color="color" v-if="settings.fullScreen" @refresh="onRefresh" />
     <LangChange :color="color" />
-    <icon-refresh
-      v-if="settings.refresh"
-      :title="t('navbar.refresh')"
-      @click="handleRefresh"
-      class="icon-hover refresh"
-      theme="filled"
-      size="16"
-      :fill="color"
-      :strokeWidth="4"
-    />
+    <icon-refresh v-if="settings.refresh" :title="t('navbar.refresh')" @click="handleRefresh" class="icon-hover refresh"
+      theme="filled" size="16" :fill="color" :strokeWidth="4" />
     <Avatar :color="color" />
     <ThemeSetting />
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'RightPanel',
-  };
+export default {
+  name: 'RightPanel',
+};
 </script>
 
 <script setup>
-  import { noticeList } from './data';
+import { noticeList } from './data';
 
-  import FullScreen from '@/components/FullScreen/index.vue';
-  import Cell from '@/components/Cell/index.vue';
-  import LangChange from '@/components/LangChange/index.vue';
+import FullScreen from '@/components/FullScreen/index.vue';
+import Cell from '@/components/Cell/index.vue';
+import LangChange from '@/components/LangChange/index.vue';
 
-  import { useI18n } from 'vue-i18n';
-  import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
 
-  import { computed, nextTick, ref } from 'vue';
-  defineProps({
-    color: {
-      type: String,
-      default: '#666',
-    },
+import { computed, nextTick, ref } from 'vue';
+defineProps({
+  color: {
+    type: String,
+    default: '#666',
+  },
+});
+
+const { t } = useI18n();
+const store = useStore();
+
+let activeName = ref('first');
+
+const settings = computed(() => {
+  return store.getters['setting/settings'];
+});
+
+const onRefresh = () => { };
+
+const handleRefresh = () => {
+  store.dispatch('setting/setRouterView', false);
+  nextTick(() => {
+    store.dispatch('setting/setRouterView', true);
   });
+};
 
-  const { t } = useI18n();
-  const store = useStore();
-
-  let activeName = ref('first');
-
-  const settings = computed(() => {
-    return store.getters['setting/settings'];
-  });
-
-  const onRefresh = () => {};
-
-  const handleRefresh = () => {
-    store.dispatch('setting/setRouterView', false);
-    nextTick(() => {
-      store.dispatch('setting/setRouterView', true);
-    });
-  };
-
-  const handleChangeTheme = () => {
-    store.dispatch('setting/setSettingDrawer', true);
-  };
+const handleChangeTheme = () => {
+  store.dispatch('setting/setSettingDrawer', true);
+};
 </script>
 
 <style lang="scss" scoped>
-  .right-panel {
-    display: flex;
-    align-content: center;
-    align-items: center;
-    justify-content: flex-end;
-    height: $base-nav-bar-height;
-    .msg-badge {
-      :deep(.el-badge__content.is-fixed) {
-        right: calc(10px + var(--el-badge-size) / 2);
-      }
-    }
-    .refresh,
-    .theme {
-      padding: $base-padding-20-10;
+.right-panel {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: flex-end;
+  height: $base-nav-bar-height;
+
+  .msg-badge {
+    :deep(.el-badge__content.is-fixed) {
+      right: calc(10px + var(--el-badge-size) / 2);
     }
   }
-  .message-box {
-    padding: $base-padding-5-15;
-    :deep(.el-tabs__active-bar) {
-      width: $base-tab-width_active !important;
+
+  .refresh,
+  .theme {
+    padding: $base-padding-20-10;
+  }
+
+  .remind-box {
+    padding: 20px 10px;
+    margin-right: 0.5rem;
+
+    .remind-icon {
+      padding: 0 !important;
     }
   }
+
+}
+
+.message-box {
+  padding: $base-padding-5-15;
+
+  :deep(.el-tabs__active-bar) {
+    width: $base-tab-width_active !important;
+  }
+}
 </style>
