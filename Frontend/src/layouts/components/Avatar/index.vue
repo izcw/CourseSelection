@@ -2,7 +2,7 @@
   <el-dropdown @command="handleCommand">
     <span class="avatar-dropdown" :style="{ color }">
       <!--<el-avatar class="user-avatar" :src="avatar"></el-avatar>-->
-      <img class="user-avatar" :src="avatar" alt="" />
+      <img class="user-avatar" :src="avatar1" alt="" />
       <div class="user-name">
         {{ userName }}
         <i class="el-icon-arrow-down el-icon--right"></i>
@@ -18,87 +18,89 @@
 </template>
 
 <script>
-  export default {
-    name: 'Avatar',
-  };
+export default {
+  name: 'Avatar',
+};
 </script>
 
 <script setup>
-  import { ref } from 'vue';
-  import { useStore } from 'vuex';
-  import { ElMessageBox } from 'element-plus';
-  import { setting } from '@/config/setting';
-  import { useRouter } from 'vue-router';
-  import { useI18n } from 'vue-i18n';
+import { ref } from 'vue';
+import { useStore } from 'vuex';
+import { ElMessageBox } from 'element-plus';
+import { setting } from '@/config/setting';
+import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
-  const { title, recordRoute } = setting;
-  const { t } = useI18n();
-  const avatar = ref('https://i.gtimg.cn/club/item/face/img/2/15922_100.gif');
-  const userName = ref('hu-snail');
-  const store = useStore();
-  const router = useRouter();
+const { title, recordRoute } = setting;
+const { t } = useI18n();
+const avatar1 = ref('https://picserver.duoyu.link/picfile/image/202404/22-1713717087790.png'); // 学生头像
+const avatar2 = ref('https://picserver.duoyu.link/picfile/image/202404/22-1713717150586.png'); // 管理员头像
+const userName = ref('张三');
+const store = useStore();
+const router = useRouter();
 
-  defineProps({
-    color: {
-      type: String,
-      default: '#666',
-    },
-  });
+defineProps({
+  color: {
+    type: String,
+    default: '#666',
+  },
+});
 
-  const handleCommand = (command) => {
-    switch (command) {
-      case 'logout':
-        handleLogout();
-        break;
-      case 'github':
-        window.open('https://github.com/hu-snail/vue3-admin-element-template');
-        break;
-      default:
-        break;
-    }
-  };
+const handleCommand = (command) => {
+  switch (command) {
+    case 'logout':
+      handleLogout();
+      break;
+    case 'github':
+      window.open('https://github.com/hu-snail/vue3-admin-element-template');
+      break;
+    default:
+      break;
+  }
+};
 
-  const handleLogout = () => {
-    ElMessageBox.confirm(`${t('confirm.msg')}${title}？`, t('confirm.title'), {
-      confirmButtonText: t('btn.confirm'),
-      cancelButtonText: t('btn.cancel'),
-      dangerouslyUseHTMLString: true,
-      type: 'warning',
+const handleLogout = () => {
+  ElMessageBox.confirm(`${t('confirm.msg')}${title}？`, t('confirm.title'), {
+    confirmButtonText: t('btn.confirm'),
+    cancelButtonText: t('btn.cancel'),
+    dangerouslyUseHTMLString: true,
+    type: 'warning',
+  })
+    .then(async () => {
+      await store.dispatch('user/logout');
+      if (recordRoute) {
+        const { fullPath } = router.currentRoute._value;
+        location.replace('/login');
+      } else {
+        router.push('/login');
+      }
     })
-      .then(async () => {
-        await store.dispatch('user/logout');
-        if (recordRoute) {
-          const { fullPath } = router.currentRoute._value;
-          location.replace('/login');
-        } else {
-          router.push('/login');
-        }
-      })
-      .catch(() => {});
-  };
+    .catch(() => { });
+};
 </script>
 
 <style lang="scss" scoped>
-  .avatar-dropdown {
-    display: flex;
-    align-content: center;
-    align-items: center;
-    justify-content: center;
-    justify-items: center;
-    height: $base-avatar-dropdown-height;
-    padding: $base-padding-10;
-    .user-avatar {
-      width: $base-avatar-widht;
-      height: $base-avatar-height;
-      cursor: pointer;
-      border-radius: $base-border-radius-circle;
-    }
+.avatar-dropdown {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  height: $base-avatar-dropdown-height;
+  padding: $base-padding-10;
 
-    .user-name {
-      position: relative;
-      margin-left: $base-margin-5;
-      margin-left: $base-margin-5;
-      cursor: pointer;
-    }
+  .user-avatar {
+    width: $base-avatar-widht;
+    height: $base-avatar-height;
+    cursor: pointer;
+    border-radius: $base-border-radius-circle;
   }
+
+  .user-name {
+    position: relative;
+    margin-left: $base-margin-5;
+    margin-left: $base-margin-5;
+    cursor: pointer;
+  }
+}
 </style>
