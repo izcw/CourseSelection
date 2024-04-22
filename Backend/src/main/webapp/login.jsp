@@ -181,20 +181,21 @@
         }
     </style>
 </head>
-
+<script src="./js/axios.min.js"></script>
 <body>
+
 <div class="loginBox">
     <h2>学生选课系统</h2>
     <form action="">
         <div class="item">
-            <input type="text" required>
+            <input id="username" type="text" required>
             <label for="">用户名</label>
         </div>
         <div class="item">
-            <input type="password" required>
+            <input id="password" type="password" required>
             <label for="">密码</label>
         </div>
-        <button class="btn">submit
+        <button class="btn" onclick="login();">submit
             <span></span>
             <span></span>
             <span></span>
@@ -202,5 +203,30 @@
         </button>
     </form>
 </div>
+<script type="text/javascript">
+
+    function login(){
+
+
+        var url = "http://localhost:8090/CourseSelection/LoginServlet?action=Login";
+        var httpRequest = new XMLHttpRequest();
+        httpRequest.open('POST', url, true);
+        httpRequest.setRequestHeader("Content-type", "application/json");
+        var obj = {
+            "username": username,
+            "password": password
+        };
+
+        httpRequest.send(JSON.stringify(obj));
+
+// 响应后的回调函数
+        httpRequest.onreadystatechange = function (res) {
+            console.log(res)
+        };
+
+    }
+
+
+</script>
 </body>
 </html>
