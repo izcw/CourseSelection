@@ -38,19 +38,6 @@
             </div>
           </el-card>
 
-          <el-card class="card" shadow="hover">
-            <template #header>
-              <h3 class="title">{{ t('indexPage.envTitle') }}</h3>
-            </template>
-            <el-descriptions class="margin-top" :column="3" border>
-              <el-descriptions-item v-for="(value, key) in packpage.dependencies" :key="key">
-                <template #label>
-                  {{ key }}
-                </template>
-                {{ value }}
-              </el-descriptions-item>
-            </el-descriptions>
-          </el-card>
         </el-col>
         <el-col :xs="24" :sm="24" :md="24" :lg="8" :xl="8">
 
@@ -73,7 +60,16 @@
 
           <el-card class="card" shadow="hover">
             <template #header>
-              <h3 class="title">{{ t('route.Notice') }}</h3>
+              <h3 class="title">{{ t('indexPage.countdownTime') }}</h3>
+            </template>
+            <countdownTime />
+          </el-card><!-- 倒计时 -->
+
+          <el-card class="card" shadow="hover">
+            <template #header>
+              <el-badge :value="12" class="item">
+                <h3 class="title">{{ t('route.Notice') }}</h3>
+              </el-badge>
             </template>
             <el-tabs v-model="activeName" stretch>
               <el-tab-pane :label="`${t('tabs.notice')} (5)`" name="first">
@@ -83,6 +79,8 @@
               <el-tab-pane :label="`${t('tabs.email')} (0)`" name="third">暂无邮件</el-tab-pane>
             </el-tabs>
           </el-card><!-- 学生公告 -->
+
+
 
 
           <el-card class="card" shadow="hover">
@@ -98,24 +96,6 @@
             </div>
           </el-card>
 
-
-          <el-card class="card" shadow="hover">
-            <template #header>
-              <h3 class="title">{{ t('indexPage.skillTitle') }}</h3>
-            </template>
-            <div v-for="(item, index) in state.skillList" :key="index">
-              <div class="skill-title">{{ item.title }}</div>
-              <el-progress :stroke-width="8" :percentage="item.percentage" :color="item.color"></el-progress>
-            </div>
-          </el-card>
-          <Echarts :title="t('indexPage.chartTitle')" :index="1" headerIcon="icon-chart-line" :style="{
-          height: '200px',
-        }" :options="{
-          series: series2,
-          xAxis,
-          yAxis,
-          toolbox,
-        }" />
         </el-col>
       </el-row>
     </div>
@@ -132,19 +112,19 @@ export default {
 import { ref, computed, reactive, onBeforeMount } from 'vue';
 
 import { CountTo } from 'vue3-count-to';
-import Echarts from '@/components/Echarts/index.vue';
 import MySchedule from '@/components/Echarts/MySchedule.vue';
 import PersonalInfo from '@/components/Card/index.vue';
+import countdownTime from '@/components/Card/CountdownTime.vue';
 
-import packpage from '../../../package.json';
 import { useI18n } from 'vue-i18n';
 import { getResouceList } from '@/api/index';
 
 import Cell from '@/components/Cell/index.vue';
 import { noticeList } from '@/layouts/components/NavBar/data.js';
+import { useStore } from 'vuex';
+
 let activeName = ref('first');
 
-import { useStore } from 'vuex';
 const store = useStore();
 
 const { t } = useI18n();
@@ -170,27 +150,6 @@ const thisTime =
 const sayHi = ref(thisTime);
 const avatar1 = ref('https://picserver.duoyu.link/picfile/image/202404/22-1713717087790.png'); // 学生头像
 const avatar2 = ref('https://picserver.duoyu.link/picfile/image/202404/22-1713717150586.png'); // 管理员头像
-
-const series2 = reactive([
-  {
-    data: [820, 932, 901, 934, 1290, 1330, 1320],
-    type: 'line',
-    smooth: true,
-  },
-]);
-
-const xAxis = reactive({
-  type: 'category',
-  data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-});
-
-const yAxis = reactive({
-  type: 'value',
-});
-
-const toolbox = reactive({
-  show: true,
-});
 
 const isMobile = computed(() => {
   return store.getters['setting/isMobile'];
