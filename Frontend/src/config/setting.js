@@ -43,7 +43,7 @@ export const setting = {
   //是否开启登录拦截
   loginInterception: true,
   //token在localStorage、sessionStorage存储的key的名称
-  tokenTableName: 'vue3-admin-template',
+  tokenTableName: '学生选课管理系统',
   // lang storage
   langKey: 'i18nLang',
   // theme storage
@@ -53,9 +53,9 @@ export const setting = {
   //token存储位置localStorage sessionStorage
   storage: 'localStorage',
   // 标题
-  title: 'vue3-admin-template',
+  title: '学生选课管理系统',
   // 版权信息
-  copyright: '© hu-snail-2021 vue3-admin-element-template',
+  copyright: '©(张成威、李凯锋) - 2024 学生选课管理系统',
   // 是否显示页面底部自定义版权信息
   footerCopyright: true,
   // 缓存路由的最大数量

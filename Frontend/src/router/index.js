@@ -49,25 +49,34 @@ export const asyncRoutes = [
   {
     path: '/student',
     component: Layout,
-    name: 'Student',
-    meta: { title: global.t('route.student'), icon: 'icon-code' },
+    name: 'student',
+    meta: { title: global.t('route.student'), icon: 'icon-people' },
     children: [
       {
         path: '/personalStudent',
         name: 'PersonalStudent',
-        component: () => import('@/views/element/index.vue'),
+        component: () => import('@/views/student/index.vue'),
         meta: {
           title: global.t('route.personalStudent'),
-          icon: 'icon-code',
+          icon: 'icon-info',
         },
       },
       {
-        path: '/sinceChoose',
-        name: 'sinceChoose',
-        component: () => import('@/views/icon/index.vue'),
+        path: '/querySchedule',
+        name: 'querySchedule',
+        component: () => import('@/views/student/querySchedule.vue'),
         meta: {
-          title: global.t('route.Schedule'),
-          icon: 'icon-like',
+          title: global.t('route.queryScheduleTxt'),
+          icon: 'icon-table-file',
+        },
+      },
+      {
+        path: '/queryCourse',
+        name: 'queryCourse',
+        component: () => import('@/views/student/queryCourse.vue'),
+        meta: {
+          title: global.t('route.querycourseTxt'),
+          icon: 'icon-check-correct',
         },
       }
     ],
@@ -76,26 +85,91 @@ export const asyncRoutes = [
     path: '/choose',
     component: Layout,
     name: 'Choose',
-    meta: { title: global.t('route.choose'), icon: 'icon-code' },
+    meta: { title: global.t('route.choose'), icon: 'icon-full-selection' },
     children: [
       {
-        path: '/preChoose',
-        name: 'PreChoose',
-        component: () => import('@/views/element/index.vue'),
+        path: '/courseinfo',
+        name: 'courseinfo',
+        component: () => import('@/views/choose/index.vue'),
         meta: {
-          title: global.t('route.Preselection'),
-          icon: 'icon-code',
+          title: global.t('route.courseinfoTxt'),
+          icon: 'icon-eyes',
         },
       },
       {
         path: '/sinceChoose',
         name: 'sinceChoose',
-        component: () => import('@/views/icon/index.vue'),
+        component: () => import('@/views/choose/sinceChoose.vue'),
         meta: {
-          title: global.t('route.autonomously'),
+          title: global.t('route.sinceChooseTxt'),
           icon: 'icon-like',
         },
       }
+    ],
+  },
+  {
+    path: '/lessonadmin',
+    component: Layout,
+    name: 'lessonadmin',
+    children: [
+      {
+        path: '/lessonadmin',
+        component: () => import('@/views/admin/lessonadmin/index.vue'),
+        name: 'lessonadmin',
+        meta: { title: global.t('route.lessonadminTxt'), icon: 'icon-app-switch' },
+      },
+    ],
+  },
+  {
+    path: '/courseadmin',
+    component: Layout,
+    name: 'courseadmin',
+    children: [
+      {
+        path: '/courseadmin',
+        component: () => import('@/views/admin/courseadmin/index.vue'),
+        name: 'courseadmin',
+        meta: { title: global.t('route.courseadminTxt'), icon: 'icon-full-selection' },
+      },
+    ],
+  },
+  {
+    path: '/classadmin',
+    component: Layout,
+    name: 'classadmin',
+    children: [
+      {
+        path: '/classadmin',
+        component: () => import('@/views/admin/classadmin/index.vue'),
+        name: 'classadmin',
+        meta: { title: global.t('route.classadminTxt'), icon: 'icon-school' },
+      },
+    ],
+  },
+  {
+    path: '/studentadmin',
+    component: Layout,
+    name: 'studentadmin',
+    children: [
+      {
+        path: '/studentadmin',
+        component: () => import('@/views/admin/studentadmin/index.vue'),
+        name: 'studentadmin',
+        meta: { title: global.t('route.studentadminTxt'), icon: 'icon-peoples' },
+      },
+    ],
+  },
+  {
+    path: '/teacheradmin',
+    component: Layout,
+    name: 'teacheradmin',
+    children: [
+      {
+        path: '/teacheradmin',
+        component: () => import('@/views/admin/teacheradmin/index.vue'),
+        name: 'teacheradmin',
+        meta: { title: global.t('route.teacheradminTxt'), icon: 'icon-people-bottom-card' },
+      },
     ],
   },
   {
