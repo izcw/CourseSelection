@@ -45,7 +45,7 @@ import { ref, computed } from 'vue';
 
 const weeks = [1, 2, 3, 4, 5]; // 假设总共有五周
 const days = ['周一', '周二', '周三', '周四', '周五', '周六', '周日']; // 一周七天
-const timeSlots = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']; // 一天十节课
+const timeSlots = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']; // 一天十节课
 
 const CourseColors = ref(["#91C8FF", "#72C871", "#FFB600", "#FAE5F6", "#E392E4", "#D4DADD"]);
 
@@ -64,7 +64,7 @@ const coursesData = [
             {
                 day: '周四',
                 courses: [ // 周四的课
-                    { name: 'python', classroom: '教室B', teacher: '王老师', start: 9, end: 10, color: 2 },
+                    { name: 'python', classroom: '教室B', teacher: '王老师', start: 9, end: 12, color: 2 },
                 ]
             },
             {
@@ -124,6 +124,9 @@ const selectWeek = (week) => {
 <style lang="scss" scoped>
 .MySchedule {
     overflow: hidden;
+    border: 1px solid #eee;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 .week-selector {
@@ -146,7 +149,7 @@ const selectWeek = (week) => {
     padding-top: 60px;
     width: 80px;
     position: relative;
-    height: 500px;
+    height: 600px;
     z-index: 10;
 }
 
@@ -172,6 +175,7 @@ const selectWeek = (week) => {
 }
 
 .course {
+    width: calc(100% - 20px);
     background-color: #f0f0f0;
     margin-bottom: 5px;
     padding: 10px;
@@ -179,7 +183,7 @@ const selectWeek = (week) => {
     position: absolute;
     z-index: 20;
     cursor: pointer;
-    
+
 }
 
 .course-name {
