@@ -3,6 +3,7 @@ import { createApp } from 'vue';
 // permission 权限文件
 import './config/permission';
 
+
 // element
 import 'element-plus/theme-chalk/display.css';
 import App from './App.vue';
@@ -35,5 +36,6 @@ iconPark(app);
 
 import loadI18n from './plugin/i18n';
 loadI18n(app);
+
 
 app.mount('#app');

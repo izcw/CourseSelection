@@ -25,9 +25,11 @@ const localLanguage = computed(() => {
 const scroll = ref(null);
 
 const router = useRouter();
+
 onMounted(() => {
   changeBodyWidth();
   window.addEventListener('resize', changeResize);
+ 
 });
 
 watch(

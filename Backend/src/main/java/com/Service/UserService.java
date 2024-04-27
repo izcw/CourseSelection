@@ -10,11 +10,18 @@ public class UserService extends BaseService<User> implements IUserService {
     @Override
     public boolean login(User user) {
         String md5PWD = MD5Helper.encryptToMD5(user.getPassword());
-        User user1 = GetFirst(String.format("select * from user where username = %s and password = %s and userType = %s ", user.getUserName(), md5PWD, user.getUserType()));
+        User user1 = GetFirst(String.format("select * from user where username = '%s' and password = '%s' and userType = '%s' limit 1 ", user.getUserName(), md5PWD, user.getUserType()));
         if (user1 != null) {
            return true;
         }
         return false;
 
+    }
+
+    @Override
+    public User GetUserById(Integer userId) {
+
+        User user = GetFirst(String.format("select * from user where user userId = %d limit 1", userId));
+        return user;
     }
 }

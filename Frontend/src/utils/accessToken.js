@@ -10,5 +10,8 @@ export function setAccessToken(accessToken) {
 }
 
 export function removeAccessToken() {
+
+  document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+
   return Cookies.remove(tokenTableName);
 }

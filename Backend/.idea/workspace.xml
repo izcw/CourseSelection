@@ -10,8 +10,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a0ee5998-1195-47ae-a791-f42071056f72" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/Controller/ClassServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/IService/IClassService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/IService/ITeacherService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/Pojo/BaseModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/Pojo/ClassInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/Pojo/Teacher.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/Service/ClassService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/Service/TeacherService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/Tools/APIResult.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Controller/BaseServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Controller/BaseServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Controller/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Controller/LoginServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Controller/UserServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Controller/UserServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/IService/IUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/IService/IUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Tools/APIHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Tools/APIHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/api/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/api/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/config/net.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/config/net.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/config/permission.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/config/permission.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/store/modules/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/store/modules/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/utils/request.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/utils/request.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/views/admin/classadmin/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/views/admin/classadmin/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/views/index/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/views/index/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,8 +67,6 @@
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="customMavenHome" value="G:\apache-maven-3.9.6" />
-        <option name="mavenHomeTypeForPersistence" value="CUSTOM" />
         <option name="userSettingsFile" value="G:\apache-maven-3.9.6\conf\settings.xml" />
       </MavenGeneralSettings>
     </option>
@@ -53,6 +75,9 @@
   &quot;associatedIndex&quot;: 1
 }</component>
   <component name="ProjectId" id="2fM5oI4u4hNajxPo8FBqSmTPXCg" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -66,15 +91,15 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Tomcat Server.Tomcat 10.1.19.executor": "Debug",
     "Tomcat 服务器.Tomcat 10.1.19.executor": "Debug",
-    "git-widget-placeholder": "LiKaifeng",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Administrator/Desktop/work/CourseSelection/Backend",
+    "last_opened_file_path": "C:/Users/32578/Desktop/CourseSelectionSystem2",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "模块",
+    "project.structure.last.edited": "项目",
     "project.structure.proportion": "0.17871094",
     "project.structure.side.proportion": "0.20260663",
     "settings.editor.selected.configurable": "reference.projectsettings.compiler.javacompiler",
@@ -96,7 +121,7 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration name="Tomcat 10.1.19" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 10.1.19" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="G:/jdk21/jdk-21.0.2" nameIsGenerated="true">
+    <configuration name="Tomcat 10.1.19" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 10.1.19" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="E:/jdk21" nameIsGenerated="true">
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment>
         <artifact name="CourseSelectionSystem:war exploded">
@@ -188,8 +213,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9f38398b9061-18abd8497189-intellij.indexing.shared.core-IU-241.14494.240" />
-        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-IU-241.14494.240" />
+        <option value="jdk-15.0.2-corretto-15.0.2-4caba194b151-9bc2d75a" />
+        <option value="jdk-21.0.2-graalvm-jdk-21.0.2-4caba194b151-eba82c24" />
       </set>
     </attachedChunks>
   </component>
@@ -207,6 +232,10 @@
       <workItem from="1713679837539" duration="14018000" />
       <workItem from="1713707175833" duration="1475000" />
       <workItem from="1713770022961" duration="5409000" />
+      <workItem from="1713956588827" duration="4521000" />
+      <workItem from="1714036391101" duration="17598000" />
+      <workItem from="1714061667772" duration="377000" />
+      <workItem from="1714195800987" duration="19178000" />
     </task>
     <servers />
   </component>
@@ -222,16 +251,17 @@
           <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/Controller/LoginServlet.java</url>
-          <line>20</line>
-          <option name="timeStamp" value="15" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/Controller/BaseServlet.java</url>
-          <line>17</line>
-          <option name="timeStamp" value="21" />
+          <line>21</line>
+          <option name="timeStamp" value="28" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="java.util.HashMap$Node" memberName="key" />
+        <PinnedItemInfo parentTag="java.util.HashMap$Node" memberName="value" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
 </project>
