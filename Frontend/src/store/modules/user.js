@@ -1,6 +1,6 @@
 import { getUserInfo, login } from '@/api/user';
 import { getAccessToken, removeAccessToken, setAccessToken } from '@/utils/accessToken';
-
+import { getCookie } from '@/utils/index';
 import { setting } from '@/config/setting';
 const { title, tokenName } = setting;
 import { resetRouter } from '@/router';
@@ -11,9 +11,10 @@ const { global } = i18n;
 import { ElMessage, ElNotification } from 'element-plus';
 
 const state = {
-  accessToken: getAccessToken(),
+  accessToken: getCookie("token"),
   username: '',
   avatar: '',
+  userType:getCookie("userType"),
   permissions: [],
 };
 
@@ -22,10 +23,12 @@ const getters = {
   username: (state) => state.username,
   avatar: (state) => state.avatar,
   permissions: (state) => state.permissions,
+  userType: (state) => state.userType,
 };
 const mutations = {
   setAccessToken(state, accessToken) {
     state.accessToken = accessToken;
+    
     setAccessToken(accessToken);
   },
   setUsername(state, username) {
@@ -33,6 +36,9 @@ const mutations = {
   },
   setAvatar(state, avatar) {
     state.avatar = avatar;
+  },
+  setUserType(state,userType){
+    state.userType = userType;
   },
   setPermissions(state, permissions) {
     state.permissions = permissions;
@@ -92,6 +98,7 @@ const actions = {
   resetAccessToken({ commit }) {
     commit('setPermissions', []);
     commit('setAccessToken', '');
+    
     removeAccessToken();
   },
 };

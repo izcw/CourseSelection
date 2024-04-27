@@ -1,10 +1,12 @@
 package com.Controller;
 
+import com.Tools.TokenHelper;
 import com.alibaba.fastjson.JSONObject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,6 +17,35 @@ public class BaseServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("utf-8");
+        resp.setContentType("application/json");
+        //设置跨域访问
+        //允许跨域的主机地址
+        resp.setHeader("Access-Control-Allow-Origin", "*");
+        //允许跨域的请求方法GET, POST, HEAD 等
+        resp.setHeader("Access-Control-Allow-Methods", "*");
+        //重新预检验跨域的缓存时间 (s)
+        resp.setHeader("Access-Control-Max-Age", "4200");
+        //允许跨域的请求头
+        resp.setHeader("Access-Control-Allow-Headers", "*");
+        //是否携带cookie
+        resp.setHeader("Access-Control-Allow-Credentials", "true");
+        String servletPath = req.getServletPath();
+        //判断请求地址如果不是登录接口则验证有没有token以及token是否合法
+        if (!servletPath.equals("/LoginServlet")){
+            String token = req.getHeader("token");
+
+            if(token!=null){
+                if (TokenHelper.verify(token)==0)
+                {
+                    resp.sendRedirect("login.jsp");
+                    return;
+                }
+            }else {
+                resp.sendRedirect("login.jsp");
+                return;
+            }
+        }
         // 获取请求标记
         String action = req.getParameter("action");
         try {
@@ -28,6 +59,7 @@ public class BaseServlet extends HttpServlet {
             Method method = clazz.getMethod(action, HttpServletRequest.class, HttpServletResponse.class);
             // 判断是否为空！
             if (method != null) {
+                System.out.println(resp);
                 //  method.invoke(this, req,resp);是去执行匹配的请求处理方法
                 method.invoke(this, req, resp);
 

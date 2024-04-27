@@ -42,7 +42,7 @@
 
         .loginBox {
             width: 400px;
-            height: 364px;
+            height: 400px;
             background-color: #0c1622;
             margin: 100px auto;
             border-radius: 10px;
@@ -76,7 +76,8 @@
         .item input:focus+label,
         .item input:valid+label {
             top: 0px;
-            font-size: 2px;
+            font-size: 8px;
+
         }
 
         .item label {
@@ -94,6 +95,7 @@
             overflow: hidden;
             text-transform: uppercase;
             letter-spacing: 2px;
+            cursor: pointer;
             left: 35%;
         }
 
@@ -179,14 +181,182 @@
                 top: -100%;
             }
         }
+        @keyframes lds-spinner {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @-webkit-keyframes lds-spinner {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+        .lds-css {
+            position:fixed;
+            top:0;
+            width: 100%;
+            height: 100%;
+            background-color: #eeeeee;
+            z-index:9999;
+            filter:alpha(Opacity=80);-moz-opacity:0.5;opacity: 0.5;
+
+        }
+
+        .lds-spinner {
+            position: relative;
+        }
+
+        .lds-spinner div {
+            left: 150%;
+            top: 49%;
+            position: absolute;
+            -webkit-animation: lds-spinner linear 2.8s infinite;
+            animation: lds-spinner linear 2.8s infinite;
+            background: rgba(12.376037979306128%,76%,8.546415094339627%,0.852);
+            width: 12px;
+            height: 38px;
+            border-radius: 58%;
+            -webkit-transform-origin: 6px 55px;
+            transform-origin: 6px 55px;
+        }
+        .lds-spinner div:nth-child(1) {
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+            -webkit-animation-delay: -2.52s;
+            animation-delay: -2.52s;
+        }
+        .lds-spinner div:nth-child(2) {
+            -webkit-transform: rotate(36deg);
+            transform: rotate(36deg);
+            -webkit-animation-delay: -2.24s;
+            animation-delay: -2.24s;
+        }
+        .lds-spinner div:nth-child(3) {
+            -webkit-transform: rotate(72deg);
+            transform: rotate(72deg);
+            -webkit-animation-delay: -1.96s;
+            animation-delay: -1.96s;
+        }
+        .lds-spinner div:nth-child(4) {
+            -webkit-transform: rotate(108deg);
+            transform: rotate(108deg);
+            -webkit-animation-delay: -1.68s;
+            animation-delay: -1.68s;
+        }
+        .lds-spinner div:nth-child(5) {
+            -webkit-transform: rotate(144deg);
+            transform: rotate(144deg);
+            -webkit-animation-delay: -1.4s;
+            animation-delay: -1.4s;
+        }
+        .lds-spinner div:nth-child(6) {
+            -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+            -webkit-animation-delay: -1.12s;
+            animation-delay: -1.12s;
+        }
+        .lds-spinner div:nth-child(7) {
+            -webkit-transform: rotate(216deg);
+            transform: rotate(216deg);
+            -webkit-animation-delay: -0.84s;
+            animation-delay: -0.84s;
+        }
+        .lds-spinner div:nth-child(8) {
+            -webkit-transform: rotate(252deg);
+            transform: rotate(252deg);
+            -webkit-animation-delay: -0.56s;
+            animation-delay: -0.56s;
+        }
+        .lds-spinner div:nth-child(9) {
+            -webkit-transform: rotate(288deg);
+            transform: rotate(288deg);
+            -webkit-animation-delay: -0.28s;
+            animation-delay: -0.28s;
+        }
+        .lds-spinner div:nth-child(10) {
+            -webkit-transform: rotate(324deg);
+            transform: rotate(324deg);
+            -webkit-animation-delay: 0s;
+            animation-delay: 0s;
+        }
+        .lds-spinner {
+            width: 120px !important;
+            height: 120px !important;
+            left:40%;
+            right:60%;
+            top:38%;
+            button:62%;
+        }
+        .select {
+            display: inline-block;
+            width: 100%;
+            position: relative;
+            vertical-align: middle;
+            padding: 0;
+            overflow: hidden;
+            background-color: linear-gradient(#141e30, #243b55);
+            color: #03e9f4;
+            border: 1px solid #03e9f4;
+            text-shadow: none;
+            border-radius: 4px;
+            transition: box-shadow 0.25s ease;
+            z-index: 2;
+        }
+
+        .select:hover {
+
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        .select:before {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 0;
+            border: 10px solid transparent;
+            border-top-color: #03e9f4;
+            top: 14px;
+            right: 10px;
+            cursor: pointer;
+            z-index: -2;
+        }
+        .select select {
+            cursor: pointer;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            background: transparent;
+            background-image: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+
+        .select select:focus {
+            outline: none;
+        }
+        select {
+            color: #03e9f4;
+        }
+        select option{
+            line-height: 30px;
+        }
     </style>
 </head>
 <script src="./js/axios.min.js"></script>
 <body>
 
+<div id="loadDiv" class="lds-css" style="visibility:hidden">
+    <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>
 <div class="loginBox">
     <h2>学生选课系统</h2>
-    <form action="">
+
         <div class="item">
             <input id="username" type="text" required>
             <label for="">用户名</label>
@@ -195,33 +365,79 @@
             <input id="password" type="password" required>
             <label for="">密码</label>
         </div>
+
+        <div class="select">
+            <select name="cars" id="select">
+                <option value="student">学生</option>
+                <option value="admin">管理员</option>
+
+            </select>
+        </div>
         <button class="btn" onclick="login();">submit
             <span></span>
             <span></span>
             <span></span>
             <span></span>
         </button>
-    </form>
+
 </div>
 <script type="text/javascript">
+    function loading() {
+        document.getElementById("loadDiv").style.visibility="visible";//显示
+    }
+
+    function autoCloseLoading(){
+        setTimeout(function(){closeLoading()},15000);
+    }
+
+    function closeLoading() {
+        document.getElementById("loadDiv").style.visibility="hidden";//隐藏
+    }
 
     function login(){
 
+        var username = document.getElementById('username').value
+        var password = document.getElementById('password').value
+        var selectVal = document.getElementById('select').value
 
+        if(username===''){
+            alert('账号不能为空')
+            return
+        }
+        if (password==='')
+        {
+            alert('密码不能为空')
+            return
+        }
+
+        loading();
         var url = "http://localhost:8090/CourseSelection/LoginServlet?action=Login";
         var httpRequest = new XMLHttpRequest();
         httpRequest.open('POST', url, true);
         httpRequest.setRequestHeader("Content-type", "application/json");
         var obj = {
             "username": username,
-            "password": password
+            "password": password,
+            "userType":selectVal
         };
 
         httpRequest.send(JSON.stringify(obj));
 
-// 响应后的回调函数
+        // 响应后的回调函数
         httpRequest.onreadystatechange = function (res) {
-            console.log(res)
+            let data =  JSON.parse(res.target.response)
+            if(data.code == 200){
+                console.log("1111")
+                closeLoading();
+                window.sessionStorage.setItem("token",data.data)
+                 location.href="http://localhost:8089/#/"
+
+            }else if(data.code == 401){
+                closeLoading();
+                alert(data.message)
+            }
+
+
         };
 
     }

@@ -20,6 +20,7 @@ router.beforeEach(async (to, from, next) => {
   if (progressBar) NProgress.start();
 
   let hasToken = store.getters['user/accessToken'];
+  console.log(hasToken,'hasToken');
   if (!loginInterception) hasToken = true;
 
   if (hasToken) {
@@ -32,6 +33,7 @@ router.beforeEach(async (to, from, next) => {
       if (hasPermissions) {
         next();
       } else {
+        console.log(to,'我进来了')
         try {
           let permissions;
           if (!loginInterception) {
@@ -48,9 +50,15 @@ router.beforeEach(async (to, from, next) => {
           } else if (authentication === 'all') {
             accessRoutes = await store.dispatch('routes/setAllRoutes');
           }
-          accessRoutes.forEach((item) => {
-            router.addRoute(item);
+             
+          accessRoutes.forEach((item) => { 
+            if(item.role===store.getters['user/userType']||item.name==='Root'||item.name==='404Page'||item.name==='notMatch'){
+              
+              router.addRoute(item);    
+            }        
+                  
           });
+       
           next({ ...to, replace: true });
         } catch {
           await store.dispatch('user/resetAccessToken');
@@ -59,17 +67,20 @@ router.beforeEach(async (to, from, next) => {
       }
     }
   } else {
-    // 免登录路由
-    if (routesWhiteList.indexOf(to.path) !== -1) {
-      next();
-    } else {
-      if (recordRoute) {
-        next(`/login?redirect=${to.path}`);
-      } else {
-        next('/login');
-      }
-      if (progressBar) NProgress.done();
-    }
+    // // 免登录路由
+    // if (routesWhiteList.indexOf(to.path) !== -1) {
+    //   next();
+    // } else {
+    //   if (recordRoute) {
+    //     next(`/login?redirect=${to.path}`);
+    //   } else {
+    //     next('/login');
+    //   }
+      
+    // }
+    next();
+    location.href="http://localhost:8090/CourseSelection/"
+    if (progressBar) NProgress.done();
   }
   document.title = getPageTitle(to.meta.title);
 });

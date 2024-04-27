@@ -39,7 +39,7 @@ public class LoginFilter extends HttpFilter implements Filter {
         }else {
             HttpSession session = request.getSession();
 
-            if(session.getAttribute("flag")==null){
+            if(session.getAttribute("token")==null){
 
                 request.getRequestDispatcher("login.jsp").forward(request,response);
                 return;

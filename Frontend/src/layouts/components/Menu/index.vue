@@ -18,7 +18,7 @@
 
       <Logo v-if="isLogo" />
       <template v-for="item in routes">
-        <template v-if="!item.hidden">
+        <template v-if="!item.hidden && item.role === userType">
           <MenuItem :item="{ ...item, isBlack }" :key="item.path" />
         </template>
       </template>
@@ -38,9 +38,16 @@
   import { useStore } from 'vuex';
 
   import { setting } from '@/config/setting';
-  const { defaultOpeneds, uniqueOpened } = setting;
+  
 
   import { themeConfig } from '@/config/theme';
+ 
+    
+   
+    
+ 
+  
+  const { defaultOpeneds, uniqueOpened } = setting;
   const { themeOptions } = themeConfig;
 
   const whiteColors = ['#fff', '#ffffff', '#FFF', '#FFF', 'rgb(255, 255, 255)'];
@@ -60,7 +67,7 @@
 
   const store = useStore();
   const router = useRouter();
-
+  let userType = computed(() => store.state.user.userType).value
   const theme = computed(() => {
     return store.getters['setting/theme'];
   });
@@ -83,7 +90,9 @@
   });
 
   const routes = computed(() => {
-    console.log(store.getters['routes/routes'],"888");
+    
+  
+    console.log(store.getters['routes/routes'])
     return store.getters['routes/routes'];
   });
 

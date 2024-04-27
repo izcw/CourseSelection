@@ -6,6 +6,15 @@
   
   <script setup>
     import { useI18n } from 'vue-i18n';
+    import { onMounted } from 'vue';
+    import {useStore} from "vuex"
+    
+    let store = useStore();
+    let token = computed(() => store.state.user.accessToken).value
+    let userType = computed(() => store.state.user.userType).value
+    onMounted(() => {
+        console.log(userType)
+    })
     const { t } = useI18n();
   </script>
   
