@@ -20,7 +20,7 @@ router.beforeEach(async (to, from, next) => {
   if (progressBar) NProgress.start();
 
   let hasToken = store.getters['user/accessToken'];
-  console.log(hasToken,'hasToken');
+
   if (!loginInterception) hasToken = true;
 
   if (hasToken) {
@@ -33,14 +33,16 @@ router.beforeEach(async (to, from, next) => {
       if (hasPermissions) {
         next();
       } else {
-        console.log(to,'我进来了')
+       
         try {
-          let permissions;
+          let permissions = ['admin'];
           if (!loginInterception) {
+            console.log('我是1')
             //settings.js loginInterception为false时，创建虚拟权限
             await store.dispatch('user/setPermissions', ['admin']);
             permissions = ['admin'];
           } else {
+            console.log('我是2')
             permissions = await store.dispatch('user/getUserInfo');
           }
 

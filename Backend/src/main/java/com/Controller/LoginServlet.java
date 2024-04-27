@@ -21,9 +21,7 @@ import java.net.HttpCookie;
 @WebServlet("/LoginServlet")
 public class LoginServlet extends BaseServlet{
     public IUserService _userService = new UserService();
-    public void GetList(HttpServletRequest req, HttpServletResponse resp){
 
-    }
     public void Login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, IOException {
         System.out.println(req.getContextPath());
        User user = new User();
@@ -37,11 +35,10 @@ public class LoginServlet extends BaseServlet{
         PrintWriter w = resp.getWriter();
 
         boolean login = _userService.login(user);
-        JSONObject json = new JSONObject();
+
         if (login){
             String token = TokenHelper.GetToken(user);
-            json.put("code",200);
-            json.put("data",token);
+
             HttpSession session = req.getSession();
             Cookie cookie = new Cookie("token", token);
             cookie.setPath("/");
@@ -51,13 +48,12 @@ public class LoginServlet extends BaseServlet{
             cookie2.setPath("/");
             resp.addCookie(cookie2);
             session.setAttribute("token",token);
-            w.println(json);
+            w.println(SUCCESS(token));
         }else {
-            json.put("code",401);
-            json.put("message","你没有权限登录本系统");
-            json.put("data",null);
-            w.println(json);
+
+            w.println(ERROR("你没有权限登录本系统"));
         }
+
 
     }
 }

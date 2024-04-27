@@ -5,5 +5,5 @@ import com.Pojo.User;
 
 public interface IUserService extends IBaseService<User>{
     boolean login(User user);
-    User GetUserType(Integer userId);
+    User GetUserById(Integer userId);
 }

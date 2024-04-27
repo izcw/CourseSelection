@@ -19,7 +19,7 @@ public class UserService extends BaseService<User> implements IUserService {
     }
 
     @Override
-    public User GetUserType(Integer userId) {
+    public User GetUserById(Integer userId) {
 
         User user = GetFirst(String.format("select * from user where user userId = %d limit 1", userId));
         return user;

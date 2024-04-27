@@ -10,26 +10,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a0ee5998-1195-47ae-a791-f42071056f72" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/Tools/APIHelper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/Controller/ClassServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/IService/IClassService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/IService/ITeacherService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/Pojo/BaseModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/Pojo/ClassInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/Pojo/Teacher.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/Service/ClassService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/Service/TeacherService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/Tools/APIResult.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/Controller/BaseServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Controller/BaseServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/Controller/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Controller/LoginServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/Controller/UserServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Controller/UserServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/IService/IUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/IService/IUserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/Service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Tools/LoginFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Tools/LoginFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/Tools/TokenHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Tools/TokenHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Druid.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Druid.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/login.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/Tools/APIHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/Tools/APIHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/api/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/api/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/config/net.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/config/net.config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Frontend/src/config/permission.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/config/permission.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Frontend/src/layouts/components/Menu/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/layouts/components/Menu/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Frontend/src/store/modules/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/store/modules/user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Frontend/src/utils/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/utils/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/utils/request.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/utils/request.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Frontend/src/views/admin/classadmin/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/views/admin/classadmin/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/views/index/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/views/index/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,34 +75,37 @@
   &quot;associatedIndex&quot;: 1
 }</component>
   <component name="ProjectId" id="2fM5oI4u4hNajxPo8FBqSmTPXCg" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.CourseSelectionSystem [compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.CourseSelectionSystem [org.apache.maven.plugins:maven-compiler-plugin:3.1:compile].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;Tomcat Server.Tomcat 10.1.19.executor&quot;: &quot;Debug&quot;,
-    &quot;Tomcat 服务器.Tomcat 10.1.19.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Administrator/Desktop/work/CourseSelection/Backend&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;项目&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.17871094&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.20260663&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.javacompiler&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
+    "Maven.CourseSelectionSystem [compile].executor": "Run",
+    "Maven.CourseSelectionSystem [org.apache.maven.plugins:maven-compiler-plugin:3.1:compile].executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Tomcat Server.Tomcat 10.1.19.executor": "Debug",
+    "Tomcat 服务器.Tomcat 10.1.19.executor": "Debug",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/32578/Desktop/CourseSelectionSystem2",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "项目",
+    "project.structure.proportion": "0.17871094",
+    "project.structure.side.proportion": "0.20260663",
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.javacompiler",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\32578\Desktop\CourseSelectionSystem\src\main\resources" />
@@ -226,7 +235,7 @@
       <workItem from="1713956588827" duration="4521000" />
       <workItem from="1714036391101" duration="17598000" />
       <workItem from="1714061667772" duration="377000" />
-      <workItem from="1714195800987" duration="1649000" />
+      <workItem from="1714195800987" duration="19178000" />
     </task>
     <servers />
   </component>
@@ -240,6 +249,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/com/Controller/TestServlet2.java</url>
           <line>9</line>
           <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/Controller/BaseServlet.java</url>
+          <line>21</line>
+          <option name="timeStamp" value="28" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

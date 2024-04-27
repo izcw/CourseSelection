@@ -9,16 +9,24 @@ export const login = async (data) => {
   });
 };
 
+// export const getUserInfo = (accessToken) => {
+//   return request({
+//     url: '/userInfo',
+//     method: 'get',
+//     data: {
+//       [tokenName]: accessToken,
+//     },
+//   });
+// };
 export const getUserInfo = (accessToken) => {
   return request({
-    url: '/userInfo',
-    method: 'get',
+    url: '/UserServlet?action=GetUserInfo',
+    method: 'post',
     data: {
-      [tokenName]: accessToken,
+      token: accessToken,
     },
   });
 };
-
 export const logout = () => {
   return request({
     url: '/logout',

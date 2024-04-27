@@ -8,7 +8,7 @@ import { ElMessageBox, ElMessage } from 'element-plus';
 import qs from 'qs';
 import { setting } from '@/config/setting';
 const { tokenName } = setting;
-
+import { getCookie } from '@/utils/index';
 // eslint-disable-next-line no-unused-vars
 let tokenLose = true;
 
@@ -19,6 +19,7 @@ let tokenLose = true;
  * @param {*} msg
  */
 const handleCode = (code, msg) => {
+  console.log(code,'code')
   switch (code) {
     case invalidCode:
       tokenLose = false;
@@ -37,6 +38,9 @@ const handleCode = (code, msg) => {
     case noPermissionCode:
       router.push({ path: '/401' }).catch(() => {});
       break;
+    case 401:
+      ElMessage.error(msg || `后端接口参数有误`);
+      break;
     default:
       console.log('---');
       ElMessage.error(msg || `后端接口${code}异常`);
@@ -49,14 +53,16 @@ const instance = axios.create({
   timeout: requestTimeout,
   headers: {
     'Content-Type': contentType,
+    
   },
 });
 
 instance.interceptors.request.use(
   (config) => {
-    if (store.getters['user/accessToken']) {
-      config.headers[tokenName] = store.getters['user/accessToken'];
+    if (getCookie("token")) {
+      config.headers['token'] = getCookie("token");
     }
+    console.log(config,'config')
     if (
       config.data &&
       config.headers['Content-Type'] === 'application/x-www-form-urlencoded;charset=UTF-8'
@@ -74,7 +80,7 @@ instance.interceptors.response.use(
     const res = response.data;
     const { data } = response;
     const { code, msg } = data;
-
+   
     // 操作成功
     if (successCode.indexOf(code) !== -1) {
       return res;

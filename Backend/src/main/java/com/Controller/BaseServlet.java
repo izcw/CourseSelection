@@ -1,5 +1,6 @@
 package com.Controller;
 
+import com.Tools.APIResult;
 import com.Tools.TokenHelper;
 import com.alibaba.fastjson.JSONObject;
 import jakarta.servlet.ServletException;
@@ -14,6 +15,11 @@ import java.lang.reflect.Method;
 
 public class BaseServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+
+    @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setStatus(HttpServletResponse.SC_OK);
+    }
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,15 +38,17 @@ public class BaseServlet extends HttpServlet {
         resp.setHeader("Access-Control-Allow-Credentials", "true");
         String servletPath = req.getServletPath();
         //判断请求地址如果不是登录接口则验证有没有token以及token是否合法
-        if (!servletPath.equals("/LoginServlet")){
+        String method1 = req.getMethod();
+
+        if (!servletPath.equals("/LoginServlet")&&!method1.equals("OPTIONS")){
             String token = req.getHeader("token");
 
             if(token!=null){
-                if (TokenHelper.verify(token)==0)
-                {
-                    resp.sendRedirect("login.jsp");
-                    return;
-                }
+//                if (TokenHelper.verify(token)==0)
+//                {
+//                    resp.sendRedirect("login.jsp");
+//                    return;
+//                }
             }else {
                 resp.sendRedirect("login.jsp");
                 return;
@@ -71,5 +79,19 @@ public class BaseServlet extends HttpServlet {
         }
 
     }
-
+    public Object SUCCESS(String msg,Object data){
+        return JSONObject.toJSON(new APIResult(200,msg,data));
+    };
+    public Object SUCCESS(Object data){
+        return JSONObject.toJSON(new APIResult(200,"success",data));
+    };
+    public Object SUCCESS(String msg){
+        return JSONObject.toJSON(new APIResult(200,msg));
+    };
+    public Object ERROR(String msg){
+        return JSONObject.toJSON(new APIResult(401,msg));
+    }
+    public Object ERROR(int code,String msg){
+        return JSONObject.toJSON(new APIResult(code,msg));
+    }
 }

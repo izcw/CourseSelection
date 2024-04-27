@@ -80,11 +80,12 @@ const actions = {
       return false;
     }
     let { permissions, username, avatar } = data;
+    console.log(data)
     if (permissions && username && Array.isArray(permissions)) {
       commit('setPermissions', permissions);
       commit('setUsername', username);
       commit('setAvatar', avatar);
-      return permissions;
+      return ['admin'];
     } else {
       ElMessage.error('用户信息接口异常');
       return false;

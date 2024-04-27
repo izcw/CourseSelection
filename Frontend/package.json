@@ -22,10 +22,11 @@
     "deploy-gh": "GH=1 bash deploy-gh.sh"
   },
   "dependencies": {
-    "@element-plus/icons-vue": "^1.1.4",
+    "@element-plus/icons-vue": "^2.3.1",
     "@icon-park/vue-next": "^1.4.0",
     "@soerenmartius/vue3-clipboard": "^0.1.2",
     "axios": "^0.21.1",
+    "cors": "^2.8.5",
     "echarts": "^5.1.2",
     "element-plus": "^2.2.5",
     "js-cookie": "^3.0.1",

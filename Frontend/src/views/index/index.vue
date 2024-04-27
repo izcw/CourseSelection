@@ -156,10 +156,10 @@ const isMobile = computed(() => {
 });
 
 const onGetResouceList = () => {
-  getResouceList().then((res) => {
-    const { list, prefix, orderList, skillList } = res.data;
-    Object.assign(state, { list, prefix, orderList, skillList });
-  });
+  // getResouceList().then((res) => {
+  //   const { list, prefix, orderList, skillList } = res.data;
+  //   Object.assign(state, { list, prefix, orderList, skillList });
+  // });
 };
 
 const handleToDetail = (url) => {
