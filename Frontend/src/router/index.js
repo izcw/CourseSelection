@@ -32,6 +32,7 @@ export const asyncRoutes = [
     component: Layout,
     redirect: '/index',
     name: 'Root',
+    role:'Root',
     children: [
       {
         path: '/index',
