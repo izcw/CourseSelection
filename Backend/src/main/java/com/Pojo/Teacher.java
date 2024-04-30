@@ -7,6 +7,17 @@ public class Teacher extends BaseModel{
     public String Phone;
     public String Gender;//1:男,2：女
 
+    public Teacher(Integer teacherId, String teacherName, String teacherNumber, String phone, String gender) {
+        TeacherId = teacherId;
+        TeacherName = teacherName;
+        TeacherNumber = teacherNumber;
+        Phone = phone;
+        Gender = gender;
+    }
+
+    public Teacher() {
+    }
+
     public Integer getTeacherId() {
         return TeacherId;
     }

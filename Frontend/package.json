@@ -136,6 +136,7 @@
         "element-plus/es/components/descriptions-item/style/index",
         "element-plus/es/components/descriptions/style/css",
         "element-plus/es/components/descriptions/style/index",
+        "element-plus/es/components/dialog/style/index",
         "element-plus/es/components/divider/style/css",
         "element-plus/es/components/divider/style/index",
         "element-plus/es/components/drawer/style/css",

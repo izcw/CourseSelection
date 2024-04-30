@@ -17,7 +17,7 @@ public class UserService extends BaseService<User> implements IUserService {
         return false;
 
     }
-
+    //返回一个用户实体根据用户id
     @Override
     public User GetUserById(Integer userId) {
 
