@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="CourseSelectionSystem:war exploded" />
+      <artifact name="CourseSelectionSystem:war" />
     </artifacts-to-build>
   </component>
   <component name="AutoImportSettings">
@@ -10,8 +10,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a0ee5998-1195-47ae-a791-f42071056f72" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/Controller/StudentServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/IService/IStudentService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/Pojo/Student.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/Service/StudentService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/images/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/images/loginbg.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Frontend/src/api/student/student.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CourseSelectionSystem.iml" beforeDir="false" afterPath="$PROJECT_DIR$/CourseSelectionSystem.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Druid.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Druid.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/login.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/assets/demo/01.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/assets/demo/02.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/assets/demo/03.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/assets/demo/04.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/assets/index/antd.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/assets/index/echarts.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/assets/index/element+.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/assets/index/iconpark.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/assets/index/naive.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/assets/index/nutui.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/assets/index/vant.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/assets/index/vite.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/assets/index/vueuse.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/assets/index/xgplayer.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Frontend/src/views/admin/studentadmin/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../Frontend/src/views/admin/studentadmin/index.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,30 +83,32 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
-    "Maven.CourseSelectionSystem [compile].executor": "Run",
-    "Maven.CourseSelectionSystem [org.apache.maven.plugins:maven-compiler-plugin:3.1:compile].executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Tomcat Server.Tomcat 10.1.19.executor": "Debug",
-    "Tomcat 服务器.Tomcat 10.1.19.executor": "Run",
-    "git-widget-placeholder": "ZhangChengwei",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "E:/work/CourseSelection/Backend",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "项目",
-    "project.structure.proportion": "0.17871094",
-    "project.structure.side.proportion": "0.20260663",
-    "settings.editor.selected.configurable": "reference.projectsettings.compiler.javacompiler",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.CourseSelectionSystem [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.CourseSelectionSystem [org.apache.maven.plugins:maven-compiler-plugin:3.1:compile].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Tomcat Server.Tomcat 10.1.19.executor&quot;: &quot;Debug&quot;,
+    &quot;Tomcat 服务器.Tomcat 10.1.19.executor&quot;: &quot;Run&quot;,
+    &quot;Tomcat 服务器.Tomcat 10.1.23.executor&quot;: &quot;Run&quot;,
+    &quot;Tomcat 服务器.未命名.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;ZhangChengwei&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/work/CourseSelection/Backend&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;项目&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.17871094&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.20260663&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.javacompiler&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\32578\Desktop\CourseSelectionSystem\src\main\resources" />
@@ -96,19 +123,25 @@
       <recent name="com.IService" />
     </key>
   </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="MavenRunConfiguration" />
+      </set>
+    </option>
+  </component>
   <component name="RunManager">
-    <configuration name="Tomcat 10.1.19" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 10.1.19" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="$PROJECT_DIR$/../../../Yoko/devApp/java/jdk-21.0.1" nameIsGenerated="true">
+    <configuration name="Tomcat 10.1.23" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 10.1.23" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="$USER_HOME$/Library/Java/JavaVirtualMachines/graalvm-jdk-21.0.3/Contents/Home" nameIsGenerated="true">
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment>
-        <artifact name="CourseSelectionSystem:war exploded">
+        <artifact name="CourseSelectionSystem:war">
           <settings>
-            <option name="CONTEXT_PATH" value="/CourseSelection" />
+            <option name="CONTEXT_PATH" value="/CourseSelectionSystem_war" />
           </settings>
         </artifact>
       </deployment>
       <server-settings>
-        <option name="BASE_DIRECTORY_NAME" value="8097981c-b179-4a2f-a5ce-354f478a3c06" />
-        <option name="HTTP_PORT" value="8090" />
+        <option name="BASE_DIRECTORY_NAME" value="99bd2807-1578-4a84-b7b9-bb3a66c93bfc" />
       </server-settings>
       <predefined_log_file enabled="true" id="Tomcat" />
       <predefined_log_file enabled="true" id="Tomcat Catalina" />
@@ -116,7 +149,7 @@
       <predefined_log_file id="Tomcat Host Manager" />
       <predefined_log_file id="Tomcat Localhost Access" />
       <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="56300" />
+        <option name="DEBUG_PORT" value="57896" />
       </RunnerSettings>
       <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
         <option name="USE_ENV_VARIABLES" value="true" />
@@ -181,7 +214,7 @@
       <method v="2">
         <option name="Make" enabled="true" />
         <option name="BuildArtifacts" enabled="true">
-          <artifact name="CourseSelectionSystem:war exploded" />
+          <artifact name="CourseSelectionSystem:war" />
         </option>
       </method>
     </configuration>
@@ -213,11 +246,26 @@
       <workItem from="1714061667772" duration="377000" />
       <workItem from="1714195800987" duration="19178000" />
       <workItem from="1714237868521" duration="2453000" />
+      <workItem from="1714645037325" duration="1579000" />
+      <workItem from="1714646626507" duration="1011000" />
+      <workItem from="1714647647073" duration="353000" />
+      <workItem from="1714648300401" duration="222000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -226,11 +274,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/com/Controller/TestServlet2.java</url>
           <line>9</line>
           <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/Controller/BaseServlet.java</url>
-          <line>21</line>
-          <option name="timeStamp" value="28" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

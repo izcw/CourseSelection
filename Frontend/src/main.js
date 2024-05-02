@@ -3,6 +3,8 @@ import { createApp } from 'vue';
 // permission 权限文件
 import './config/permission';
 
+// 公共样式
+import '../public/static/style.css';
 
 // element
 import 'element-plus/theme-chalk/display.css';

@@ -12,7 +12,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="icon" href="./images/favicon.ico" />
+    <title>登录-学生选课管理系统</title>
     <style>
         * {
             margin: 0;
@@ -33,6 +34,10 @@
         body {
             height: 100vh;
             background: linear-gradient(#141e30, #243b55);
+            background-image: url('./images/loginbg.jpg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -42,25 +47,25 @@
 
         .loginBox {
             width: 400px;
-            height: 400px;
-            background-color: #0c1622;
+            height: 460px;
+            background-color: #fff;
             margin: 100px auto;
             border-radius: 10px;
             box-shadow: 0 15px 25px 0 rgba(0, 0, 0, .6);
-            padding: 40px;
+            padding: 60px 40px;
             box-sizing: border-box;
         }
 
         h2 {
             text-align: center;
-            color: aliceblue;
+            color: #458142;
             margin-bottom: 30px;
             font-family: 'Courier New', Courier, monospace;
         }
 
         .item {
             height: 45px;
-            border-bottom: 1px solid #fff;
+            border-bottom: 1px solid #ccc;
             margin-bottom: 40px;
             position: relative;
         }
@@ -68,7 +73,7 @@
         .item input {
             width: 100%;
             height: 100%;
-            color: #fff;
+            color: #666;
             padding-top: 20px;
             box-sizing: border-box;
         }
@@ -85,12 +90,15 @@
             left: 0;
             top: 12px;
             transition: all 0.5s linear;
+            color: #333;
         }
 
         .btn {
-            padding: 10px 20px;
+            padding: 10px 30px;
             margin-top: 30px;
-            color: #03e9f4;
+            color: #458142;
+            background:rgba(69, 129, 66,0.1) ;
+            border-radius: 5px;
             position: relative;
             overflow: hidden;
             text-transform: uppercase;
@@ -100,14 +108,14 @@
         }
 
         .btn:hover {
-            border-radius: 5px;
+
             color: #fff;
-            background: #03e9f4;
-            box-shadow: 0 0 5px 0 #03e9f4,
-            0 0 25px 0 #03e9f4,
-            0 0 50px 0 #03e9f4,
-            0 0 100px 0 #03e9f4;
-            transition: all 1s linear;
+            background: #458142;
+            /*box-shadow: 0 0 5px 0 rgba(69, 129, 66,0.2),*/
+            /*0 0 25px 0 rgba(69, 129, 66,0.2),*/
+            /*0 0 50px 0 rgba(69, 129, 66,0.2),*/
+            /*0 0 100px 0 rgba(69, 129, 66,0.2);*/
+            /*transition: all 1s linear;*/
         }
 
         .btn>span {
@@ -117,7 +125,7 @@
         .btn>span:nth-child(1) {
             width: 100%;
             height: 2px;
-            background: -webkit-linear-gradient(left, transparent, #03e9f4);
+            background: -webkit-linear-gradient(left, transparent, #458142);
             left: -100%;
             top: 0px;
             animation: line1 1s linear infinite;
@@ -134,7 +142,7 @@
         .btn>span:nth-child(2) {
             width: 2px;
             height: 100%;
-            background: -webkit-linear-gradient(top, transparent, #03e9f4);
+            background: -webkit-linear-gradient(top, transparent, #458142);
             right: 0px;
             top: -100%;
             animation: line2 1s 0.25s linear infinite;
@@ -151,7 +159,7 @@
         .btn>span:nth-child(3) {
             width: 100%;
             height: 2px;
-            background: -webkit-linear-gradient(left, #03e9f4, transparent);
+            background: -webkit-linear-gradient(left, #458142, transparent);
             left: 100%;
             bottom: 0px;
             animation: line3 1s 0.75s linear infinite;
@@ -168,7 +176,7 @@
         .btn>span:nth-child(4) {
             width: 2px;
             height: 100%;
-            background: -webkit-linear-gradient(top, transparent, #03e9f4);
+            background: -webkit-linear-gradient(top, transparent, #458142);
             left: 0px;
             top: 100%;
             animation: line4 1s 1s linear infinite;
@@ -358,22 +366,22 @@
     <h2>学生选课系统</h2>
 
         <div class="item">
-            <input id="username" type="text" required>
+            <input id="username" type="text" value="admin" required>
             <label for="">用户名</label>
         </div>
         <div class="item">
-            <input id="password" type="password" required>
+            <input id="password" type="password" value="123456" required>
             <label for="">密码</label>
         </div>
 
         <div class="select">
             <select name="cars" id="select">
                 <option value="student">学生</option>
-                <option value="admin">管理员</option>
-
+                <option value="admin" selected>管理员</option>
             </select>
         </div>
-        <button class="btn" onclick="login();">submit
+
+        <button class="btn" onclick="login();">登录
             <span></span>
             <span></span>
             <span></span>
