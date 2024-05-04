@@ -8,3 +8,18 @@ export const getList = (params) => {
 
   });
 };
+export const AddClass = (data) => {
+  return request({
+    url: '/ClassServlet?action=AddClass',
+    method: 'post',
+    data: data
+  });
+};
+export const getClassInfo = (params) => {
+  return request({
+    url: '/ClassServlet?action=GetClassById',
+    method: 'get',
+    params:params,
+
+  });
+};

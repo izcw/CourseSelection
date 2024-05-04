@@ -5,7 +5,15 @@ public class ClassInfo extends BaseModel{
     public String ClassName;
     public Integer NumberOfStudent;
     public Integer TeacherId;
+    public Teacher teacher;
 
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
 
     public Integer getClassId() {
         return ClassId;
