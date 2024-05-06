@@ -22,22 +22,6 @@
             <MySchedule></MySchedule>
           </el-card><!-- 我的课表 -->
 
-
-          <el-card class="card" shadow="hover">
-            <template #header>
-              <h3 class="title">{{ t('indexPage.resourceTitle') }}</h3>
-            </template>
-            <div class="card-body" :class="{ mobile: isMobile }">
-              <div class="item" v-for="(item, index) in state.list" @click="handleToDetail(item.url)" :key="index">
-                <div class="lf">
-                  <!-- <img class="img" :src="`${state.prefix}${item.logo}`" /> -->
-                  <div class="title" v-if="item.title">{{ item.title }}</div>
-                </div>
-                <div class="desc"> {{ item.desc }} </div>
-              </div>
-            </div>
-          </el-card>
-
         </el-col>
         <el-col :xs="24" :sm="24" :md="24" :lg="8" :xl="8">
 
@@ -58,7 +42,7 @@
 
           </el-card><!-- 个人信息 -->
 
-          <el-card class="card" shadow="hover">
+          <el-card class="card" shadow="hover" v-if="Administrator === 'student'">
             <template #header>
               <h3 class="title">{{ t('indexPage.countdownTime') }}</h3>
             </template>
@@ -80,33 +64,11 @@
             </el-tabs>
           </el-card><!-- 学生公告 -->
 
-
-
-
-          <el-card class="card" shadow="hover">
-            <template #header>
-              <h3 class="title">{{ t('indexPage.orderTitle') }}</h3>
-            </template>
-            <div class="count-box">
-              <div class="item" v-for="(item, index) in state.orderList" :key="index">
-                <span class="label">{{ t('indexPage.order.' + item.key) }}</span>
-                <CountTo class="count" :class="item.status" :startVal="0" :endVal="item.value" :duration="3000">
-                </CountTo>
-              </div>
-            </div>
-          </el-card>
-
         </el-col>
       </el-row>
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'Index',
-};
-</script>
 
 <script setup>
 import { ref, computed, reactive, onBeforeMount } from 'vue';
@@ -126,6 +88,9 @@ import { useStore } from 'vuex';
 let activeName = ref('first');
 
 const store = useStore();
+
+let Administrator = store.getters['user/userType']
+console.log("vuex存储的内容:", JSON.parse(JSON.stringify(store.state)));
 
 const { t } = useI18n();
 
@@ -151,9 +116,6 @@ const sayHi = ref(thisTime);
 const avatar1 = ref('https://picserver.duoyu.link/picfile/image/202404/22-1713717087790.png'); // 学生头像
 const avatar2 = ref('https://picserver.duoyu.link/picfile/image/202404/22-1713717150586.png'); // 管理员头像
 
-const isMobile = computed(() => {
-  return store.getters['setting/isMobile'];
-});
 
 const onGetResouceList = () => {
   // getResouceList().then((res) => {
@@ -162,9 +124,6 @@ const onGetResouceList = () => {
   // });
 };
 
-const handleToDetail = (url) => {
-  window.open(url);
-};
 
 onBeforeMount(() => {
   onGetResouceList();

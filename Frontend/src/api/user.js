@@ -27,6 +27,17 @@ export const getUserInfo = (accessToken) => {
     },
   });
 };
+
+export const getUserInfoData = (accessToken) => {
+  return request({
+    url: '/UserServlet?action=GetUserinfodata',
+    method: 'post',
+    data: {
+      token: accessToken,
+    },
+  });
+};
+
 export const logout = () => {
   return request({
     url: '/logout',

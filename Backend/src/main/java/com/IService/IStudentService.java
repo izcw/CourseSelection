@@ -1,7 +1,5 @@
 package com.IService;
 
-import com.Pojo.ClassInfo;
-import com.Pojo.Course;
 import com.Pojo.Student;
 
 import java.util.List;
@@ -14,8 +12,8 @@ import java.util.List;
  */
 
 public interface IStudentService extends IBaseService<Student>{
-    List<Student> GetStudentList();
+    List<Student> GetStudentList(int classId, String studentName);
     List<Student> AddStudentList();
-    List<Student> DeleteStudentList();
+    String DeleteStudentList(String code);
     List<Student> EditorStudentList();
 }

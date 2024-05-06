@@ -7,10 +7,11 @@ dist-ssr/
 
 
 ### IntelliJ IDEA ###
-/Backend/.idea/modules.xml
-/Backend/.idea/jarRepositories.xml
-/Backend/.idea/compiler.xml
-/Backend/.idea/libraries/
+.idea
+# /Backend/.idea/modules.xml
+# /Backend/.idea/jarRepositories.xml
+# /Backend/.idea/compiler.xml
+# /Backend/.idea/libraries/
 /Backend/out/
 /Backend/target/
 /Backend/.iws

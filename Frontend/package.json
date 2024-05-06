@@ -157,6 +157,7 @@
         "element-plus/es/components/icon/style/css",
         "element-plus/es/components/icon/style/index",
         "element-plus/es/components/image/style/index",
+        "element-plus/es/components/input-number/style/index",
         "element-plus/es/components/input/style/css",
         "element-plus/es/components/input/style/index",
         "element-plus/es/components/main/style/css",

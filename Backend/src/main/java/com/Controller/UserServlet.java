@@ -39,4 +39,19 @@ public class UserServlet extends BaseServlet{
         writer.println(SUCCESS(map));
 
     }
+
+    public void GetUserinfodata(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        JSONObject postData = APIHelper.getPostData(req);
+        String token = (String) postData.get("token");
+        Integer userId = TokenHelper.verify(token);
+
+        System.out.println("tytytyTYTY:"+userId);
+
+        PrintWriter writer = resp.getWriter();
+        Map<String,Object> map = new HashMap<>();
+        map.put("userId",userId);
+        map.put("username","admin");
+        writer.println(SUCCESS(map));
+
+    }
 }

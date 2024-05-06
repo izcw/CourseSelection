@@ -26,7 +26,7 @@
                 <h3>{{ day }}</h3>
                 <div v-for="curriculumItem in getCurriculum(day)" :key="curriculumItem.day">
                     <div v-for="course in curriculumItem.courses" :key="course.name" class="course"
-                        :style="{ top: Courselocation(course.start) + 'px', backgroundColor: CourseColors[course.color], height: ((course.end - course.start + 1) * 50) + 'px' }">
+                        :style="{ top: Courselocation(course.start) + 'px', backgroundColor: CourseColors[course.color], height: 'calc(' + (course.end - course.start + 1) * 50 + 'px - 5px)' }">
                         <div class="course-name">{{ course.name }}</div>
                         <div class="course-info">
                             <div>教室：{{ course.classroom }}</div>

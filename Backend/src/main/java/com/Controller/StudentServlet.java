@@ -25,25 +25,34 @@ import java.util.List;
 @WebServlet("/StudentServlet")
 public class StudentServlet extends BaseServlet{
     public IStudentService _StudentService = new StudentService();
-    public void Query(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public void query(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        int classid = Integer.parseInt(req.getParameter("classid"));
+        String studentNmae = req.getParameter("studentNmae");
+        System.out.println(classid+"yuyuyuyu"+studentNmae);
         PrintWriter w = resp.getWriter();
-        List<Student> studentLisi = _StudentService.GetStudentList();
+        List<Student> studentLisi = _StudentService.GetStudentList(classid,studentNmae);
         w.println(SUCCESS(studentLisi));
     }
 
-    public void Add(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public void add(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         PrintWriter w = resp.getWriter();
         List<Student> studentLisi = _StudentService.AddStudentList();
         w.println(SUCCESS(studentLisi));
     }
 
-    public void Delete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        PrintWriter w = resp.getWriter();
-        List<Student> studentLisi = _StudentService.DeleteStudentList();
-        w.println(SUCCESS(studentLisi));
+    public void delete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String studentCode = req.getParameter("studentCode");
+        PrintWriter writer = resp.getWriter();
+
+        if (studentCode != null && !studentCode.isEmpty()) {
+            String studentLisi = _StudentService.DeleteStudentList(studentCode);
+            writer.println(SUCCESS(studentLisi));
+        } else {
+            writer.println(ERROR("学生学号不能为空"));
+        }
     }
 
-    public void Editor(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public void editor(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         PrintWriter w = resp.getWriter();
         List<Student> studentLisi = _StudentService.EditorStudentList();
         w.println(SUCCESS(studentLisi));
