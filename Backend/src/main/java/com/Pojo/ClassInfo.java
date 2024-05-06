@@ -1,5 +1,6 @@
 package com.Pojo;
 
+
 public class ClassInfo extends BaseModel{
     public Integer ClassId;
     public String ClassName;
