@@ -419,7 +419,7 @@
         }
 
         loading();
-        var url = "http://localhost:8090/CourseSelection/LoginServlet?action=Login";
+        var url = "http://localhost:8090/LoginServlet?action=Login";
         var httpRequest = new XMLHttpRequest();
         httpRequest.open('POST', url, true);
         httpRequest.setRequestHeader("Content-type", "application/json");
