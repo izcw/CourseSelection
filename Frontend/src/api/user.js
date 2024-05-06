@@ -28,13 +28,12 @@ export const getUserInfo = (accessToken) => {
   });
 };
 
-export const getUserInfoData = (accessToken) => {
+// 获取用户数据
+export const getUserInfoData = (params) => {
   return request({
     url: '/UserServlet?action=GetUserinfodata',
     method: 'post',
-    data: {
-      token: accessToken,
-    },
+    params
   });
 };
 

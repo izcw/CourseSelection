@@ -6,15 +6,15 @@
     </el-space> -->
     <el-form :model="queryParams" :inline="true">
       <el-form-item label="班级" prop="teacherId">
-        <el-select v-model="queryParams.teacherId" clearable filterable placeholder="请选择要筛选的班级">
-          <el-option :label="item.teacherName" :value="item.teacherId" v-for="(item, index) in teachers" :key="index" />
+        <el-select v-model="queryParams.classid" clearable filterable placeholder="请选择要筛选的班级" style="width:250px">
+          <el-option default="计算机应用工程(专升本)2301" v-for="(item, index) in classinfoDate" :label="item.className" :value="item.classId"  :key="index" />
         </el-select>
       </el-form-item>
       <el-form-item label="学生名称" prop="className">
-        <el-input v-model="queryParams.className" placeholder="请输入学生名称" clearable @keyup.enter.native="handleQuery" />
+        <el-input v-model="queryParams.studentNmae" placeholder="请输入学生名称" clearable @keyup.enter.native="getData" />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" :icon="Search" @click="handleQuery">搜索</el-button>
+        <el-button type="primary" :icon="Search" @click="getData">搜索</el-button>
         <el-button :icon="Refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
@@ -153,13 +153,21 @@ const rules = reactive({
 })
 
 
+// 获取班级信息
 let classinfoDate = ref()
-getList().then(c => {
-  classinfoDate.value = c.data
-  console.log("班级：" + classinfoDate.value);
-})
-console.log("执行");
-getList()
+getList(
+  {
+    className: '',
+    teacherId: 0
+  }
+).then(res => {
+  if (res.code !== 200) {
+    console.log("班级信息-获取不到数据");
+  } else {
+    classinfoDate.value = res.data
+    console.log("班级信息-请求：", res);
+  }
+});
 
 // 表格多选
 const MultipleChoice = ref(false)
@@ -175,13 +183,14 @@ const handleSelectionChange = (selection) => {
   }
 };
 
+// 多选删除
 const deleteMultiple = () => {
   console.log(selectedStudentCodes.value);
 }
 
+// 分页改变事件
 const currentPage = ref(1);
 const pageSize = ref(10);
-// 分页改变事件
 const handleCurrentChange = (page) => {
   currentPage.value = page;
 };
@@ -193,6 +202,7 @@ const queryParams = reactive({
 })
 
 const getData = () => {
+  console.log("哈哈哈哈哈哈哈哈"+queryParams);
   // 获取学生列表
   getStudentList(queryParams).then(res => {
     if (res.code !== 200) {
@@ -255,8 +265,12 @@ const handleDelete = (studentCode) => {
   });
 };
 
+// 获取用户信息
 const store = useStore();
-getUserInfoData(store.getters['user/accessToken']).then(res => {
+
+getUserInfoData({
+  token: store.getters['user/accessToken']
+}).then(res => {
   if (res.code !== 200) {
     console.log("获取不到数据");
   } else {

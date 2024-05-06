@@ -24,8 +24,8 @@ public class LoginServlet extends BaseServlet{
 
     public void Login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, IOException {
         System.out.println(req.getContextPath());
-       User user = new User();
-       JSONObject postData = APIHelper.getPostData(req);
+        User user = new User();
+        JSONObject postData = APIHelper.getPostData(req);
         user.setUserName((String)postData.get("username"));
         user.setPassword((String)postData.get("password"));
 
@@ -34,10 +34,10 @@ public class LoginServlet extends BaseServlet{
 
         PrintWriter w = resp.getWriter();
 
-        boolean login = _userService.login(user);
+        User u = _userService.login(user);
 
-        if (login){
-            String token = TokenHelper.GetToken(user);
+        if (u!=null){
+            String token = TokenHelper.GetToken(u);
 
             HttpSession session = req.getSession();
             Cookie cookie = new Cookie("token", token);

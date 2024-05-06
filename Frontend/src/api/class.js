@@ -5,7 +5,6 @@ export const getList = (params) => {
     url: '/ClassServlet?action=GetList',
     method: 'get',
     params:params,
-
   });
 };
 export const AddClass = (data) => {

@@ -41,17 +41,14 @@ public class UserServlet extends BaseServlet{
     }
 
     public void GetUserinfodata(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        JSONObject postData = APIHelper.getPostData(req);
-        String token = (String) postData.get("token");
-        Integer userId = TokenHelper.verify(token);
+//        String token = req.getParameter("token");
+        String token = req.getHeader("token");
+        System.out.println("Token-----"+token);
 
-        System.out.println("tytytyTYTY:"+userId);
+        Integer userId = TokenHelper.verify(token);
+        System.out.println("UserId-----"+userId);
 
         PrintWriter writer = resp.getWriter();
-        Map<String,Object> map = new HashMap<>();
-        map.put("userId",userId);
-        map.put("username","admin");
-        writer.println(SUCCESS(map));
-
+        writer.println(SUCCESS("token："+token));
     }
 }

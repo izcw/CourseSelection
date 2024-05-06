@@ -8,13 +8,13 @@ import com.Tools.TokenHelper;
 
 public class UserService extends BaseService<User> implements IUserService {
     @Override
-    public boolean login(User user) {
+    public User login(User user) {
         String md5PWD = MD5Helper.encryptToMD5(user.getPassword());
         User user1 = GetFirst(String.format("select * from user where username = '%s' and password = '%s' and userType = '%s' limit 1 ", user.getUserName(), md5PWD, user.getUserType()));
         if (user1 != null) {
-           return true;
+            return user1;
         }
-        return false;
+        return null;
 
     }
     //返回一个用户实体根据用户id
