@@ -1,9 +1,7 @@
 package com.Service;
 
 import com.IService.IClassService;
-import com.IService.ITeacherService;
 import com.Pojo.ClassInfo;
-import com.Pojo.Teacher;
 import com.Tools.DateTimeHelper;
 
 import java.util.List;
@@ -23,13 +21,19 @@ public class ClassService extends BaseService<ClassInfo> implements IClassServic
     }
     //新增班级实体
     @Override
-    public boolean AddClass(ClassInfo c) {
+    public String AddClass(ClassInfo c) {
         c.setDelFlag("1");
         c.setNumberOfStudent(0);
         String date = DateTimeHelper.GetCurrentTimeToString();
         c.setCreateTime(date);
-        String sql = String.format(" insert into classInfo (className,numberOfStudent,teacherId,createTime,delFlag) values('%s',%d,%d,'%s','%s') ",c.getClassName(),c.getNumberOfStudent(),c.getTeacherId(),c.getCreateTime(),c.getDelFlag());
-        return ExecuteUpdate(sql)>0;
+        String sql = String.format(" insert into classInfo (className,numberOfStudent,teacherId,createTime,classNumber,code,delFlag) values('%s',%d,%d,'%s','%s','%s','%s') ",c.getClassName(),c.getNumberOfStudent(),c.getTeacherId(),c.getCreateTime(),c.getClassNumber(),c.getCode(),c.getDelFlag());
+
+        int result = ExecuteUpdate(sql);
+        if (result > 0) {
+            return "添加成功";
+        } else {
+            return "添加失败";
+        }
     }
 
     @Override

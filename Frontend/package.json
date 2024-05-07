@@ -186,6 +186,7 @@
         "element-plus/es/components/row/style/index",
         "element-plus/es/components/scrollbar/style/css",
         "element-plus/es/components/scrollbar/style/index",
+        "element-plus/es/components/select-v2/style/index",
         "element-plus/es/components/select/style/css",
         "element-plus/es/components/select/style/index",
         "element-plus/es/components/space/style/index",

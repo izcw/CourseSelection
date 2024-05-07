@@ -55,25 +55,21 @@ public class BaseServlet extends HttpServlet {
             }
         }
         // 获取请求标记
-        String action = req.getParameter("action");
         try {
-            //  获取当前类的字节码文件
             Class<? extends BaseServlet> clazz = this.getClass();
-            /**
-             * clazz.getMethod();
-             * 查找当前类，有没有action值所对应的处理方法，它相当于:
-             * if(action.equals("add")){}
-             */
-            Method method = clazz.getMethod(action, HttpServletRequest.class, HttpServletResponse.class);
-            // 判断是否为空！
-            if (method != null) {
-                System.out.println(resp);
-                //  method.invoke(this, req,resp);是去执行匹配的请求处理方法
-                method.invoke(this, req, resp);
+            Method method = null;
+            String action = req.getParameter("action");
 
-
+            if (action != null) {
+                method = clazz.getMethod(action, HttpServletRequest.class, HttpServletResponse.class);
             }
 
+            if (method != null) {
+                method.invoke(this, req, resp);
+            } else {
+                // 如果没有找到对应的方法，可以返回错误信息或者进行其他处理
+                resp.getWriter().write("没有这样的方法: " + action);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

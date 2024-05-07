@@ -1,5 +1,7 @@
 package com.Pojo;
 
+import java.time.LocalDateTime;
+
 /**
  * @Author：2331020120242张成威
  * @Date： 2024/4/29 下午5:18
@@ -15,21 +17,6 @@ public class Student  extends BaseModel{
     public Integer age;
     public Integer classId;
     public String email;
-
-    public Student() {
-    }
-
-
-    public Student(Integer userId, String studentCode, String userName, String gender, String phone, Integer age, Integer classId, String email) {
-        this.userId = userId;
-        this.studentCode = studentCode;
-        this.userName = userName;
-        this.gender = gender;
-        this.phone = phone;
-        this.age = age;
-        this.classId = classId;
-        this.email = email;
-    }
 
     /**
      * 获取
@@ -157,9 +144,5 @@ public class Student  extends BaseModel{
      */
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String toString() {
-        return "Student{userId = " + userId + ", studentCode = " + studentCode + ", userName = " + userName + ", gender = " + gender + ", phone = " + phone + ", age = " + age + ", classId = " + classId + ", email = " + email + "}";
     }
 }

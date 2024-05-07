@@ -9,9 +9,9 @@ export const getList = (params) => {
 };
 export const AddClass = (data) => {
   return request({
-    url: '/ClassServlet?action=AddClass',
+    url: '/ClassServlet?action=add',
     method: 'post',
-    data: data
+    data
   });
 };
 export const getClassInfo = (params) => {

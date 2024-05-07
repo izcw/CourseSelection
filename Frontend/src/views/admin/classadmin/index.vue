@@ -2,8 +2,7 @@
   <div class="classadmin-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch">
       <el-form-item label="班级名称" prop="className">
-        <el-input v-model="queryParams.className" placeholder="请输入班级名称" clearable size="small"
-          @keyup.enter.native="handleQuery" />
+        <el-input v-model="queryParams.className" placeholder="请输入班级名称" clearable @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="教师名称" prop="teacherId">
         <el-select v-model="queryParams.teacherId" clearable filterable placeholder="请选择要筛选的老师">
@@ -26,14 +25,20 @@
       <el-table-column prop="className" label="班级名称">
 
       </el-table-column>
+      <el-table-column prop="classNumber" label="班号" width="80">
+
+      </el-table-column>
       <el-table-column prop="teacher.teacherName" label="班主任">
 
       </el-table-column>
-      <el-table-column prop="numberOfStudent" label="班级人数">
+      <el-table-column prop="numberOfStudent" label="班级人数" width="100">
+      </el-table-column>
+
+      <el-table-column prop="code" label="班级代码" width="150">
 
       </el-table-column>
 
-      <el-table-column label="Operations" width="180">
+      <el-table-column label="操作" width="180">
         <template #default="scope">
           <el-button size="small" @click="handleEdit(scope.$index, scope.row)">
             修改
@@ -54,6 +59,9 @@
             <el-option :label="item.teacherName" :value="item.teacherId" v-for="(item, index) in teachers"
               :key="index" />
           </el-select>
+        </el-form-item>
+        <el-form-item label="班级号" prop="classNumber" :label-width="formLabelWidth">
+          <el-select-v2 v-model="form.classNumber" clearable filterable placeholder="请选择班级号" :options="options" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -88,15 +96,22 @@ const ruleFormRef = ref(null)
 const addVisible = ref(false)
 const formLabelWidth = '140px'
 const formTitle = ref('')
+
 const queryParams = reactive({
   className: '',
-  teacherId: undefined
-
+  teacherId: undefined,
 })
-const form = ref({
+
+const options = Array.from({ length: 9 }).map((_, idx) => ({
+  value: `0${idx + 1}`,
+  label: `0${idx + 1}`,
+}))
+
+const form = reactive({
   classId: 0,
   className: '',
   teacherId: 0,
+  classNumber: ''
 })
 const rules = reactive({
   className: [
@@ -108,7 +123,14 @@ const rules = reactive({
       message: '班主任不能为空',
       trigger: 'change',
     },
-  ]
+  ],
+  count: [
+    {
+      required: true,
+      message: '请选择班级号',
+      trigger: 'change',
+    },
+  ],
 })
 onMounted(() => {
   getList();
@@ -128,7 +150,7 @@ const handleEdit = (index, row) => {
     classId: row.classId
   }
   getClassInfo(query).then(c => {
-    
+
     form.value.classId = c.data.classId;
     form.value.className = c.data.className;
     form.value.teacherId = c.data.teacherId;
@@ -142,6 +164,7 @@ const handleDelete = (index, row) => {
   console.log(index, row)
 }
 const submit = () => {
+  console.log("form::::+++" + JSON.stringify(form));
   ruleFormRef.value.validate(valid => {
     if (valid) {
 

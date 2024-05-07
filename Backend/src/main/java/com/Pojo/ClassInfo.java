@@ -7,6 +7,8 @@ public class ClassInfo extends BaseModel{
     public Integer NumberOfStudent;
     public Integer TeacherId;
     public Teacher teacher;
+    public String classNumber;
+    public String code;
 
     public Teacher getTeacher() {
         return teacher;
@@ -46,5 +48,21 @@ public class ClassInfo extends BaseModel{
 
     public void setTeacherId(Integer teacherId) {
         TeacherId = teacherId;
+    }
+
+    public String getClassNumber() {
+        return classNumber;
+    }
+
+    public void setClassNumber(String classnumber) {
+        classNumber = classnumber;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

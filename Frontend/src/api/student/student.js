@@ -8,11 +8,11 @@ export const getStudentList = (params) => {
   });
 };
 
-export const getAddStudentList = (params) => {
+export const getAddStudentList = (data) => {
     return request({
       url: '/StudentServlet?action=add',
-      method: 'get',
-      params:params,
+      method: 'post',
+      data
     });
   };
   

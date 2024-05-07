@@ -1,11 +1,9 @@
 package com.Controller;
-
-import com.IService.IClassService;
 import com.IService.IStudentService;
-import com.Pojo.ClassInfo;
 import com.Pojo.Student;
-import com.Service.ClassService;
 import com.Service.StudentService;
+import com.Tools.APIHelper;
+import com.Tools.DateTimeHelper;
 import com.alibaba.fastjson.JSONObject;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,24 +24,45 @@ import java.util.List;
 public class StudentServlet extends BaseServlet{
     public IStudentService _StudentService = new StudentService();
     public void query(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        int classid = Integer.parseInt(req.getParameter("classid"));
+        // 数据
+        String classid =req.getParameter("classid");
+        if(classid == null || classid.equals("")){
+            classid = String.valueOf('1');
+        }
         String studentNmae = req.getParameter("studentNmae");
-        System.out.println(classid+"yuyuyuyu"+studentNmae);
-        PrintWriter w = resp.getWriter();
+
+        // 查询数据，并返回给前端
         List<Student> studentLisi = _StudentService.GetStudentList(classid,studentNmae);
+        PrintWriter w = resp.getWriter();
         w.println(SUCCESS(studentLisi));
     }
 
     public void add(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        PrintWriter w = resp.getWriter();
-        List<Student> studentLisi = _StudentService.AddStudentList();
-        w.println(SUCCESS(studentLisi));
+        // data数据
+        JSONObject postData = APIHelper.getPostData(req);
+
+        // 初始化对象
+        Student student = new Student();
+        student.setUserName(postData.getString("name"));
+        student.setStudentCode(postData.getString("studentCode"));
+        student.setClassId(postData.getInteger("classId"));
+        student.setGender(postData.getString("gender"));
+        student.setAge(postData.getInteger("age"));
+        student.setPhone(postData.getString("phone"));
+        student.setEmail(postData.getString("email"));
+
+        // 插入数据，并返回给前端
+        String studentLisi = _StudentService.AddStudentList(student);
+        PrintWriter writer = resp.getWriter();
+        writer.println(SUCCESS(studentLisi));
     }
 
     public void delete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        // 数据
         String studentCode = req.getParameter("studentCode");
         PrintWriter writer = resp.getWriter();
 
+        // 判断“学号”是否为空
         if (studentCode != null && !studentCode.isEmpty()) {
             String studentLisi = _StudentService.DeleteStudentList(studentCode);
             writer.println(SUCCESS(studentLisi));

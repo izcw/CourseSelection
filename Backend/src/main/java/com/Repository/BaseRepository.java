@@ -153,6 +153,7 @@ public class BaseRepository<T> implements IBaseRepository<T> {
     }
 
     /**
+     * 通过传id或者code值删除数据
      * 执行更新操作（插入、更新、删除）
      * @param sql SQL更新语句
      * @param code 学号（要查找的值）

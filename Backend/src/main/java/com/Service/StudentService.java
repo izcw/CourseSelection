@@ -2,7 +2,10 @@ package com.Service;
 
 import com.IService.IStudentService;
 import com.Pojo.Student;
+import com.Tools.DateTimeHelper;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,43 +21,70 @@ public class StudentService extends BaseService<Student> implements IStudentServ
 //        return GetList(sb.toString());
 //    }
 
-    public List<Student> GetStudentList(int classId, String studentName) {
-        StringBuilder sb = new StringBuilder("SELECT * FROM student_class sc ");
-        sb.append("JOIN student s ON sc.studentId = s.userId ");
-        sb.append("WHERE sc.classId = ? AND s.delFlag = 1");
+//    public List<Student> GetStudentList(String classId, String studentName) {
+//        // 构建语句
+//        StringBuilder sb = new StringBuilder("SELECT * FROM student_class sc ");
+//        sb.append("JOIN student s ON sc.studentId = s.userId ");
+//        sb.append("WHERE sc.classId = ? AND s.delFlag = 1");
+//
+//        List<Object> params = new ArrayList<>();
+//        params.add(classId);
+//
+//        // 模糊查询name
+//        if (studentName != null && !studentName.isEmpty()) {
+//            sb.append(" AND s.userName LIKE ?");
+//            params.add("%" + studentName + "%");
+//        }
+//
+//        // 执行操作
+//        return GetListparams(sb.toString(), params);
+//    }
+
+    public List<Student> GetStudentList(String classId, String studentName) {
+        // 构建语句
+        StringBuilder sb = new StringBuilder("SELECT * FROM student s ");
+        sb.append("WHERE s.classId = ? AND s.delFlag = 1");
 
         List<Object> params = new ArrayList<>();
         params.add(classId);
 
+        // 模糊查询name
         if (studentName != null && !studentName.isEmpty()) {
             sb.append(" AND s.userName LIKE ?");
             params.add("%" + studentName + "%");
         }
 
+        // 执行操作
         return GetListparams(sb.toString(), params);
     }
 
 
-    public List<Student> AddStudentList() {
-        StringBuilder sb = new StringBuilder("select * from student");
-        return GetList(sb.toString());
+
+    public String AddStudentList(Student student) {
+        // 构建语句
+        String sql = String.format("INSERT INTO student (studentCode, userName, gender, phone, age, classId, email, createTime) VALUES ('%s', '%s', '%s', '%s', %d, %d, '%s', '%s')",
+                student.getStudentCode(), student.getUserName(), student.getGender(), student.getPhone(), student.getAge(), student.getClassId(), student.getEmail(), DateTimeHelper.GetCurrentTimeToString());
+
+        // 执行操作
+        int result = ExecuteUpdate(sql);
+        if (result > 0) {
+            return "添加成功";
+        } else {
+            return "添加失败";
+        }
     }
 
     public String DeleteStudentList(String code) {
-//        String sql = String.format("UPDATE student SET delFlag = 2 WHERE studentCode = '%s'",code);
-//        boolean isSuccess = ExecuteUpdate(sql) > 0;
-//        if (!isSuccess){
-//            return  "删除失败";
-//        }
-//        return  "删除成功";
+        // 构建语句
         String sql = "UPDATE student SET delFlag = 2 WHERE studentCode = ?";
+
+        // 执行操作
         int result = deleteExecuteUpdate(sql, code);
         if (result > 0) {
             return "删除成功";
         } else {
             return "删除失败";
         }
-
     }
 
     public List<Student> EditorStudentList() {
