@@ -81,7 +81,7 @@ router.beforeEach(async (to, from, next) => {
       
     // }
     next();
-    location.href="http://localhost:8090/CourseSelection/"
+    location.href="http://localhost:8090/"
     if (progressBar) NProgress.done();
   }
   document.title = getPageTitle(to.meta.title);

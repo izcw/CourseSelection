@@ -2,6 +2,7 @@ package com.Repository;
 
 import com.IRepository.IBaseRepository;
 import com.Tools.SqlHelper;
+import org.apache.commons.collections4.map.CaseInsensitiveMap;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -38,7 +39,7 @@ public class BaseRepository<T> implements IBaseRepository<T> {
             int columnCount = md.getColumnCount();
 
             while (rs.next()) {
-                Map<String, Object> rowData = new HashMap<>();
+                Map<String, Object> rowData = new CaseInsensitiveMap<>();
                 for (int i = 1; i <= columnCount; i++) {
                     rowData.put(md.getColumnLabel(i).toUpperCase(), rs.getObject(i));
                 }
@@ -81,7 +82,7 @@ public class BaseRepository<T> implements IBaseRepository<T> {
             int columnCount = md.getColumnCount();
 
             while (rs.next()) {
-                Map<String, Object> rowData = new HashMap<>();
+                Map<String, Object> rowData = new CaseInsensitiveMap<>();
                 for (int i = 1; i <= columnCount; i++) {
                     rowData.put(md.getColumnLabel(i).toUpperCase(), rs.getObject(i));
                 }
@@ -116,7 +117,7 @@ public class BaseRepository<T> implements IBaseRepository<T> {
             if (rs.first()) {
                 ResultSetMetaData md = rs.getMetaData();
                 int columnCount = md.getColumnCount();
-                Map<String, Object> rowData = new HashMap<>();
+                Map<String, Object> rowData = new CaseInsensitiveMap<>();
                 for (int i = 1; i <= columnCount; i++) {
                     rowData.put(md.getColumnLabel(i), rs.getObject(i));
                 }
@@ -229,7 +230,8 @@ public class BaseRepository<T> implements IBaseRepository<T> {
         T t = cls.getDeclaredConstructor().newInstance();
         Field[] declaredFields = t.getClass().getDeclaredFields();
         for (Field f1 : declaredFields) {
-            Object o1 = dataMap.get(f1.getName().toUpperCase());
+            String fieldName = f1.getName().toUpperCase();
+            Object o1 = dataMap.get(fieldName);
             if (o1 != null) {
                 f1.setAccessible(true);
                 f1.set(t, o1);
