@@ -44,11 +44,11 @@ public class BaseServlet extends HttpServlet {
             String token = req.getHeader("token");
 
             if(token!=null){
-//                if (TokenHelper.verify(token)==0)
-//                {
-//                    resp.sendRedirect("login.jsp");
-//                    return;
-//                }
+                if (TokenHelper.verify(token)==0)
+                {
+                    resp.sendRedirect("login.jsp");
+                    return;
+                }
             }else {
                 resp.sendRedirect("login.jsp");
                 return;

@@ -25,3 +25,5 @@ dist/
 
 ### Mac OS ###
 .DS_Store
+
+Backend/src/main/resources/Druid.properties

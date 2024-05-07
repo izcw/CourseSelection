@@ -21,22 +21,23 @@
 
     </el-row>
     <el-table :data="tableData" border style="width: 100%">
-
-      <el-table-column prop="className" label="班级名称">
+      <el-table-column prop="code" label="班级代码" width="150">
 
       </el-table-column>
       <el-table-column prop="classNumber" label="班号" width="80">
 
       </el-table-column>
+      <el-table-column prop="className" label="班级名称">
+
+      </el-table-column>
+
       <el-table-column prop="teacher.teacherName" label="班主任">
 
       </el-table-column>
       <el-table-column prop="numberOfStudent" label="班级人数" width="100">
       </el-table-column>
 
-      <el-table-column prop="code" label="班级代码" width="150">
 
-      </el-table-column>
 
       <el-table-column label="操作" width="180">
         <template #default="scope">
@@ -49,7 +50,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog v-model="addVisible" :title="formTitle" width="30%">
+    <el-dialog v-model="formVisible" :title="formTitle" width="30%">
       <el-form :model="form" :rules="rules" ref="ruleFormRef">
         <el-form-item label="班级名称" :label-width="formLabelWidth" prop="className">
           <el-input v-model="form.className" autocomplete="off" placeholder="请输入班级名称" />
@@ -66,7 +67,7 @@
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button @click="addVisible = false">取消</el-button>
+          <el-button @click="formVisible = false">取消</el-button>
           <el-button type="primary" @click="submit">
             提交
           </el-button>
@@ -82,7 +83,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n';
 
 import { useStore } from "vuex"
-import { getList as getClassList, AddClass as addClass, getClassInfo } from '@/api/class';
+import { getList as getClassList, AddClass as addClass, getClassInfo, UpdateClass as updateClass, DeleteClass as deleteClass } from '@/api/class';
 import { getList as getTeacherList } from '@/api/teacher';
 import {
   Search,
@@ -93,7 +94,7 @@ const tableData = ref([])
 const teachers = ref([])
 const showSearch = ref(true)
 const ruleFormRef = ref(null)
-const addVisible = ref(false)
+const formVisible = ref(false)
 const formLabelWidth = '140px'
 const formTitle = ref('')
 
@@ -107,7 +108,7 @@ const options = Array.from({ length: 9 }).map((_, idx) => ({
   label: `0${idx + 1}`,
 }))
 
-const form = reactive({
+const form = ref({
   classId: 0,
   className: '',
   teacherId: 0,
@@ -124,7 +125,7 @@ const rules = reactive({
       trigger: 'change',
     },
   ],
-  count: [
+  classNumber: [
     {
       required: true,
       message: '请选择班级号',
@@ -140,8 +141,9 @@ const handleQuery = () => {
   getList();
 }
 const addClassChange = () => {
+  reset();
   formTitle.value = '新增班级'
-  addVisible.value = !addVisible.value
+  formVisible.value = !formVisible.value
 
 }
 
@@ -150,37 +152,86 @@ const handleEdit = (index, row) => {
     classId: row.classId
   }
   getClassInfo(query).then(c => {
-
+    reset();
     form.value.classId = c.data.classId;
     form.value.className = c.data.className;
     form.value.teacherId = c.data.teacherId;
+    form.value.classNumber = c.data.classNumber;
     formTitle.value = '修改班级'
-    addVisible.value = !addVisible.value
+    formVisible.value = !formVisible.value
   })
 
 
 }
 const handleDelete = (index, row) => {
+  ElMessageBox.confirm(
+    `确定要删除班级名称为${row.className}的数据吗?`,
+    '提示',
+    {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
+  )
+    .then(() => {
+      let from = {
+        classId: row.classId
+      }
+      deleteClass(from).then(c => {
+        if (c.code === 200) {
+          ElMessage({
+            type: 'success',
+            message: '删除成功',
+          })
+          getList()
+        } else {
+          ElMessage.error(c.msg)
+        }
+
+      })
+
+    })
+    .catch(() => {
+
+    })
+
   console.log(index, row)
 }
 const submit = () => {
   console.log("form::::+++" + JSON.stringify(form));
   ruleFormRef.value.validate(valid => {
     if (valid) {
+      if (form.value.classId !== 0) {
 
-      addClass(form).then(c => {
-        if (c.code === 200) {
-          ElMessage({
-            message: c.msg,
-            type: 'success',
-          })
-          addVisible.value = false
-          reset()
-          getList()
-        } else {
-          ElMessage.error(c.msg)
-        }
-      })
+        updateClass(form.value).then(c => {
+          if (c.code === 200) {
+            ElMessage({
+              message: c.msg,
+              type: 'success',
+            })
+            formVisible.value = false
+            reset()
+            getList()
+          } else {
+            ElMessage.error(c.msg)
+          }
+        })
+      } else {
+        addClass(form.value).then(c => {
+          if (c.code === 200) {
+            ElMessage({
+              message: c.msg,
+              type: 'success',
+            })
+            formVisible.value = false
+            reset()
+            getList()
+          } else {
+            ElMessage.error(c.msg)
+          }
+        })
+      }
+
     } else {
       ElMessage.error('表单校验失败')
     }
@@ -188,8 +239,12 @@ const submit = () => {
   })
 }
 const reset = () => {
+
   form.value.className = ''
-  form.value.teacherId = 0
+  form.value.teacherId = undefined
+  form.value.classId = 0
+  form.value.classNumber = ''
+
 }
 const getList = () => {
   let query = {

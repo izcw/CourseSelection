@@ -10,10 +10,10 @@ public class ClassService extends BaseService<ClassInfo> implements IClassServic
     @Override
     public List<ClassInfo> GetClassList(ClassInfo c) {
         StringBuilder sb = new StringBuilder("select * from classInfo c left join teacher t on c.teacherId = t.teacherId  where c.delFlag = 1 ");
-        if(!c.getClassName().equals("")){
+        if(c.getClassName()!=null&&!c.getClassName().equals("")){
             sb.append(String.format(" and c.className like '%%%s%%' ",c.getClassName()));
         }
-        if(c.getTeacherId()!=0){
+        if(c.getTeacherId()!=null&&c.getTeacherId()!=0){
             sb.append(String.format(" and c.teacherId = %d ",c.getTeacherId()));
 
         }
@@ -49,7 +49,7 @@ public class ClassService extends BaseService<ClassInfo> implements IClassServic
         if(classInfo!=null){
             return "班级名称已存在";
         }
-        String sql = String.format(" update classInfo set className = '%s',teacherId = %d where classId = %d ",c.getClassName(),c.getTeacherId(),c.getClassId());
+        String sql = String.format(" update classInfo set className = '%s',teacherId = %d,classNumber = '%s' where classId = %d ",c.getClassName(),c.getTeacherId(),c.getClassNumber(),c.getClassId());
         boolean b = ExecuteUpdate(sql) > 0;
         if (b){
             return "修改成功";
@@ -57,5 +57,11 @@ public class ClassService extends BaseService<ClassInfo> implements IClassServic
             return "修改失败";
         }
 
+    }
+
+    @Override
+    public boolean DeleteClass(int id) {
+       String sql  = String.format("delete from classInfo where classId = %d ",id);
+        return ExecuteUpdate(sql) > 0;
     }
 }

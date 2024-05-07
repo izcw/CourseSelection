@@ -9,4 +9,6 @@ public interface IClassService extends IBaseService<ClassInfo>{
     String AddClass(ClassInfo c);
     ClassInfo GetClassInfo(int id);
     String UpdateClass(ClassInfo c);
+    boolean DeleteClass(int id);
+
 }

@@ -22,3 +22,17 @@ export const getClassInfo = (params) => {
 
   });
 };
+export const UpdateClass = (data) => {
+  return request({
+    url: '/ClassServlet?action=UpdateClass',
+    method: 'post',
+    data
+  });
+};
+export const DeleteClass = (data) => {
+  return request({
+    url: '/ClassServlet?action=DeleteClass',
+    method: 'post',
+    data
+  });
+};
