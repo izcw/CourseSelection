@@ -17,6 +17,7 @@ public class Student  extends BaseModel{
     public Integer age;
     public Integer classId;
     public String email;
+    public String className;
 
     /**
      * 获取
@@ -144,5 +145,12 @@ public class Student  extends BaseModel{
      */
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+    public void setClassName(String className) {
+        this.className = className;
     }
 }

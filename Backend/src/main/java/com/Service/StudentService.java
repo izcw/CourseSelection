@@ -21,15 +21,16 @@ import java.util.List;
 public class StudentService extends BaseService<Student> implements IStudentService {
 
     /**
-     * 通过传id与姓名查找数据
-     * @param Id id
+     * 通过传班级id与姓名查找数据
+     * @param Id id（班级id）
      * @param Name 要查找的姓名（模糊查询）
      * @return 执行状态
      */
-    public StudentListResultDto GetStudentList(String Id, String Name, PagerInfoDto p) {
+    public StudentListResultDto GetList(String Id, String Name, PagerInfoDto p) {
         StudentListResultDto dto = new StudentListResultDto();
         // 构建语句
-        StringBuilder sb = new StringBuilder("SELECT * FROM student s ");
+        StringBuilder sb = new StringBuilder("SELECT s.*, c.className FROM student s ");
+        sb.append("LEFT JOIN classinfo c ON s.classId = c.classId ");
         sb.append("WHERE s.delFlag = 1");
 
         List<Object> params = new ArrayList<>();
@@ -46,18 +47,20 @@ public class StudentService extends BaseService<Student> implements IStudentServ
             params.add("%" + Name + "%");
         }
 
-
-        if (p!=null){
+        if (p != null) {
             int count = GetListparams(sb.toString(), params).size();
             p.setTotalNum(count);
-            sb.append(String.format(" limit %d,%d ",p.getPageNum()-1,p.getPageSize()));
+            sb.append(String.format(" limit %d,%d ", p.getPageNum() - 1, p.getPageSize()));
         }
         List<Student> students = GetListparams(sb.toString(), params);
         dto.setList(students);
         dto.setPagerInfoDto(p);
+
         // 执行操作
         return dto;
     }
+
+
 
 
     /**

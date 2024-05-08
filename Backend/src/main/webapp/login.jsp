@@ -377,6 +377,7 @@
         <div class="select">
             <select name="cars" id="select">
                 <option value="student">学生</option>
+                <option value="teacher">老师</option>
                 <option value="admin" selected>管理员</option>
             </select>
         </div>

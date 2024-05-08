@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @WebServlet("/UserServlet")
@@ -45,10 +46,14 @@ public class UserServlet extends BaseServlet{
         String token = req.getHeader("token");
         System.out.println("Token-----"+token);
 
-        Integer userId = TokenHelper.verify(token);
-        System.out.println("UserId-----"+userId);
+        Integer Id = TokenHelper.verify(token);
+        String strId = Id.toString(); // 将整数id转换为字符串类型
+        System.out.println("UserId-----"+strId);
 
+
+        // 调用service处理，并返回给前端
+        List<User> Lisi = _userService.GetList(strId);
         PrintWriter writer = resp.getWriter();
-        writer.println(SUCCESS("token："+token));
+        writer.println(SUCCESS(Lisi));
     }
 }

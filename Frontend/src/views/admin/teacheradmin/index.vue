@@ -22,8 +22,8 @@
       </el-col>
     </el-row><!-- 操作 -->
 
-    <el-divider content-position="left">{{ tableData.length }}条数据</el-divider>
-    <el-table :data="filteredData" border style="width: 100%" @selection-change="handleSelectionChange">
+    <el-divider content-position="left">总{{ dataarrLength }}条数据</el-divider>
+    <el-table :data="tableData" border style="width: 100%" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="45" />
       <el-table-column fixed prop="teacherName" label="姓名" width="100" />
       <el-table-column prop="teacherCode" label="老师编号" sortable width="150" />
@@ -51,8 +51,8 @@
     </el-table><!-- 表格 -->
     <br><br>
     <div class="Centermiddle">
-      <el-pagination background :current-page="currentPage" :page-size="pageSize" :pager-count="10"
-        layout="prev, pager, next" :total="tableData.length" @current-change="handleCurrentChange" />
+      <el-pagination background :current-page="queryParams.pageNum" :page-size="queryParams.pageSize" :pager-count="10"
+        layout="prev, pager, next" :total="dataarrLength" @current-change="handleCurrentChange" />
     </div><!-- 分页按钮 -->
 
     <el-dialog v-model="centerDialogVisible" :title="dialogboxTitle === 1 ? '增加' : (dialogboxTitle === 2 ? '修改' : '')"
@@ -94,7 +94,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive } from 'vue';
 import { getTeacherList, getAddTeacherList,getDeleteMultipleTeacherList, getEditorTeacherList } from '@/api/teacher.js';
 
 const tableData = ref([]); // 数据
@@ -159,30 +159,17 @@ const handleSelectionChange = (selection) => {
 
 
 // 分页改变事件
-const currentPage = ref(1);
-const pageSize = ref(30);
 const handleCurrentChange = (page) => {
-  currentPage.value = page;
+  queryParams.value.pageNum = page;
+  getData()
 };
-
-// 根据搜索值过滤数据
-const searchName = ref('');
-const filteredData = computed(() => {
-  const searchValue = searchName.value.toLowerCase().trim();
-  if (!searchValue) {
-    // 模糊查询
-    return tableData.value.slice((currentPage.value - 1) * pageSize.value, currentPage.value * pageSize.value);
-  }
-  // 分页
-  return tableData.value.filter(student =>
-    student.userName.toLowerCase().includes(searchValue)
-  ).slice((currentPage.value - 1) * pageSize.value, currentPage.value * pageSize.value);
-});
 
 
 // 搜索
-const queryParams = reactive({
-  teacherName: ''
+const queryParams = ref({
+  teacherName: '',
+  pageNum: 1,
+  pageSize: 30
 })
 
 const searchQuery = () =>{
@@ -191,12 +178,15 @@ const searchQuery = () =>{
 }
 
 // 获取列表
+const dataarrLength = ref() // 数据长度
 const getData = () => {
-  getTeacherList(queryParams).then(res => {
+  getTeacherList(queryParams.value).then(res => {
     if (res.code !== 200) {
       console.log("获取不到数据");
     } else {
-      tableData.value = res.data;
+      console.log(res,"00");
+      tableData.value = res.data.list;
+      dataarrLength.value = res.data.pagerInfoDto.totalNum
     }
   });
 }
@@ -238,6 +228,7 @@ const handleEdit = (row) => {
   ruleForm.age = row.age
   ruleForm.phone = row.phone
   ruleForm.email = row.email
+  ruleForm.teacherCode = row.teacherCode
 };
 
 // 编辑提交

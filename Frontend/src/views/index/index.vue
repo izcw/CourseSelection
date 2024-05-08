@@ -84,6 +84,7 @@ import { getResouceList } from '@/api/index';
 import Cell from '@/components/Cell/index.vue';
 import { noticeList } from '@/layouts/components/NavBar/data.js';
 import { useStore } from 'vuex';
+import { getUserInfoData } from '@/api/user';
 
 let activeName = ref('first');
 
@@ -91,6 +92,20 @@ const store = useStore();
 
 let Administrator = store.getters['user/userType']
 console.log("vuex存储的内容:", JSON.parse(JSON.stringify(store.state)));
+
+
+
+// 获取用户信息
+getUserInfoData({
+  token: store.getters['user/accessToken']
+}).then(res => {
+  if (res.code !== 200) {
+    console.log("获取不到数据");
+  } else {
+    console.log("用户登录信息：", res);
+  }
+});
+
 
 const { t } = useI18n();
 

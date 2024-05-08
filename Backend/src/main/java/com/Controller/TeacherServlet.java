@@ -2,6 +2,8 @@ package com.Controller;
 
 import com.IService.IStudentService;
 import com.IService.ITeacherService;
+import com.Pojo.DTO.PagerInfoDto;
+import com.Pojo.DTO.TeacherListResultDto;
 import com.Pojo.Student;
 import com.Pojo.Teacher;
 import com.Service.StudentService;
@@ -21,24 +23,23 @@ import java.util.List;
 @WebServlet("/TeacherServlet")
 public class TeacherServlet extends BaseServlet{
     private ITeacherService _teacherService = new TeacherService();
-//    public void GetList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, IOException {
-//        Teacher teacher = new Teacher();
-//
-//        List<Teacher> teachers = _teacherService.GetList(teacher);
-//        PrintWriter writer = resp.getWriter();
-//        writer.println(SUCCESS(teachers));
-//    }
 
-//    public IStudentService _StudentService = new StudentService();
     // 查询
     public void query(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         // 数据
         String Name = req.getParameter("teacherName");
 
+        PagerInfoDto p = null;
+        if (req.getParameter("pageNum")!=null){
+            p = new PagerInfoDto();
+            p.setPageNum(Integer.parseInt(req.getParameter("pageNum")));
+            p.setPageSize(Integer.parseInt(req.getParameter("pageSize")));
+        }
+
         // 调用service处理，并返回给前端
-        List<Teacher> Lisi = _teacherService.GetList(Name);
+        TeacherListResultDto dto = _teacherService.GetList(Name,p);
         PrintWriter w = resp.getWriter();
-        w.println(SUCCESS(Lisi));
+        w.println(SUCCESS(dto));
     }
 
     // 添加

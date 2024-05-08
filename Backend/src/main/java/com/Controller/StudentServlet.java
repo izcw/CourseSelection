@@ -28,16 +28,16 @@ public class StudentServlet extends BaseServlet{
     // 查询
     public void query(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         // 数据
-        PagerInfoDto p = null;
         String Id =req.getParameter("classid");
         String Name = req.getParameter("studentName");
 
+        PagerInfoDto p = null;
         if (req.getParameter("pageNum")!=null){
             p = new PagerInfoDto();
             p.setPageNum(Integer.parseInt(req.getParameter("pageNum")));
             p.setPageSize(Integer.parseInt(req.getParameter("pageSize")));
         }
-        StudentListResultDto dto = _StudentService.GetStudentList(Id,Name,p);
+        StudentListResultDto dto = _StudentService.GetList(Id,Name,p);
         PrintWriter w = resp.getWriter();
         w.println(SUCCESS(dto));
     }

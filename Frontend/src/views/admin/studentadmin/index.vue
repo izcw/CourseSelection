@@ -29,7 +29,7 @@
       </el-col>
     </el-row><!-- 操作 -->
 
-    <el-divider content-position="left">{{ dataarrLength }}条数据</el-divider>
+    <el-divider content-position="left">总{{ dataarrLength }}条数据</el-divider>
     <el-table :data="tableData" border style="width: 100%" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="45" />
       <el-table-column fixed prop="userName" label="姓名" width="100" />
@@ -112,8 +112,7 @@
 import { ref, reactive, computed } from 'vue';
 import { getStudentList, getAddStudentList, getDeleteMultipleStudentList, getEditorStudentList } from '@/api/student.js';
 import { getList } from '@/api/class';
-import { getUserInfoData } from '@/api/user';
-import { useStore } from 'vuex';
+
 
 const tableData = ref([]); // 数据
 let centerDialogVisible = ref(false) // 弹出框
@@ -229,12 +228,13 @@ const resetQuery = () => {
 }
 
 // 获取列表
-const dataarrLength = ref()
+const dataarrLength = ref() // 数据长度
 const getData = () => {
   getStudentList(queryParams.value).then(res => {
     if (res.code !== 200) {
       console.log("获取不到数据");
     } else {
+      console.log(res,"999");
       tableData.value = res.data.list;
       dataarrLength.value = res.data.pagerInfoDto.totalNum
     }
@@ -320,18 +320,7 @@ const deleteMultiple = (data) => {
   });
 }
 
-// 获取用户信息
-const store = useStore();
 
-getUserInfoData({
-  token: store.getters['user/accessToken']
-}).then(res => {
-  if (res.code !== 200) {
-    console.log("获取不到数据");
-  } else {
-    console.log("用户请求：", res);
-  }
-});
 
 // 学号规则
 const studentCodeRule = () => {
