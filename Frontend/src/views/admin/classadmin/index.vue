@@ -39,7 +39,7 @@
 
 
 
-      <el-table-column label="操作" width="180">
+      <el-table-column label="操作" width="300">
         <template #default="scope">
           <el-button size="small" @click="handleEdit(scope.$index, scope.row)">
             修改
@@ -47,9 +47,42 @@
           <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">
             删除
           </el-button>
+          <el-button size="small" type="primary" @click="bindingShow(scope.$index, scope.row)">
+            绑定/解绑学生
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
+    <el-dialog v-model="bindingVisible" title="绑定学生" width="50%" draggable overflow>
+      <el-table ref="multipleTableRef" :data="studentList" style="width: 100%"
+        @selection-change="handleSelectionChange">
+        <el-table-column type="selection" width="55" />
+        <el-table-column fixed prop="userName" label="姓名" width="100" />
+        <el-table-column prop="studentCode" label="学号" sortable width="150" />
+        <el-table-column prop="gender" label="性别" width="60">
+          <template v-slot="scope">
+            <el-tag type="primary" v-if="scope.row.gender === '1'">男</el-tag>
+            <el-tag type="warning" v-else>女</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="age" label="年龄" sortable width="80" />
+        <el-table-column prop="phone" label="手机号码" width="120" />
+        <el-table-column prop="email" label="电子邮箱" min-width="150" />
+      </el-table>
+      <el-pagination v-model:current-page="currentPage4" v-model:page-size="studentPager.pageSize"
+        :page-sizes="pageSizes" :small="small" :disabled="disabled" :background="background"
+        layout="total, sizes, prev, pager, next, jumper" :total="studentTotal" @size-change="handleSizeChange"
+        @current-change="handleCurrentChange" />
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="bindingVisible = false">取消</el-button>
+          <el-button type="primary" @click="bindingVisible = false">
+            确定
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
+
     <el-dialog v-model="formVisible" :title="formTitle" width="30%">
       <el-form :model="form" :rules="rules" ref="ruleFormRef">
         <el-form-item label="班级名称" :label-width="formLabelWidth" prop="className">
@@ -83,6 +116,8 @@ import { ref, reactive, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n';
 
 import { useStore } from "vuex"
+import { getStudentList } from '@/api/student/student.js';
+
 import { getList as getClassList, AddClass as addClass, getClassInfo, UpdateClass as updateClass, DeleteClass as deleteClass } from '@/api/class';
 import { getList as getTeacherList } from '@/api/teacher';
 import {
@@ -97,12 +132,18 @@ const ruleFormRef = ref(null)
 const formVisible = ref(false)
 const formLabelWidth = '140px'
 const formTitle = ref('')
-
+const bindingVisible = ref(false)
 const queryParams = reactive({
   className: '',
   teacherId: undefined,
 })
-
+const pageSizes = ref([10, 20, 30, 40, 50])
+const currentPage4 = ref(1)
+const studentList = ref([])
+const small = ref(false)
+const background = ref(false)
+const disabled = ref(false)
+const studentTotal = ref(0)
 const options = Array.from({ length: 9 }).map((_, idx) => ({
   value: `0${idx + 1}`,
   label: `0${idx + 1}`,
@@ -113,6 +154,10 @@ const form = ref({
   className: '',
   teacherId: 0,
   classNumber: ''
+})
+let studentPager = ref({
+  pageNum: 1,
+  pageSize: 10,
 })
 const rules = reactive({
   className: [
@@ -137,6 +182,26 @@ onMounted(() => {
   getList();
   getTeachers();
 })
+const bindingShow = async () => {
+  await getStudentData();
+  bindingVisible.value = !bindingVisible.value
+
+}
+const getStudentData = async () => {
+
+  await getStudentList(studentPager.value).then(c => {
+    studentTotal.value = c.data.pagerInfoDto.totalNum
+    studentList.value = c.data.list
+  })  
+}
+
+const handleSizeChange = (val) => {
+  console.log(`${val} items per page`)
+}
+const handleCurrentChange = (val) => {
+  studentPager.value.pageNum = val
+  getStudentData();
+}
 const handleQuery = () => {
   getList();
 }

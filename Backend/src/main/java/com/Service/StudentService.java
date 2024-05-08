@@ -1,6 +1,8 @@
 package com.Service;
 
 import com.IService.IStudentService;
+import com.Pojo.DTO.PagerInfoDto;
+import com.Pojo.DTO.StudentListResultDto;
 import com.Pojo.Student;
 import com.Tools.DateTimeHelper;
 
@@ -40,7 +42,9 @@ public class StudentService extends BaseService<Student> implements IStudentServ
 //        return GetListparams(sb.toString(), params);
 //    }
 
-    public List<Student> GetStudentList(String classId, String studentName) {
+    public StudentListResultDto GetStudentList(String classId, String studentName, PagerInfoDto p) {
+        StudentListResultDto dto = new StudentListResultDto();
+
         // 构建语句
         StringBuilder sb = new StringBuilder("SELECT * FROM student s ");
         sb.append("WHERE s.classId = ? AND s.delFlag = 1");
@@ -50,12 +54,21 @@ public class StudentService extends BaseService<Student> implements IStudentServ
 
         // 模糊查询name
         if (studentName != null && !studentName.isEmpty()) {
-            sb.append(" AND s.userName LIKE ?");
+            sb.append(" AND s.userName LIKE ? ");
             params.add("%" + studentName + "%");
         }
 
+
+        if (p!=null){
+            int count = GetListparams(sb.toString(), params).size();
+            p.setTotalNum(count);
+            sb.append(String.format(" limit %d,%d ",p.getPageNum()-1,p.getPageSize()));
+        }
+        List<Student> students = GetListparams(sb.toString(), params);
+        dto.setList(students);
+        dto.setPagerInfoDto(p);
         // 执行操作
-        return GetListparams(sb.toString(), params);
+        return dto;
     }
 
 
