@@ -29,8 +29,8 @@
       </el-col>
     </el-row><!-- 操作 -->
 
-    <el-divider content-position="left">{{ tableData.length }}条数据</el-divider>
-    <el-table :data="filteredData" border style="width: 100%" @selection-change="handleSelectionChange">
+    <el-divider content-position="left">{{ dataarrLength }}条数据</el-divider>
+    <el-table :data="tableData" border style="width: 100%" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="45" />
       <el-table-column fixed prop="userName" label="姓名" width="100" />
       <el-table-column prop="studentCode" label="学号" sortable width="150" />
@@ -59,8 +59,8 @@
     </el-table><!-- 表格 -->
     <br><br>
     <div class="Centermiddle">
-      <el-pagination background :current-page="currentPage" :page-size="pageSize" :pager-count="10"
-        layout="prev, pager, next" :total="tableData.length" @current-change="handleCurrentChange" />
+      <el-pagination background :current-page="queryParams.pageNum" :page-size="queryParams.pageSize" :pager-count="10"
+        layout="prev, pager, next" :total="dataarrLength" @current-change="handleCurrentChange" />
     </div><!-- 分页按钮 -->
 
     <el-dialog v-model="centerDialogVisible" :title="dialogboxTitle === 1 ? '增加' : (dialogboxTitle === 2 ? '修改' : '')"
@@ -110,7 +110,7 @@
 
 <script setup>
 import { ref, reactive, computed } from 'vue';
-import { getStudentList, getAddStudentList,getDeleteMultipleStudentList, getEditorStudentList } from '@/api/student.js';
+import { getStudentList, getAddStudentList, getDeleteMultipleStudentList, getEditorStudentList } from '@/api/student.js';
 import { getList } from '@/api/class';
 import { getUserInfoData } from '@/api/user';
 import { useStore } from 'vuex';
@@ -203,51 +203,40 @@ const handleSelectionChange = (selection) => {
 
 
 // 分页改变事件
-const currentPage = ref(1);
-const pageSize = ref(30);
 const handleCurrentChange = (page) => {
-  currentPage.value = page;
+  queryParams.value.pageNum = page;
+  getData()
 };
-
-// 根据搜索值过滤数据
-const searchName = ref('');
-const filteredData = computed(() => {
-  const searchValue = searchName.value.toLowerCase().trim();
-  if (!searchValue) {
-    // 模糊查询
-    return tableData.value.slice((currentPage.value - 1) * pageSize.value, currentPage.value * pageSize.value);
-  }
-  // 分页
-  return tableData.value.filter(student =>
-    student.userName.toLowerCase().includes(searchValue)
-  ).slice((currentPage.value - 1) * pageSize.value, currentPage.value * pageSize.value);
-});
 
 
 // 搜索
-const queryParams = reactive({
+const queryParams = ref({
   classid: "",
-  studentName: ''
+  studentName: '',
+  pageNum: 1,
+  pageSize: 30
 })
 
-const searchQuery = () =>{
+const searchQuery = () => {
   getData()
-  currentPage.value = 1
+  queryParams.value.pageNum = 1
 }
 
 // 重置搜索值
 const resetQuery = () => {
-  queryParams.classid = ''
-  queryParams.studentName = ''
+  queryParams.value.classid = ''
+  queryParams.value.studentName = ''
 }
 
 // 获取列表
+const dataarrLength = ref()
 const getData = () => {
-  getStudentList(queryParams).then(res => {
+  getStudentList(queryParams.value).then(res => {
     if (res.code !== 200) {
       console.log("获取不到数据");
     } else {
-      tableData.value = res.data;
+      tableData.value = res.data.list;
+      dataarrLength.value = res.data.pagerInfoDto.totalNum
     }
   });
 }
@@ -317,7 +306,7 @@ const handleDelete = (studentCode) => {
 
 // 多选删除
 const deleteMultiple = (data) => {
-  getDeleteMultipleStudentList({data}).then(res => {
+  getDeleteMultipleStudentList({ data }).then(res => {
     if (res.code != 200) {
       ElMessage.error(res.msg)
     } else {

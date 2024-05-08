@@ -1,5 +1,7 @@
 package com.IService;
 
+import com.Pojo.DTO.PagerInfoDto;
+import com.Pojo.DTO.StudentListResultDto;
 import com.Pojo.Student;
 
 import java.util.List;
@@ -12,7 +14,7 @@ import java.util.List;
  */
 
 public interface IStudentService extends IBaseService<Student>{
-    List<Student> GetList(String Id, String Name);
+    StudentListResultDto GetStudentList(String Id, String Name, PagerInfoDto p);
     String AddList(Student student);
     String DeletesArrayList(String[] idArrayData);
     String EditorList(Student student);

@@ -1,5 +1,7 @@
 package com.Controller;
 import com.IService.IStudentService;
+import com.Pojo.DTO.PagerInfoDto;
+import com.Pojo.DTO.StudentListResultDto;
 import com.Pojo.Student;
 import com.Service.StudentService;
 import com.Tools.APIHelper;
@@ -26,13 +28,18 @@ public class StudentServlet extends BaseServlet{
     // 查询
     public void query(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         // 数据
+        PagerInfoDto p = null;
         String Id =req.getParameter("classid");
         String Name = req.getParameter("studentName");
 
-        // 调用service处理，并返回给前端
-        List<Student> Lisi = _StudentService.GetList(Id,Name);
+        if (req.getParameter("pageNum")!=null){
+            p = new PagerInfoDto();
+            p.setPageNum(Integer.parseInt(req.getParameter("pageNum")));
+            p.setPageSize(Integer.parseInt(req.getParameter("pageSize")));
+        }
+        StudentListResultDto dto = _StudentService.GetStudentList(Id,Name,p);
         PrintWriter w = resp.getWriter();
-        w.println(SUCCESS(Lisi));
+        w.println(SUCCESS(dto));
     }
 
     // 添加
