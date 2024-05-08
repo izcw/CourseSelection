@@ -55,7 +55,7 @@ public class BaseRepository<T> implements IBaseRepository<T> {
     }
 
     /**
-     * 查询数据列表
+     * 通过参数查询数据
      * @param sql SQL查询语句
      * @param params SQL 查询语句中的参数值
      * @return 数据列表
@@ -154,10 +154,9 @@ public class BaseRepository<T> implements IBaseRepository<T> {
     }
 
     /**
-     * 通过传id或者code值删除数据
-     * 执行更新操作（插入、更新、删除）
+     * 通过传入一个值来删除指定数据
      * @param sql SQL更新语句
-     * @param code 学号（要查找的值）
+     * @param code （要查找的值）
      * @return 受影响的行数
      */
     public int deleteExecuteUpdate(String sql, String code) {

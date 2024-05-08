@@ -15,21 +15,22 @@ export const getAddStudentList = (data) => {
       data
     });
   };
-  
-  export const getDeleteStudentList = (params) => {
+
+  // 删除多项
+  export const getDeleteMultipleStudentList = (data) => {
     return request({
-      url: '/StudentServlet?action=delete',
-      method: 'get',
-      params:params,
+      url: '/StudentServlet?action=deletes',
+      method: 'post',
+      data
     });
   };
   
 
-  export const getEditorStudentList = (params) => {
+  export const getEditorStudentList = (data) => {
     return request({
       url: '/StudentServlet?action=editor',
-      method: 'get',
-      params:params,
+      method: 'post',
+      data
     });
   };
   

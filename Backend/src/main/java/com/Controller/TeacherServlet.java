@@ -1,8 +1,14 @@
 package com.Controller;
 
+import com.IService.IStudentService;
 import com.IService.ITeacherService;
+import com.Pojo.Student;
 import com.Pojo.Teacher;
+import com.Service.StudentService;
 import com.Service.TeacherService;
+import com.Tools.APIHelper;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,11 +21,85 @@ import java.util.List;
 @WebServlet("/TeacherServlet")
 public class TeacherServlet extends BaseServlet{
     private ITeacherService _teacherService = new TeacherService();
-    public void GetList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, IOException {
-        Teacher teacher = new Teacher();
+//    public void GetList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, IOException {
+//        Teacher teacher = new Teacher();
+//
+//        List<Teacher> teachers = _teacherService.GetList(teacher);
+//        PrintWriter writer = resp.getWriter();
+//        writer.println(SUCCESS(teachers));
+//    }
 
-        List<Teacher> teachers = _teacherService.GetList(teacher);
+//    public IStudentService _StudentService = new StudentService();
+    // 查询
+    public void query(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        // 数据
+        String Name = req.getParameter("teacherName");
+
+        // 调用service处理，并返回给前端
+        List<Teacher> Lisi = _teacherService.GetList(Name);
+        PrintWriter w = resp.getWriter();
+        w.println(SUCCESS(Lisi));
+    }
+
+    // 添加
+    public void add(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        // data数据
+        JSONObject postData = APIHelper.getPostData(req);
+
+        // 初始化对象
+        Teacher teacher = new Teacher();
+        teacher.setTeacherName(postData.getString("name"));
+        teacher.setGender(postData.getString("gender"));
+        teacher.setAge(postData.getInteger("age"));
+        teacher.setPhone(postData.getString("phone"));
+        teacher.setEmail(postData.getString("email"));
+
+        // 调用service处理，并返回给前端
+        String Lisi = _teacherService.AddList(teacher);
         PrintWriter writer = resp.getWriter();
-        writer.println(SUCCESS(teachers));
+        writer.println(SUCCESS(Lisi));
+    }
+
+
+    // 删除多项
+    public void deletes(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        // 数据
+        JSONObject postData = APIHelper.getPostData(req);
+        JSONArray data = postData.getJSONArray("data"); // 解析数组
+        PrintWriter writer = resp.getWriter();
+        // 检查 idArray 是否为空
+        if (data == null || data.isEmpty()) {
+            writer.println(SUCCESS("不能为空数组！"));
+        }else {
+            // 创建字符串数组并存储
+            String[] idArrayData = new String[data.size()];
+            for (int i = 0; i < data.size(); i++) {
+                idArrayData[i] = data.getString(i);
+            }
+
+            // 调用service处理，并返回给前端
+            String Lisi = _teacherService.DeletesArrayList(idArrayData);
+            writer.println(SUCCESS(Lisi));
+        }
+    }
+
+    // 编辑
+    public void editor(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        // data数据
+        JSONObject postData = APIHelper.getPostData(req);
+
+        // 初始化对象
+        Teacher teacher = new Teacher();
+        teacher.setTeacherName(postData.getString("name"));
+        teacher.setTeacherCode(postData.getString("teacherCode"));
+        teacher.setGender(postData.getString("gender"));
+        teacher.setAge(postData.getInteger("age"));
+        teacher.setPhone(postData.getString("phone"));
+        teacher.setEmail(postData.getString("email"));
+
+        // 调用service处理，并返回给前端
+        String Lisi = _teacherService.EditorList(teacher);
+        PrintWriter writer = resp.getWriter();
+        writer.println(SUCCESS(Lisi));
     }
 }

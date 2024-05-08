@@ -1,35 +1,33 @@
 <template>
   <div class="teacherdmin-container">
-    <!-- <el-space wrap size="large">
-      <el-button type="success" @click="centerDialogVisible = true">添加</el-button>
-      <el-input v-model="searchName" clearable style="width: 240px" placeholder="请搜索名字" />
-    </el-space> -->
     <el-form :model="queryParams" :inline="true">
       <el-form-item label="班级" prop="teacherId">
         <el-select v-model="queryParams.classid" clearable filterable placeholder="请选择要筛选的班级" style="width:300px">
           <el-option v-for="(item, index) in classinfoDate" :key="index" :default="index == 1" :label="item.className"
             :value="item.classId" />
         </el-select>
-
       </el-form-item>
       <el-form-item label="学生名称" prop="className">
-        <el-input v-model="queryParams.studentNmae" placeholder="请输入学生名称" clearable @keyup.enter.native="getData" />
+        <el-input v-model.trim="queryParams.studentName" placeholder="请输入学生名称" clearable
+          @keyup.enter.native="getData" />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" :icon="Search" @click="getData">搜索</el-button>
+        <el-button type="primary" :icon="Search" @click="searchQuery">搜索</el-button>
         <el-button :icon="Refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
-    </el-form>
+    </el-form><!-- 搜索 -->
+
     <el-row :gutter="20" style="margin-bottom: 20px;">
       <el-col :span="6">
-        <el-button type="success" @click="centerDialogVisible = true, dialogboxTitle = 1, clearRuleForm()">添加</el-button>
-        <el-popconfirm title="确定要删除吗?" @confirm="deleteMultiple()">
+        <el-button type="success"
+          @click="centerDialogVisible = true, dialogboxTitle = 1, clearRuleForm()">添加</el-button>
+        <el-popconfirm title="确定要删除吗?" @confirm="deleteMultiple(selectedCodes)">
           <template #reference>
-            <el-button type="danger" v-show="MultipleChoice">删除{{ selectedStudentCodes.length }}条数据</el-button>
+            <el-button type="danger" v-show="MultipleChoice">删除{{ selectedCodes.length }}条数据</el-button>
           </template>
         </el-popconfirm>
       </el-col>
-    </el-row>
+    </el-row><!-- 操作 -->
 
     <el-divider content-position="left">{{ tableData.length }}条数据</el-divider>
     <el-table :data="filteredData" border style="width: 100%" @selection-change="handleSelectionChange">
@@ -43,6 +41,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="age" label="年龄" sortable width="80" />
+      <el-table-column prop="className" label="班级" width="180" />
       <el-table-column prop="phone" label="手机号码" width="120" />
       <el-table-column prop="email" label="电子邮箱" min-width="150" />
       <el-table-column fixed="right" label="操作" width="120">
@@ -60,20 +59,20 @@
     </el-table><!-- 表格 -->
     <br><br>
     <div class="Centermiddle">
-      <el-pagination background :current-page="currentPage" :page-size="pageSize" :pager-count="11"
+      <el-pagination background :current-page="currentPage" :page-size="pageSize" :pager-count="10"
         layout="prev, pager, next" :total="tableData.length" @current-change="handleCurrentChange" />
-    </div><!-- 分页 -->
-
+    </div><!-- 分页按钮 -->
 
     <el-dialog v-model="centerDialogVisible" :title="dialogboxTitle === 1 ? '增加' : (dialogboxTitle === 2 ? '修改' : '')"
       align-center>
       <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" :rules="rules" label-width="auto"
         class="demo-ruleForm" status-icon>
         <el-form-item label="姓名" prop="name">
-          <el-input v-model="ruleForm.name" />
+          <el-input v-model.trim="ruleForm.name" />
         </el-form-item>
         <el-form-item label="班级" prop="classId">
-          <el-select v-model="ruleForm.classId" clearable filterable placeholder="请选择班级">
+          <el-select v-model="ruleForm.classId" clearable filterable placeholder="请选择班级"
+            :disabled="dialogboxTitle === 2">
             <el-option v-for="(item, index) in classinfoDate" :key="index" :default="index == 1" :label="item.className"
               :value="item.classId" />
           </el-select>
@@ -88,10 +87,10 @@
           <el-input-number v-model="ruleForm.age" :min="16" :max="60" controls-position="right"></el-input-number>
         </el-form-item>
         <el-form-item label="手机号码" prop="phone">
-          <el-input v-model="ruleForm.phone" placeholder="请输入手机号码"></el-input>
+          <el-input v-model.trim="ruleForm.phone" placeholder="请输入手机号码"></el-input>
         </el-form-item>
         <el-form-item label="电子邮箱" prop="email">
-          <el-input v-model="ruleForm.email" placeholder="请输入电子邮箱"></el-input>
+          <el-input v-model.trim="ruleForm.email" placeholder="请输入电子邮箱"></el-input>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -100,27 +99,27 @@
           <el-button v-if="dialogboxTitle == 1" type="primary" @click="addStudent(ruleFormRef)">
             提交
           </el-button>
-          <el-button v-if="dialogboxTitle == 2" type="primary" @click="addStudent(ruleFormRef)">
+          <el-button v-if="dialogboxTitle == 2" type="primary" @click="handleEditSubmit()">
             保存
           </el-button>
         </div>
       </template>
-    </el-dialog><!-- 新增 -->
+    </el-dialog><!-- 新增窗口 -->
   </div>
 </template>
 
 <script setup>
 import { ref, reactive, computed } from 'vue';
-import { getStudentList, getAddStudentList, getDeleteStudentList, getEditorStudentList } from '@/api/student/student.js';
+import { getStudentList, getAddStudentList,getDeleteMultipleStudentList, getEditorStudentList } from '@/api/student.js';
 import { getList } from '@/api/class';
 import { getUserInfoData } from '@/api/user';
 import { useStore } from 'vuex';
-const tableData = ref([]);
-const searchName = ref('');
+
+const tableData = ref([]); // 数据
 let centerDialogVisible = ref(false) // 弹出框
 let dialogboxTitle = ref('1')
 
-const ruleForm = reactive({
+const ruleForm = reactive({ // 窗口数据
   name: '',
   classId: '',
   gender: 1,
@@ -130,6 +129,7 @@ const ruleForm = reactive({
   studentCode: ''
 })
 
+// 初始化ruleForm
 const clearRuleForm = () => {
   ruleForm.name = '';
   ruleForm.classId = '';
@@ -140,7 +140,7 @@ const clearRuleForm = () => {
   ruleForm.studentCode = '';
 };
 
-
+// 表单验证
 const rules = reactive({
   name: [
     { required: true, message: '请输入姓名', trigger: 'blur' },
@@ -177,12 +177,10 @@ const rules = reactive({
 
 // 获取班级信息
 let classinfoDate = ref()
-getList(
-  {
-    className: '',
-    teacherId: 0
-  }
-).then(res => {
+getList({
+  className: '',
+  teacherId: 0
+}).then(res => {
   if (res.code !== 200) {
     console.log("班级信息-获取不到数据");
   } else {
@@ -193,21 +191,16 @@ getList(
 
 // 表格多选
 const MultipleChoice = ref(false)
-const selectedStudentCodes = ref([]); // 初始化为一个数组
+const selectedCodes = ref([]); // 初始化为一个数组
 const handleSelectionChange = (selection) => {
-  // 更新MultipleChoice的值
   MultipleChoice.value = selection && selection.length > 0;
   // 如果是多选状态，打印选中的学号studentCode
   if (MultipleChoice.value) {
-    selectedStudentCodes.value = selection.map(item => item.studentCode);
-    console.log("选中的学号：", selectedStudentCodes.value);
+    selectedCodes.value = selection.map(item => item.studentCode);
+    // console.log("选中的学号数组：", selectedCodes.value);
   }
 };
 
-// 多选删除
-const deleteMultiple = () => {
-  console.log(selectedStudentCodes.value);
-}
 
 // 分页改变事件
 const currentPage = ref(1);
@@ -216,54 +209,56 @@ const handleCurrentChange = (page) => {
   currentPage.value = page;
 };
 
-
-// 搜索
-const queryParams = reactive({
-  classid: "",
-  studentNmae: ''
-})
-
-
-// 重置搜索值
-const resetQuery = () => {
-  queryParams.classid = ''
-  queryParams.studentNmae = ''
-}
-
-// 获取学生列表
-const getData = () => {
-  getStudentList(queryParams).then(res => {
-    if (res.code !== 200) {
-      console.log("获取不到数据");
-    } else {
-      console.log("获取请求：", res);
-      tableData.value = res.data;
-    }
-  });
-  currentPage.value = 1
-}
-getData()
-
-
-
 // 根据搜索值过滤数据
+const searchName = ref('');
 const filteredData = computed(() => {
   const searchValue = searchName.value.toLowerCase().trim();
   if (!searchValue) {
+    // 模糊查询
     return tableData.value.slice((currentPage.value - 1) * pageSize.value, currentPage.value * pageSize.value);
   }
+  // 分页
   return tableData.value.filter(student =>
     student.userName.toLowerCase().includes(searchValue)
   ).slice((currentPage.value - 1) * pageSize.value, currentPage.value * pageSize.value);
 });
 
 
-// 添加学生
+// 搜索
+const queryParams = reactive({
+  classid: "",
+  studentName: ''
+})
+
+const searchQuery = () =>{
+  getData()
+  currentPage.value = 1
+}
+
+// 重置搜索值
+const resetQuery = () => {
+  queryParams.classid = ''
+  queryParams.studentName = ''
+}
+
+// 获取列表
+const getData = () => {
+  getStudentList(queryParams).then(res => {
+    if (res.code !== 200) {
+      console.log("获取不到数据");
+    } else {
+      tableData.value = res.data;
+    }
+  });
+}
+getData()
+
+
+// 添加
 const ruleFormRef = ref(null);
 const addStudent = () => {
   ruleFormRef.value.validate((valid) => {
     if (valid) {
-      centerDialogVisible.value = false;
       ruleForm.studentCode = studentCodeRule()
       getAddStudentList(ruleForm).then(res => {
         if (res.code != 200) {
@@ -274,6 +269,7 @@ const addStudent = () => {
             type: 'success',
           })
           getData()
+          centerDialogVisible.value = false;
           clearRuleForm()
         }
       });
@@ -284,28 +280,23 @@ const addStudent = () => {
 };
 
 
-// 编辑学生
+// 编辑
 const handleEdit = (row) => {
   dialogboxTitle.value = 2
   centerDialogVisible.value = true
-
+  // 赋值
   ruleForm.name = row.userName
+  ruleForm.studentCode = row.studentCode
   ruleForm.classId = row.classId
   ruleForm.gender = Number(row.gender)
   ruleForm.age = row.age
   ruleForm.phone = row.phone
   ruleForm.email = row.email
-
-  console.log(row);
-  console.log("编辑", typeof row.gender);
-  getStudentList().then(res => {
-    console.log("请求：", res);
-  });
 };
 
-// 删除学生
-const handleDelete = (studentCode) => {
-  getDeleteStudentList({ studentCode }).then(res => {
+// 编辑提交
+const handleEditSubmit = () => {
+  getEditorStudentList(ruleForm).then(res => {
     if (res.code != 200) {
       ElMessage.error(res.msg)
     } else {
@@ -314,22 +305,44 @@ const handleDelete = (studentCode) => {
         type: 'success',
       })
       getData()
+      centerDialogVisible.value = false
     }
   });
+}
+
+// 删除
+const handleDelete = (studentCode) => {
+  deleteMultiple([studentCode])
 };
 
-// 获取用户信息
-// const store = useStore();
+// 多选删除
+const deleteMultiple = (data) => {
+  getDeleteMultipleStudentList({data}).then(res => {
+    if (res.code != 200) {
+      ElMessage.error(res.msg)
+    } else {
+      ElMessage({
+        message: res.msg,
+        type: 'success',
+      })
+      getData()
+      centerDialogVisible.value = false
+    }
+  });
+}
 
-// getUserInfoData({
-//   token: store.getters['user/accessToken']
-// }).then(res => {
-//   if (res.code !== 200) {
-//     console.log("获取不到数据");
-//   } else {
-//     console.log("用户请求：", res);
-//   }
-// });
+// 获取用户信息
+const store = useStore();
+
+getUserInfoData({
+  token: store.getters['user/accessToken']
+}).then(res => {
+  if (res.code !== 200) {
+    console.log("获取不到数据");
+  } else {
+    console.log("用户请求：", res);
+  }
+});
 
 // 学号规则
 const studentCodeRule = () => {

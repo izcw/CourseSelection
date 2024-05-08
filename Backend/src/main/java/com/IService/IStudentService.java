@@ -12,8 +12,8 @@ import java.util.List;
  */
 
 public interface IStudentService extends IBaseService<Student>{
-    List<Student> GetStudentList(String classId, String studentName);
-    String AddStudentList(Student student);
-    String DeleteStudentList(String code);
-    List<Student> EditorStudentList();
+    List<Student> GetList(String Id, String Name);
+    String AddList(Student student);
+    String DeletesArrayList(String[] idArrayData);
+    String EditorList(Student student);
 }
