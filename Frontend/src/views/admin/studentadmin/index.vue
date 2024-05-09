@@ -109,30 +109,8 @@
         </div>
       </template>
     </el-dialog><!-- 新增窗口 -->
-
-    <el-dialog v-model="changePasswordWindow" title="修改密码" align-center>
-      <el-form ref="ruleFormRef" style="max-width: 600px" :model="passwordForm" :rules="passwdrules" label-width="auto"
-        class="demo-ruleForm" status-icon>
-        <el-form-item label="旧密码" prop="oldpassword">
-          <el-input type="password" show-password v-model.trim="passwordForm.oldpassword" />
-        </el-form-item>
-        <el-form-item label="新密码" prop="newpassword">
-          <el-input type="password" show-password v-model.trim="passwordForm.newpassword" />
-        </el-form-item>
-        <el-form-item label="重新确认新密码" prop="newpassword2">
-          <el-input type="password" show-password v-model.trim="passwordForm.newpassword2" />
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button @click="changePasswordWindow = false">取消</el-button>
-          <el-button type="primary" @click="changePassword">
-            确定
-          </el-button>
-        </div>
-      </template>
-    </el-dialog><!-- 修改密码窗口 -->
-
+    <changPassword :switch="isSwitched" :code="changePasswordcode" @update:switch="isSwitched = $event"
+      @confirmGetData="Modificationcompleted" />
   </div>
 </template>
 
@@ -140,7 +118,7 @@
 import { ref, reactive } from 'vue';
 import { getStudentList, getAddStudentList, getDeleteMultipleStudentList, getEditorStudentList } from '@/api/student.js';
 import { getList } from '@/api/class';
-import { apiChangepassword } from '@/api/user';
+import changPassword from '@/components/index/changePassword.vue';
 
 
 const tableData = ref([]); // 数据
@@ -204,74 +182,95 @@ const rules = reactive({
   ],
 })
 
-
 // 修改密码
-const validateConfirmPassword = (rule, value, callback) => { // 校验两个密码是否一样呀
-  if (value !== passwordForm.value.newpassword) {
-    callback(new Error('两次输入的密码不一致'));
-  } else {
-    callback();
-  }
+const changePasswordcode = ref() // 传的id
+// 父组件的响应式数据
+const isSwitched = ref(false);
+const initchangePassword = (code) => {
+  changePasswordcode.value = code
+  isSwitched.value = true
 }
-const changePasswordWindow = ref(false)
-const passwordForm = ref(
-  {
-    oldpassword: '',
-    newpassword: '',
-    newpassword2: '',
-    code: '',
-  }
-)
+const Modificationcompleted = () => { // 修改成功刷新数据
+  getData()
+}
 
-const passwdrules = reactive({
-  oldpassword: [
-    { required: true, message: '请输入旧密码', trigger: 'blur' },
-    {
-      pattern: /^[a-zA-Z0-9_]{6,12}$/,
-      message: '6到12个数字、字母或下划线',
-      trigger: 'blur'
-    }
-  ],
-  newpassword: [
-    { required: true, message: '请输入新密码', trigger: 'blur' },
-    {
-      pattern: /^[a-zA-Z0-9_]{6,12}$/,
-      message: '6到12个数字、字母或下划线',
-      trigger: 'blur'
-    }
-  ],
-  newpassword2: [
-    {
-      required: true,
-      message: '请再次输入新密码',
-      trigger: 'blur'
-    },
-    {
-      min: 6,
-      max: 12,
-      message: '6到12个字符',
-      trigger: 'blur'
-    },
-    {
-      validator: validateConfirmPassword,
-      trigger: 'blur'
-    }
-  ],
+// 获取班级信息
+let classinfoDate = ref()
+getList({
+  className: '',
+  teacherId: 0
+}).then(res => {
+  if (res.code !== 200) {
+    console.log("班级信息-获取不到数据");
+  } else {
+    classinfoDate.value = res.data
+    console.log("班级信息-请求：", res);
+  }
+});
+
+// 表格多选
+const MultipleChoice = ref(false)
+const selectedCodes = ref([]); // 初始化为一个数组
+const handleSelectionChange = (selection) => {
+  MultipleChoice.value = selection && selection.length > 0;
+  // 如果是多选状态，打印选中的学号studentCode
+  if (MultipleChoice.value) {
+    selectedCodes.value = selection.map(item => item.studentCode);
+    // console.log("选中的学号数组：", selectedCodes.value);
+  }
+};
+
+
+// 分页改变事件
+const handleCurrentChange = (page) => {
+  queryParams.value.pageNum = page;
+  getData()
+};
+
+
+// 搜索
+const queryParams = ref({
+  classid: "",
+  studentName: '',
+  pageNum: 1,
+  pageSize: 30
 })
 
-const initchangePassword = (code) => {
-  passwordForm.value.oldpassword = ''
-  passwordForm.value.newpassword = ''
-  passwordForm.value.newpassword2 = ''
-  passwordForm.value.code = code
-  changePasswordWindow.value = true
+const searchQuery = () => {
+  getData()
+  queryParams.value.pageNum = 1
 }
 
-// 修改密码提交
-const changePassword = () => {
+// 重置搜索值
+const resetQuery = () => {
+  queryParams.value.classid = ''
+  queryParams.value.studentName = ''
+}
+
+// 获取列表
+const dataarrLength = ref() // 数据长度
+const getData = () => {
+  getStudentList(queryParams.value).then(res => {
+    if (res.code !== 200) {
+      console.log("获取不到数据");
+    } else {
+      console.log(res, "999");
+      tableData.value = res.data.list;
+      dataarrLength.value = res.data.pagerInfoDto.totalNum
+    }
+  });
+}
+getData()
+
+
+// 添加
+const ruleFormRef = ref(null);
+const addStudent = () => {
   ruleFormRef.value.validate((valid) => {
     if (valid) {
-      apiChangepassword(passwordForm.value).then(res => {
+      ruleForm.studentCode = studentCodeRule()
+      ruleForm.passwrod = ruleForm.studentCode.slice(-6);
+      getAddStudentList(ruleForm).then(res => {
         if (res.code != 200) {
           ElMessage.error(res.msg)
         } else {
@@ -280,196 +279,102 @@ const changePassword = () => {
             type: 'success',
           })
           getData()
-          changePasswordWindow.value = false
+          centerDialogVisible.value = false;
+          clearRuleForm()
         }
       });
     } else {
       console.log("表单验证未通过");
     }
-  })
-}
+  });
+};
 
-// 获取班级信息
-let classinfoDate = ref()
-getList({
-    className: '',
-    teacherId: 0
-  }).then(res => {
-    if (res.code !== 200) {
-      console.log("班级信息-获取不到数据");
+
+// 编辑
+const handleEdit = (row) => {
+  dialogboxTitle.value = 2
+  centerDialogVisible.value = true
+  // 赋值
+  ruleForm.name = row.userName
+  ruleForm.studentCode = row.studentCode
+  ruleForm.classId = row.classId
+  ruleForm.gender = Number(row.gender)
+  ruleForm.age = row.age
+  ruleForm.phone = row.phone
+  ruleForm.email = row.email
+};
+
+// 编辑提交
+const handleEditSubmit = () => {
+  getEditorStudentList(ruleForm).then(res => {
+    if (res.code != 200) {
+      ElMessage.error(res.msg)
     } else {
-      classinfoDate.value = res.data
-      console.log("班级信息-请求：", res);
+      ElMessage({
+        message: res.msg,
+        type: 'success',
+      })
+      getData()
+      centerDialogVisible.value = false
     }
   });
+}
 
-  // 表格多选
-  const MultipleChoice = ref(false)
-  const selectedCodes = ref([]); // 初始化为一个数组
-  const handleSelectionChange = (selection) => {
-    MultipleChoice.value = selection && selection.length > 0;
-    // 如果是多选状态，打印选中的学号studentCode
-    if (MultipleChoice.value) {
-      selectedCodes.value = selection.map(item => item.studentCode);
-      // console.log("选中的学号数组：", selectedCodes.value);
+// 删除
+const handleDelete = (studentCode) => {
+  deleteMultiple([studentCode])
+};
+
+// 多选删除
+const deleteMultiple = (data) => {
+  getDeleteMultipleStudentList({ data }).then(res => {
+    if (res.code != 200) {
+      ElMessage.error(res.msg)
+    } else {
+      ElMessage({
+        message: res.msg,
+        type: 'success',
+      })
+      getData()
+      centerDialogVisible.value = false
     }
-  };
+  });
+}
 
 
-  // 分页改变事件
-  const handleCurrentChange = (page) => {
-    queryParams.value.pageNum = page;
-    getData()
-  };
 
+// 学号规则
+const studentCodeRule = () => {
+  // 后两位年份
+  let now = new Date();
+  let year = now.getFullYear();
+  let lastTwoDigits = year.toString().slice(-2);
 
-  // 搜索
-  const queryParams = ref({
-    classid: "",
-    studentName: '',
-    pageNum: 1,
-    pageSize: 30
-  })
-
-  const searchQuery = () => {
-    getData()
-    queryParams.value.pageNum = 1
+  // 获取专业班级代码
+  let classidCode = classinfoDate.value.find(item => item.classId === ruleForm.classId);
+  if (!classidCode) {
+    console.error('未找到相应班级信息');
+    return;
   }
 
-  // 重置搜索值
-  const resetQuery = () => {
-    queryParams.value.classid = ''
-    queryParams.value.studentName = ''
-  }
+  // 班级人数自增
+  let lenHighlight = tableData.value.length + 1;
+  let lengthStr = lenHighlight < 10 ? '0' + lenHighlight : String(lenHighlight); // 如果小于10，前面加0
 
-  // 获取列表
-  const dataarrLength = ref() // 数据长度
-  const getData = () => {
-    getStudentList(queryParams.value).then(res => {
-      if (res.code !== 200) {
-        console.log("获取不到数据");
-      } else {
-        console.log(res, "999");
-        tableData.value = res.data.list;
-        dataarrLength.value = res.data.pagerInfoDto.totalNum
-      }
-    });
-  }
-  getData()
+  // 初始化 studentCode
+  let studentCode = lastTwoDigits + classidCode.code + lengthStr; // 后两位年份+专业班级代码+班级人数自增
 
-
-  // 添加
-  const ruleFormRef = ref(null);
-  const addStudent = () => {
-    ruleFormRef.value.validate((valid) => {
-      if (valid) {
-        ruleForm.studentCode = studentCodeRule()
-        ruleForm.passwrod = ruleForm.studentCode.slice(-6);
-        getAddStudentList(ruleForm).then(res => {
-          if (res.code != 200) {
-            ElMessage.error(res.msg)
-          } else {
-            ElMessage({
-              message: res.msg,
-              type: 'success',
-            })
-            getData()
-            centerDialogVisible.value = false;
-            clearRuleForm()
-          }
-        });
-      } else {
-        console.log("表单验证未通过");
-      }
-    });
-  };
-
-
-  // 编辑
-  const handleEdit = (row) => {
-    dialogboxTitle.value = 2
-    centerDialogVisible.value = true
-    // 赋值
-    ruleForm.name = row.userName
-    ruleForm.studentCode = row.studentCode
-    ruleForm.classId = row.classId
-    ruleForm.gender = Number(row.gender)
-    ruleForm.age = row.age
-    ruleForm.phone = row.phone
-    ruleForm.email = row.email
-  };
-
-  // 编辑提交
-  const handleEditSubmit = () => {
-    getEditorStudentList(ruleForm).then(res => {
-      if (res.code != 200) {
-        ElMessage.error(res.msg)
-      } else {
-        ElMessage({
-          message: res.msg,
-          type: 'success',
-        })
-        getData()
-        centerDialogVisible.value = false
-      }
-    });
-  }
-
-  // 删除
-  const handleDelete = (studentCode) => {
-    deleteMultiple([studentCode])
-  };
-
-  // 多选删除
-  const deleteMultiple = (data) => {
-    getDeleteMultipleStudentList({ data }).then(res => {
-      if (res.code != 200) {
-        ElMessage.error(res.msg)
-      } else {
-        ElMessage({
-          message: res.msg,
-          type: 'success',
-        })
-        getData()
-        centerDialogVisible.value = false
-      }
-    });
-  }
-
-
-
-  // 学号规则
-  const studentCodeRule = () => {
-    // 后两位年份
-    let now = new Date();
-    let year = now.getFullYear();
-    let lastTwoDigits = year.toString().slice(-2);
-
-    // 获取专业班级代码
-    let classidCode = classinfoDate.value.find(item => item.classId === ruleForm.classId);
-    if (!classidCode) {
-      console.error('未找到相应班级信息');
-      return;
-    }
-
+  // 检查是否存在重复的 studentCode
+  while (tableData.value.some(item => item.studentCode === studentCode)) {
     // 班级人数自增
-    let lenHighlight = tableData.value.length + 1;
-    let lengthStr = lenHighlight < 10 ? '0' + lenHighlight : String(lenHighlight); // 如果小于10，前面加0
+    lenHighlight++;
+    lengthStr = lenHighlight < 10 ? '0' + lenHighlight : String(lenHighlight);
+    // 重新生成 studentCode
+    studentCode = lastTwoDigits + classidCode.code + lengthStr;
+  }
 
-    // 初始化 studentCode
-    let studentCode = lastTwoDigits + classidCode.code + lengthStr; // 后两位年份+专业班级代码+班级人数自增
-
-    // 检查是否存在重复的 studentCode
-    while (tableData.value.some(item => item.studentCode === studentCode)) {
-      // 班级人数自增
-      lenHighlight++;
-      lengthStr = lenHighlight < 10 ? '0' + lenHighlight : String(lenHighlight);
-      // 重新生成 studentCode
-      studentCode = lastTwoDigits + classidCode.code + lengthStr;
-    }
-
-    return studentCode;
-  };
+  return studentCode;
+};
 </script>
 
 <style lang="scss" scoped>
