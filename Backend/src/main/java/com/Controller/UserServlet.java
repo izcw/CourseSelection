@@ -1,6 +1,7 @@
 package com.Controller;
 
 import com.IService.IUserService;
+import com.Pojo.Student;
 import com.Pojo.User;
 import com.Service.UserService;
 import com.Tools.APIHelper;
@@ -55,5 +56,38 @@ public class UserServlet extends BaseServlet{
         List<User> Lisi = _userService.GetList(strId);
         PrintWriter writer = resp.getWriter();
         writer.println(SUCCESS(Lisi));
+    }
+
+
+    // 修改密码
+    public void changepassword(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        // data数据
+        JSONObject postData = APIHelper.getPostData(req);
+        String code = postData.getString("code");
+        String oldpassword = postData.getString("oldpassword");
+        String newpassword = postData.getString("newpassword");
+
+        // 调用service处理，并返回给前端
+        Object[] result = _userService.changepasswd(code,oldpassword,newpassword);
+        PrintWriter writer = resp.getWriter();
+
+        // 判断返回的数组是否为空
+        if (result != null && result.length == 2) {
+            // 如果数组不为空且长度为2，则提取状态码和消息
+            int statusCode = (int) result[0];
+            String message = (String) result[1];
+
+            if (statusCode == 200) {
+                writer.println(SUCCESS(message));
+            } else {
+                writer.println(ERROR(message));
+            }
+        } else {
+            // 如果数组为空或者长度不为2，则给出默认的状态码和消息
+            int statusCode = 400;
+            String message = "未知错误";
+            writer.println(ERROR(statusCode,"请求失败，状态码: " + statusCode + "，消息: " + message));
+        }
+
     }
 }

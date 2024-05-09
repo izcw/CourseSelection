@@ -50,3 +50,13 @@ export const register = async () => {
     method: 'post',
   });
 };
+
+
+// 修改密码
+export const apiChangepassword = (data) => {
+  return request({
+    url: '/UserServlet?action=changepassword',
+    method: 'post',
+    data
+  });
+};

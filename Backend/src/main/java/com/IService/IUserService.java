@@ -9,4 +9,5 @@ public interface IUserService extends IBaseService<User>{
     //返回一个用户实体根据用户id
     User GetUserById(Integer userId);
     List<User> GetList(String Id);
+    Object[] changepasswd(String code, String oldpassword, String newpassword);
 }

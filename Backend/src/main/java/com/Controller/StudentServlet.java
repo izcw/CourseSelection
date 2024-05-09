@@ -56,9 +56,10 @@ public class StudentServlet extends BaseServlet{
         student.setAge(postData.getInteger("age"));
         student.setPhone(postData.getString("phone"));
         student.setEmail(postData.getString("email"));
+        String passwrod = postData.getString("passwrod");
 
         // 调用service处理，并返回给前端
-        String Lisi = _StudentService.AddList(student);
+        String Lisi = _StudentService.AddList(student,passwrod);
         PrintWriter writer = resp.getWriter();
         writer.println(SUCCESS(Lisi));
     }

@@ -7,7 +7,6 @@ import com.Tools.MD5Helper;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 public class UserService extends BaseService<User> implements IUserService {
     @Override
@@ -30,7 +29,6 @@ public class UserService extends BaseService<User> implements IUserService {
 
     /**
      * 通过传入id查找对应的用户信息，并过滤掉敏感信息
-     *
      * @param Id 用户id
      * @return 用户列表
      */
@@ -60,7 +58,6 @@ public class UserService extends BaseService<User> implements IUserService {
 
     /**
      * 从student表中获取学生信息
-     *
      * @param id 用户id
      * @return 学生信息列表
      */
@@ -72,7 +69,6 @@ public class UserService extends BaseService<User> implements IUserService {
 
     /**
      * 从teacher表中获取教师信息
-     *
      * @param id 用户id
      * @return 教师信息列表
      */
@@ -84,7 +80,6 @@ public class UserService extends BaseService<User> implements IUserService {
 
     /**
      * 获取用户信息（如果用户类型不是学生或教师）
-     *
      * @param id 用户id
      * @return 用户信息列表
      */
@@ -95,6 +90,37 @@ public class UserService extends BaseService<User> implements IUserService {
         return GetListparams(sql, params);
     }
 
+    /**
+     * 修改密码（旧密码与数据库密码匹配）
+     * @param code        要查找的id
+     * @param oldpassword 旧密码
+     * @param newpassword 新密码
+     * @return 执行状态
+     */
+    public Object[] changepasswd(String code, String oldpassword, String newpassword) {
+        // 构建查询语句
+        String sql = "SELECT password FROM user WHERE userName = ?";
+        User user = GetSingleResultsingle(sql, code);
+        if (user == null) return new Object[]{400, "用户不存在！请联系管理员处理！"};
+        String password = user.getPassword(); // 获取Password字段的值
+        if (password == null && password.isEmpty())  return new Object[]{400, "账户密码有有误！请联系管理员处理！"};;
+
+        String MDoldpasswd =  MD5Helper.encryptToMD5(oldpassword);
+        if (MDoldpasswd.equals(password)) { // 判断MDoldpasswd和password是否完全一致
+            // 构建更新语句
+            String usersql = String.format("UPDATE user SET  password = '%s' WHERE userName = '%s'", MD5Helper.encryptToMD5(newpassword), code);
+
+            // 执行更新操作
+            int result = ExecuteUpdate(usersql);
+            if (result > 0) {
+                return new Object[]{200, "修改成功"};
+            } else {
+                return new Object[]{400, "修改失败"};
+            }
+        } else {
+            return new Object[]{400, "旧密码不正确"};
+        }
+    }
 
 
 }

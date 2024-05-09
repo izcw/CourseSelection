@@ -116,10 +116,10 @@ import { ref, reactive, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n';
 
 import { useStore } from "vuex"
-import { getStudentList } from '@/api/student/student.js';
+import { getStudentList } from '@/api/student.js';
 
 import { getList as getClassList, AddClass as addClass, getClassInfo, UpdateClass as updateClass, DeleteClass as deleteClass } from '@/api/class';
-import { getList as getTeacherList } from '@/api/teacher';
+import { getTeacherList } from '@/api/teacher';
 import {
   Search,
   Refresh

@@ -36,10 +36,13 @@
       <el-table-column prop="age" label="年龄" sortable width="80" />
       <el-table-column prop="phone" label="手机号码" width="120" />
       <el-table-column prop="email" label="电子邮箱" min-width="150" />
-      <el-table-column fixed="right" label="操作" width="120">
+      <el-table-column fixed="right" label="操作" width="180">
         <template #default="scope">
           <el-button link type="primary" size="small" @click="handleEdit(scope.row)">
             编辑
+          </el-button>
+          <el-button link type="warning" size="small" @click="initchangePassword(scope.row.teacherCode)">
+            修改密码
           </el-button>
           <el-popconfirm title="确定要删除吗?" @confirm="handleDelete(scope.row.teacherCode)">
             <template #reference>
@@ -78,6 +81,7 @@
           <el-input v-model.trim="ruleForm.email" placeholder="请输入电子邮箱"></el-input>
         </el-form-item>
       </el-form>
+      <el-alert show-icon title="初始密码为教师编号后六位" type="warning" :closable="false" />
       <template #footer>
         <div class="dialog-footer">
           <el-button @click="centerDialogVisible = false">取消</el-button>
@@ -90,12 +94,37 @@
         </div>
       </template>
     </el-dialog><!-- 新增窗口 -->
+
+    <el-dialog v-model="changePasswordWindow" title="修改密码" align-center>
+      <el-form ref="ruleFormRef" style="max-width: 600px" :model="passwordForm" :rules="passwdrules" label-width="auto"
+        class="demo-ruleForm" status-icon>
+        <el-form-item label="旧密码" prop="oldpassword">
+          <el-input type="password" show-password v-model.trim="passwordForm.oldpassword" />
+        </el-form-item>
+        <el-form-item label="新密码" prop="newpassword">
+          <el-input type="password" show-password v-model.trim="passwordForm.newpassword" />
+        </el-form-item>
+        <el-form-item label="重新确认新密码" prop="newpassword2">
+          <el-input type="password" show-password v-model.trim="passwordForm.newpassword2" />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="changePasswordWindow = false">取消</el-button>
+          <el-button type="primary" @click="changePassword">
+            确定
+          </el-button>
+        </div>
+      </template>
+    </el-dialog><!-- 修改密码窗口 -->
+
   </div>
 </template>
 
 <script setup>
 import { ref, reactive } from 'vue';
 import { getTeacherList, getAddTeacherList,getDeleteMultipleTeacherList, getEditorTeacherList } from '@/api/teacher.js';
+import { apiChangepassword } from '@/api/user';
 
 const tableData = ref([]); // 数据
 let centerDialogVisible = ref(false) // 弹出框
@@ -144,6 +173,92 @@ const rules = reactive({
     { type: 'email', message: '电子邮箱格式不正确', trigger: 'blur' }
   ],
 })
+
+// 修改密码
+const validateConfirmPassword = (rule, value, callback) => { // 校验两个密码是否一样呀
+  if (value !== passwordForm.value.newpassword) {
+    callback(new Error('两次输入的密码不一致'));
+  } else {
+    callback();
+  }
+}
+const changePasswordWindow = ref(false)
+const passwordForm = ref(
+  {
+    oldpassword: '',
+    newpassword: '',
+    newpassword2: '',
+    code: '',
+  }
+)
+
+const passwdrules = reactive({
+  oldpassword: [
+    { required: true, message: '请输入旧密码', trigger: 'blur' },
+    {
+      pattern: /^[a-zA-Z0-9_]{6,12}$/,
+      message: '6到12个数字、字母或下划线',
+      trigger: 'blur'
+    }
+  ],
+  newpassword: [
+    { required: true, message: '请输入新密码', trigger: 'blur' },
+    {
+      pattern: /^[a-zA-Z0-9_]{6,12}$/,
+      message: '6到12个数字、字母或下划线',
+      trigger: 'blur'
+    }
+  ],
+  newpassword2: [
+    {
+      required: true,
+      message: '请再次输入新密码',
+      trigger: 'blur'
+    },
+    {
+      min: 6,
+      max: 12,
+      message: '6到12个字符',
+      trigger: 'blur'
+    },
+    {
+      validator: validateConfirmPassword,
+      trigger: 'blur'
+    }
+  ],
+})
+
+const initchangePassword = (code) => {
+  passwordForm.value.oldpassword = ''
+  passwordForm.value.newpassword = ''
+  passwordForm.value.newpassword2 = ''
+  passwordForm.value.code = code
+  changePasswordWindow.value = true
+}
+
+// 修改密码提交
+const changePassword = () => {
+  ruleFormRef.value.validate((valid) => {
+    if (valid) {
+      apiChangepassword(passwordForm.value).then(res => {
+        if (res.code != 200) {
+          ElMessage.error(res.msg)
+        } else {
+          ElMessage({
+            message: res.msg,
+            type: 'success',
+          })
+          getData()
+          changePasswordWindow.value = false
+        }
+      });
+    } else {
+      console.log("表单验证未通过");
+    }
+  })
+}
+
+
 
 // 表格多选
 const MultipleChoice = ref(false)

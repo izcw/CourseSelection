@@ -132,6 +132,44 @@ public class BaseRepository<T> implements IBaseRepository<T> {
     }
 
     /**
+     * 通过参数查询单个数据
+     * @param sql SQL查询语句
+     * @param code 查询的用户名
+     * @return 单个数据
+     */
+    public T GetSingleResultsingle(String sql, String code) {
+        T result = null;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = SqlHelper.GetConnection();
+            ps = conn.prepareStatement(sql);
+
+            // 设置查询参数
+            ps.setString(1, code);
+
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                ResultSetMetaData md = rs.getMetaData();
+                int columnCount = md.getColumnCount();
+                Map<String, Object> rowData = new CaseInsensitiveMap<>();
+                for (int i = 1; i <= columnCount; i++) {
+                    rowData.put(md.getColumnLabel(i).toUpperCase(), rs.getObject(i));
+                }
+                result = initTClass(getTClass(), rowData);
+            }
+        } catch (SQLException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } finally {
+            SqlHelper.CloseResources(conn, ps);
+        }
+        return result;
+    }
+
+
+    /**
      * 执行更新操作（插入、更新、删除）
      * @param sql SQL更新语句
      * @return 受影响的行数

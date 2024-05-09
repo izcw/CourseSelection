@@ -103,6 +103,7 @@
         "echarts/renderers",
         "element-plus",
         "element-plus/es",
+        "element-plus/es/components/alert/style/index",
         "element-plus/es/components/avatar/style/css",
         "element-plus/es/components/avatar/style/index",
         "element-plus/es/components/backtop/style/css",

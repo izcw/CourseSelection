@@ -7,6 +7,7 @@ import com.Pojo.DTO.TeacherListResultDto;
 import com.Pojo.Student;
 import com.Pojo.Teacher;
 import com.Tools.DateTimeHelper;
+import com.Tools.MD5Helper;
 import com.Tools.SixRandomString;
 
 import java.util.ArrayList;
@@ -54,13 +55,22 @@ public class TeacherService extends BaseService<Teacher> implements ITeacherServ
      * @return 执行状态
      */
     public String AddList(Teacher teacher) {
+        String password = SixRandomString.generateRandomString();
+        String teacherCode = SixRandomString.generateRandomString()+password;
         // 构建语句
         String sql = String.format("INSERT INTO teacher (teacherCode, teacherName, gender, phone, age, email, createTime) VALUES ('%s', '%s', '%s', '%s', %d,'%s', '%s')",
-                SixRandomString.generateRandomString(), teacher.getTeacherName(), teacher.getGender(), teacher.getPhone(), teacher.getAge(),  teacher.getEmail(), DateTimeHelper.GetCurrentTimeToString());
+                teacherCode, teacher.getTeacherName(), teacher.getGender(), teacher.getPhone(), teacher.getAge(),  teacher.getEmail(), DateTimeHelper.GetCurrentTimeToString());
+        int teacherResult = ExecuteUpdate(sql);
 
-        // 执行操作
-        int result = ExecuteUpdate(sql);
-        if (result > 0) {
+        // 构建用户信息插入语句
+        String userSql = String.format("INSERT INTO user (userName, password, userType, createTime, delFlag) VALUES ('%s', '%s', 'teacher', '%s', 1)",
+                teacherCode, MD5Helper.encryptToMD5(password), DateTimeHelper.GetCurrentTimeToString());
+
+        // 执行用户信息插入操作
+        int userResult = ExecuteUpdate(userSql);
+
+        // 检查是否成功插入学生信息和用户信息
+        if (teacherResult > 0 && userResult > 0) {
             return "添加成功";
         } else {
             return "添加失败";

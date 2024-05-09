@@ -5,6 +5,7 @@ import com.Pojo.DTO.PagerInfoDto;
 import com.Pojo.DTO.StudentListResultDto;
 import com.Pojo.Student;
 import com.Tools.DateTimeHelper;
+import com.Tools.MD5Helper;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -66,21 +67,32 @@ public class StudentService extends BaseService<Student> implements IStudentServ
     /**
      * 添加数据
      * @param student 对象
+     * @param password 密码（用于初始化密码，格式为学号后6位）
      * @return 执行状态
      */
-    public String AddList(Student student) {
-        // 构建语句
-        String sql = String.format("INSERT INTO student (studentCode, userName, gender, phone, age, classId, email, createTime) VALUES ('%s', '%s', '%s', '%s', %d, %d, '%s', '%s')",
+    public String AddList(Student student, String password) {
+        // 构建学生信息插入语句
+        String studentSql = String.format("INSERT INTO student (studentCode, userName, gender, phone, age, classId, email, createTime) VALUES ('%s', '%s', '%s', '%s', %d, %d, '%s', '%s')",
                 student.getStudentCode(), student.getUserName(), student.getGender(), student.getPhone(), student.getAge(), student.getClassId(), student.getEmail(), DateTimeHelper.GetCurrentTimeToString());
 
-        // 执行操作
-        int result = ExecuteUpdate(sql);
-        if (result > 0) {
+        // 执行学生信息插入操作
+        int studentResult = ExecuteUpdate(studentSql);
+
+        // 构建用户信息插入语句
+        String userSql = String.format("INSERT INTO user (userName, password, userType, createTime, delFlag) VALUES ('%s', '%s', 'student', '%s', 1)",
+                student.getStudentCode(), MD5Helper.encryptToMD5(password), DateTimeHelper.GetCurrentTimeToString());
+
+        // 执行用户信息插入操作
+        int userResult = ExecuteUpdate(userSql);
+
+        // 检查是否成功插入学生信息和用户信息
+        if (studentResult > 0 && userResult > 0) {
             return "添加成功";
         } else {
             return "添加失败";
         }
     }
+
 
     /**
      * 删除多项数据
