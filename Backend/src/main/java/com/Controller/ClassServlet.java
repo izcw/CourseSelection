@@ -3,12 +3,14 @@ package com.Controller;
 import com.IService.IClassService;
 import com.IService.IUserService;
 import com.Pojo.ClassInfo;
+import com.Pojo.DTO.BindingStudentDto;
 import com.Pojo.Student;
 import com.Service.ClassService;
 import com.Service.UserService;
 import com.Tools.APIHelper;
 import com.Tools.APIResult;
 import com.Tools.SixRandomString;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -162,4 +164,45 @@ public class ClassServlet extends BaseServlet{
 
         }
     }
+    public void BindingStudent(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        PrintWriter writer = resp.getWriter();
+
+        JSONObject postData = APIHelper.getPostData(req);
+        if (postData==null){
+            writer.println(ERROR("参数有误"));
+            return;
+        }
+
+        if (postData.getJSONArray("studentIds")==null){
+            writer.println(ERROR("请选择学生"));
+            return;
+        }
+        if (postData.getString("classId")==null){
+            writer.println(ERROR("班级id为空"));
+            return;
+        }
+        try {
+            JSONArray jsonArray = postData.getJSONArray("studentIds");
+            List<Integer> studentIds = jsonArray.toJavaList(Integer.class);
+            BindingStudentDto dto = new BindingStudentDto();
+            int classId = Integer.parseInt(postData.getString("classId"));
+            dto.setStudentIds(studentIds);
+            dto.setClassId(classId);
+            boolean b = _classService.BindingStudent(dto);
+            if (b){
+                writer.println(SUCCESS("绑定成功"));
+
+
+            }else {
+                writer.println(ERROR("绑定失败"));
+            }
+        }catch (Exception e){
+            writer.println(ERROR("json转换报错"));
+            System.out.println(e.getMessage());
+
+        }
+
+
+    }
+
 }

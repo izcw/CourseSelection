@@ -36,3 +36,10 @@ export const DeleteClass = (data) => {
     data
   });
 };
+export const BindingStudent = (data) => {
+  return request({
+    url: '/ClassServlet?action=BindingStudent',
+    method: 'post',
+    data
+  });
+};

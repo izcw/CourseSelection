@@ -1,29 +1,29 @@
 package com.Pojo;
 
-public  class Course {
-    Integer CourseId;
-    String CourseNo;
-    String CourseName;
-    String Curriculum;
-    Integer LearningTime;
-    Integer TheoryTime;
-    Integer ExperimentTime;
-    Double Credit;
-    String OpeningSemester;
+public  class Course extends BaseModel{
+    public Integer CourseId;
+    public String CourseCode;
+    public String CourseName;
+    public Integer  TeacherId;
+    public Integer CourseTypeId;
+
+    public Double Credits;
+    public Teacher Teacher;
+    public CourseType CourseType;
+
 
     public Course() {
     }
 
-    public Course(Integer courseId, String courseNo, String courseName, String curriculum, Integer learningTime, Integer theoryTime, Integer experimentTime, Double credit, String openingSemester) {
+    public Course(Integer courseId, String courseCode, String courseName, Integer teacherId, Integer courseTypeId, Double credits, com.Pojo.Teacher teacher, com.Pojo.CourseType courseType) {
         CourseId = courseId;
-        CourseNo = courseNo;
+        CourseCode = courseCode;
         CourseName = courseName;
-        Curriculum = curriculum;
-        LearningTime = learningTime;
-        TheoryTime = theoryTime;
-        ExperimentTime = experimentTime;
-        Credit = credit;
-        OpeningSemester = openingSemester;
+        TeacherId = teacherId;
+        CourseTypeId = courseTypeId;
+        Credits = credits;
+        Teacher = teacher;
+        CourseType = courseType;
     }
 
     public Integer getCourseId() {
@@ -34,12 +34,12 @@ public  class Course {
         CourseId = courseId;
     }
 
-    public String getCourseNo() {
-        return CourseNo;
+    public String getCourseCode() {
+        return CourseCode;
     }
 
-    public void setCourseNo(String courseNo) {
-        CourseNo = courseNo;
+    public void setCourseCode(String courseCode) {
+        CourseCode = courseCode;
     }
 
     public String getCourseName() {
@@ -50,51 +50,43 @@ public  class Course {
         CourseName = courseName;
     }
 
-    public String getCurriculum() {
-        return Curriculum;
+    public Integer getTeacherId() {
+        return TeacherId;
     }
 
-    public void setCurriculum(String curriculum) {
-        Curriculum = curriculum;
+    public void setTeacherId(Integer teacherId) {
+        TeacherId = teacherId;
     }
 
-    public Integer getLearningTime() {
-        return LearningTime;
+    public Integer getCourseTypeId() {
+        return CourseTypeId;
     }
 
-    public void setLearningTime(Integer learningTime) {
-        LearningTime = learningTime;
+    public void setCourseTypeId(Integer courseTypeId) {
+        CourseTypeId = courseTypeId;
     }
 
-    public Integer getTheoryTime() {
-        return TheoryTime;
+    public Double getCredits() {
+        return Credits;
     }
 
-    public void setTheoryTime(Integer theoryTime) {
-        TheoryTime = theoryTime;
+    public void setCredits(Double credits) {
+        Credits = credits;
     }
 
-    public Integer getExperimentTime() {
-        return ExperimentTime;
+    public com.Pojo.Teacher getTeacher() {
+        return Teacher;
     }
 
-    public void setExperimentTime(Integer experimentTime) {
-        ExperimentTime = experimentTime;
+    public void setTeacher(com.Pojo.Teacher teacher) {
+        Teacher = teacher;
     }
 
-    public Double getCredit() {
-        return Credit;
+    public com.Pojo.CourseType getCourseType() {
+        return CourseType;
     }
 
-    public void setCredit(Double credit) {
-        Credit = credit;
-    }
-
-    public String getOpeningSemester() {
-        return OpeningSemester;
-    }
-
-    public void setOpeningSemester(String openingSemester) {
-        OpeningSemester = openingSemester;
+    public void setCourseType(com.Pojo.CourseType courseType) {
+        CourseType = courseType;
     }
 }

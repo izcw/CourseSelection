@@ -7,7 +7,13 @@ export const getStudentList = (params) => {
     params:params,
   });
 };
-
+export const GetStudentCountByClassId = (params) => {
+  return request({
+    url: '/StudentServlet?action=GetStudentCountByClassId',
+    method: 'get',
+    params:params,
+  });
+};
 export const getAddStudentList = (data) => {
     return request({
       url: '/StudentServlet?action=add',

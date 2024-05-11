@@ -47,16 +47,16 @@
           <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">
             删除
           </el-button>
-          <el-button size="small" type="primary" @click="bindingShow(scope.$index, scope.row)">
-            绑定/解绑学生
+          <el-button size="small"  type="primary" @click="bindingShow(scope.$index, scope.row)">
+            绑定
           </el-button>
         </template>
       </el-table-column>
     </el-table>
     <el-dialog v-model="bindingVisible" title="绑定学生" width="50%" draggable overflow>
-      <el-table ref="multipleTableRef" :data="studentList" style="width: 100%"
+      <el-table ref="multipleTableRef" :row-key="(row) => row.userId" :data="studentList" style="width: 100%"
         @selection-change="handleSelectionChange">
-        <el-table-column type="selection" width="55" />
+        <el-table-column type="selection" :reserve-selection="true" :selectable="checkSelectable" width="55" />
         <el-table-column fixed prop="userName" label="姓名" width="100" />
         <el-table-column prop="studentCode" label="学号" sortable width="150" />
         <el-table-column prop="gender" label="性别" width="60">
@@ -69,14 +69,14 @@
         <el-table-column prop="phone" label="手机号码" width="120" />
         <el-table-column prop="email" label="电子邮箱" min-width="150" />
       </el-table>
-      <el-pagination v-model:current-page="currentPage4" v-model:page-size="studentPager.pageSize"
+      <el-pagination v-model:current-page="studentPager.pageNum" v-model:page-size="studentPager.pageSize"
         :page-sizes="pageSizes" :small="small" :disabled="disabled" :background="background"
         layout="total, sizes, prev, pager, next, jumper" :total="studentTotal" @size-change="handleSizeChange"
         @current-change="handleCurrentChange" />
       <template #footer>
         <div class="dialog-footer">
           <el-button @click="bindingVisible = false">取消</el-button>
-          <el-button type="primary" @click="bindingVisible = false">
+          <el-button type="primary" @click="bindingSubmit">
             确定
           </el-button>
         </div>
@@ -111,20 +111,25 @@
 </template>
 
 <script setup>
-import { Timer } from '@element-plus/icons-vue'
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n';
 
 import { useStore } from "vuex"
-import { getStudentList } from '@/api/student.js';
+import { getStudentList ,GetStudentCountByClassId} from '@/api/student';
 
-import { getList as getClassList, AddClass as addClass, getClassInfo, UpdateClass as updateClass, DeleteClass as deleteClass } from '@/api/class';
-import { getTeacherList } from '@/api/teacher';
+import {
+  getList as getClassList,
+  AddClass as addClass, getClassInfo,
+  UpdateClass as updateClass,
+  DeleteClass as deleteClass,
+  BindingStudent as bindingStudent
+} from '@/api/class';
+import { getTeacherList as getTeacherList } from '@/api/teacher';
 import {
   Search,
   Refresh
 } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 const tableData = ref([])
 const teachers = ref([])
 const showSearch = ref(true)
@@ -137,7 +142,9 @@ const queryParams = reactive({
   className: '',
   teacherId: undefined,
 })
+let selectionClassId = ref(0)
 const pageSizes = ref([10, 20, 30, 40, 50])
+const selectionKeys = ref([])
 const currentPage4 = ref(1)
 const studentList = ref([])
 const small = ref(false)
@@ -159,6 +166,7 @@ let studentPager = ref({
   pageNum: 1,
   pageSize: 10,
 })
+const multipleTableRef = ref()
 const rules = reactive({
   className: [
     { required: true, message: '班级名称不能为空', trigger: 'blur' },
@@ -182,9 +190,69 @@ onMounted(() => {
   getList();
   getTeachers();
 })
-const bindingShow = async () => {
-  await getStudentData();
-  bindingVisible.value = !bindingVisible.value
+const checkSelectable=(row)=>{
+  return row.classId != selectionClassId.value
+}
+const bindingSubmit = () => {
+  ElMessageBox.confirm(
+    '您确定要绑定所选学生吗?',
+    '提示',
+    {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'Warning',
+    }
+  )
+    .then(() => {
+      let params = {
+        classId: selectionClassId.value,
+        studentIds: selectionKeys.value
+      }
+      bindingStudent(params).then(c => {
+        if (c.code === 200) {
+          ElMessage({
+            type: 'success',
+            message: '绑定成功',
+          })
+          bindingVisible.value = false
+          getList();
+        } else {
+          ElMessage.error(c.msg)
+        }
+
+      })
+
+    })
+    .catch(() => {
+
+    })
+
+
+}
+const bindingShow = (index, row) => {
+  nextTick(async () => {
+    selectionKeys.value = []
+    studentPager.value.pageNum = 1
+    studentPager.value.pageSize = 10
+    bindingVisible.value = true
+    selectionClassId.value = row.classId
+    await getStudentList(studentPager.value).then(c => {
+      studentTotal.value = c.data.pagerInfoDto.totalNum
+      studentList.value = c.data.list
+      console.log(111);
+      multipleTableRef.value.clearSelection()
+      studentList.value.forEach(row => {
+
+        if (row.classId == selectionClassId.value) {
+
+          multipleTableRef.value.toggleRowSelection(row, true);
+        }
+      })
+    })
+
+
+    
+  })
 
 }
 const getStudentData = async () => {
@@ -192,9 +260,23 @@ const getStudentData = async () => {
   await getStudentList(studentPager.value).then(c => {
     studentTotal.value = c.data.pagerInfoDto.totalNum
     studentList.value = c.data.list
-  })  
-}
+    console.log(111);
+    studentList.value.forEach(row => {
 
+      if (row.classId == selectionClassId.value) {
+
+        multipleTableRef.value.toggleRowSelection(row, true);
+      }
+    })
+  })
+
+
+
+}
+const handleSelectionChange = (val) => {
+  selectionKeys.value = val.map(item => item.userId)
+  console.log(selectionKeys.value);
+}
 const handleSizeChange = (val) => {
   console.log(`${val} items per page`)
 }
@@ -322,11 +404,20 @@ const getList = () => {
 
   getClassList(query).then(c => {
     tableData.value = c.data
+    tableData.value.forEach(item=>{
+      let query={
+        classId:item.classId
+      }
+      GetStudentCountByClassId(query).then(res=>{
+        item.numberOfStudent = res.data
+      })
+      
+    })
   })
 }
 const getTeachers = () => {
   getTeacherList().then(c => {
-    teachers.value = c.data
+    teachers.value = c.data.list
   })
 }
 const resetQuery = () => {

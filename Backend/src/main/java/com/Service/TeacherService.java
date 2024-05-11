@@ -38,7 +38,7 @@ public class TeacherService extends BaseService<Teacher> implements ITeacherServ
         if (p!=null){
             int count = GetListparams(sb.toString(), params).size();
             p.setTotalNum(count);
-            sb.append(String.format(" limit %d,%d ",p.getPageNum()-1,p.getPageSize()));
+            sb.append(String.format(" limit %d,%d ",(p.getPageNum()-1)*p.getPageSize(),p.getPageSize()));
         }
         List<Teacher> teachers = GetListparams(sb.toString(), params);
         dto.setList(teachers);

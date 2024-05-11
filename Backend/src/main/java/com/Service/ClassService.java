@@ -2,8 +2,11 @@ package com.Service;
 
 import com.IService.IClassService;
 import com.Pojo.ClassInfo;
+import com.Pojo.DTO.BindingStudentDto;
+import com.Pojo.Student;
 import com.Tools.DateTimeHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClassService extends BaseService<ClassInfo> implements IClassService {
@@ -61,7 +64,20 @@ public class ClassService extends BaseService<ClassInfo> implements IClassServic
 
     @Override
     public boolean DeleteClass(int id) {
-       String sql  = String.format("delete from classInfo where classId = %d ",id);
+
+        String sql  = String.format(" update classInfo set delFlag = '2'   where classId = %d ",id);
         return ExecuteUpdate(sql) > 0;
+    }
+
+    @Override
+    public boolean BindingStudent(BindingStudentDto dto) {
+       List<String> sqls = new ArrayList<>();
+        List<Integer> studentIds = dto.getStudentIds();
+        for (Integer studentId : studentIds) {
+           String sql = String.format(" update student set classId = %d where userId = %d ",dto.getClassId(),studentId);
+           sqls.add(sql);
+        }
+        int i = ExecuteUpdate(sqls);
+        return i == dto.getStudentIds().size();
     }
 }

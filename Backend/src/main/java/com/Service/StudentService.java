@@ -51,7 +51,7 @@ public class StudentService extends BaseService<Student> implements IStudentServ
         if (p != null) {
             int count = GetListparams(sb.toString(), params).size();
             p.setTotalNum(count);
-            sb.append(String.format(" limit %d,%d ", p.getPageNum() - 1, p.getPageSize()));
+            sb.append(String.format(" limit %d,%d ",(p.getPageNum()-1)*p.getPageSize(),p.getPageSize()));
         }
         List<Student> students = GetListparams(sb.toString(), params);
         dto.setList(students);
@@ -140,4 +140,15 @@ public class StudentService extends BaseService<Student> implements IStudentServ
             return "修改失败";
         }
     }
+    /**
+     * 根据班级id获取学生数量
+     * @param classId 班级id
+     * @return 执行状态
+     */
+    public int GetStudentCountByClassId(int classId){
+        String sql =  String.format(" select * from student where classId = %d",classId);
+
+        return ExecuteQueryCount(sql);
+    }
+
 }

@@ -108,4 +108,13 @@ public class StudentServlet extends BaseServlet{
         PrintWriter writer = resp.getWriter();
         writer.println(SUCCESS(Lisi));
     }
+    public void GetStudentCountByClassId(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        PrintWriter writer = resp.getWriter();
+        if (req.getParameter("classId")==null){
+            writer.println(ERROR("班级id为空"));
+            return;
+        }
+        int id = Integer.parseInt(req.getParameter("classId"));
+        writer.println(SUCCESS(_StudentService.GetStudentCountByClassId(id)));
+    }
 }

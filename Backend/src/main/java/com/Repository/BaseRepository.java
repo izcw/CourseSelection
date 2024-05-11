@@ -49,7 +49,7 @@ public class BaseRepository<T> implements IBaseRepository<T> {
         } catch (SQLException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchFieldException e) {
             throw new RuntimeException(e);
         } finally {
-            SqlHelper.CloseResources(conn, sm);
+            SqlHelper.CloseResources(conn, sm,rs);
         }
         return list;
     }
@@ -92,7 +92,8 @@ public class BaseRepository<T> implements IBaseRepository<T> {
         } catch (SQLException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchFieldException e) {
             throw new RuntimeException(e);
         } finally {
-            SqlHelper.CloseResources(conn, ps);
+            SqlHelper.CloseResources(conn, ps,rs);
+
         }
         return list;
     }
@@ -126,7 +127,7 @@ public class BaseRepository<T> implements IBaseRepository<T> {
         } catch (SQLException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchFieldException e) {
             throw new RuntimeException(e);
         } finally {
-            SqlHelper.CloseResources(conn, sm);
+            SqlHelper.CloseResources(conn, sm,rs);
         }
         return t;
     }
@@ -163,7 +164,7 @@ public class BaseRepository<T> implements IBaseRepository<T> {
         } catch (SQLException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchFieldException e) {
             throw new RuntimeException(e);
         } finally {
-            SqlHelper.CloseResources(conn, ps);
+            SqlHelper.CloseResources(conn, ps,rs);
         }
         return result;
     }
@@ -186,11 +187,49 @@ public class BaseRepository<T> implements IBaseRepository<T> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            SqlHelper.CloseResources(conn, sm);
+            SqlHelper.CloseResources(conn, sm,null);
         }
         return result;
     }
+    //使用事务修改多条数据
+    public int ExecuteUpdate(List<String> sqls){
+        int result = 0;
+        Connection conn = null;
+        Statement sm = null;
+        try{
+            // 1.获取数据库连接
+            conn = SqlHelper.GetConnection();
+            // 2.开启事务
+            conn.setAutoCommit(false);
+            sm = conn.createStatement();
 
+            for (String sql : sqls) {
+                result += sm.executeUpdate(sql);
+            }
+            // 4.若没有异常，则提交事务
+            conn.commit();
+
+        }catch (Exception e) {
+            e.printStackTrace();
+            // 5.若有异常，则回滚事务
+            try {
+                conn.rollback();
+                result = 0;
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        } finally {
+            try {
+                //6.恢复每次DML操作的自动提交功能
+                conn.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            //7.关闭连接
+            SqlHelper.CloseResources(conn, sm,null);
+        }
+        return result;
+    }
     /**
      * 通过传入一个值来删除指定数据
      * @param sql SQL更新语句
@@ -209,7 +248,7 @@ public class BaseRepository<T> implements IBaseRepository<T> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            SqlHelper.CloseResources(conn, pstmt);
+            SqlHelper.CloseResources(conn, pstmt,null);
         }
         return result;
     }
@@ -236,7 +275,7 @@ public class BaseRepository<T> implements IBaseRepository<T> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            SqlHelper.CloseResources(conn, sm);
+            SqlHelper.CloseResources(conn, sm,rs);
         }
         return count;
     }
@@ -256,7 +295,7 @@ public class BaseRepository<T> implements IBaseRepository<T> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            SqlHelper.CloseResources(conn, sm);
+            SqlHelper.CloseResources(conn, sm,null);
         }
     }
 

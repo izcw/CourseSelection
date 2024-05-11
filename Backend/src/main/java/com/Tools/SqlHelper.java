@@ -71,13 +71,16 @@ public class SqlHelper {
      * @param conn 数据库连接对象
      * @param statement 数据库操作对象
      */
-    public static void CloseResources(Connection conn, Statement statement) {
+    public static void CloseResources(Connection conn, Statement statement,ResultSet rs) {
         try {
             if (statement != null) {
                 statement.close();
             }
             if (conn != null) {
                 conn.close();
+            }
+            if (rs!=null){
+                rs.close();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

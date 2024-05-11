@@ -13,4 +13,6 @@ public interface IBaseRepository <T> {
     Integer ExecuteQueryCount(String sql);
 
     void ExecuteSql(String sql);
+    //使用事务修改多条数据
+    int ExecuteUpdate(List<String> sqls);
 }

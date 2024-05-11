@@ -1,6 +1,7 @@
 package com.IService;
 
 import com.Pojo.ClassInfo;
+import com.Pojo.DTO.BindingStudentDto;
 
 import java.util.List;
 
@@ -10,5 +11,5 @@ public interface IClassService extends IBaseService<ClassInfo>{
     ClassInfo GetClassInfo(int id);
     String UpdateClass(ClassInfo c);
     boolean DeleteClass(int id);
-
+    boolean BindingStudent(BindingStudentDto dto);
 }
