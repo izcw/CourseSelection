@@ -25,6 +25,11 @@ public class ClassService extends BaseService<ClassInfo> implements IClassServic
     //新增班级实体
     @Override
     public String AddClass(ClassInfo c) {
+        String existCheck = String.format("select * from classInfo where className = '%s'  ",c.getClassName());
+        ClassInfo classInfo = GetFirst(existCheck);
+        if(classInfo!=null){
+            return "班级名称已存在";
+        }
         c.setDelFlag("1");
         c.setNumberOfStudent(0);
         String date = DateTimeHelper.GetCurrentTimeToString();
