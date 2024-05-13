@@ -133,7 +133,6 @@ const ruleForm = reactive({ // 窗口数据
   phone: '',
   email: '',
   studentCode: '',
-  passwrod: ''
 })
 
 // 初始化ruleForm
@@ -145,7 +144,6 @@ const clearRuleForm = () => {
   ruleForm.phone = '';
   ruleForm.email = '';
   ruleForm.studentCode = '';
-  ruleForm.passwrod = '';
 };
 
 // 表单验证
@@ -269,7 +267,6 @@ const addStudent = () => {
   ruleFormRef.value.validate((valid) => {
     if (valid) {
       ruleForm.studentCode = studentCodeRule()
-      ruleForm.passwrod = ruleForm.studentCode.slice(-6);
       getAddStudentList(ruleForm).then(res => {
         if (res.code != 200) {
           ElMessage.error(res.msg)
@@ -343,7 +340,7 @@ const deleteMultiple = (data) => {
 
 
 
-// 学号规则
+// 学号规则（当前年份后两位数+专业班级代码）
 const studentCodeRule = () => {
   // 后两位年份
   let now = new Date();
@@ -357,22 +354,8 @@ const studentCodeRule = () => {
     return;
   }
 
-  // 班级人数自增
-  let lenHighlight = tableData.value.length + 1;
-  let lengthStr = lenHighlight < 10 ? '0' + lenHighlight : String(lenHighlight); // 如果小于10，前面加0
-
   // 初始化 studentCode
-  let studentCode = lastTwoDigits + classidCode.code + lengthStr; // 后两位年份+专业班级代码+班级人数自增
-
-  // 检查是否存在重复的 studentCode
-  while (tableData.value.some(item => item.studentCode === studentCode)) {
-    // 班级人数自增
-    lenHighlight++;
-    lengthStr = lenHighlight < 10 ? '0' + lenHighlight : String(lenHighlight);
-    // 重新生成 studentCode
-    studentCode = lastTwoDigits + classidCode.code + lengthStr;
-  }
-
+  let studentCode = lastTwoDigits + classidCode.code; // 后两位年份+专业班级代码
   return studentCode;
 };
 </script>

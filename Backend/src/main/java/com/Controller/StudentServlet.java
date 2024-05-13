@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -56,7 +57,13 @@ public class StudentServlet extends BaseServlet{
         student.setAge(postData.getInteger("age"));
         student.setPhone(postData.getString("phone"));
         student.setEmail(postData.getString("email"));
-        String passwrod = postData.getString("passwrod");
+        String classId = String.valueOf(student.getClassId());
+
+        // 学号自增以及截取学号最后6位数当初始密码
+        String studentCode = _StudentService.NumberingRules(student, classId);
+        student.setStudentCode(studentCode); // 重新设置studentCode
+        String lastSixDigits = studentCode.substring(studentCode.length() - 6);
+        String passwrod = lastSixDigits; // 截取最后学号最后6位数给passwrod
 
         // 调用service处理，并返回给前端
         String Lisi = _StudentService.AddList(student,passwrod);

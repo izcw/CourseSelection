@@ -18,6 +18,6 @@ public interface IStudentService extends IBaseService<Student>{
     String AddList(Student student,String passwrod);
     String DeletesArrayList(String[] idArrayData);
     String EditorList(Student student);
-
+    String NumberingRules(Student student,String classId);
      int GetStudentCountByClassId(int classId);
 }
