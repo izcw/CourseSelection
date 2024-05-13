@@ -57,9 +57,9 @@ public class TeacherServlet extends BaseServlet{
         teacher.setEmail(postData.getString("email"));
 
         // 调用service处理，并返回给前端
-        String Lisi = _teacherService.AddList(teacher);
+        Object[] result = _teacherService.AddList(teacher);
         PrintWriter writer = resp.getWriter();
-        writer.println(SUCCESS(Lisi));
+        processResponse(result, writer);
     }
 
 
@@ -80,8 +80,8 @@ public class TeacherServlet extends BaseServlet{
             }
 
             // 调用service处理，并返回给前端
-            String Lisi = _teacherService.DeletesArrayList(idArrayData);
-            writer.println(SUCCESS(Lisi));
+            Object[] result =_teacherService.DeletesArrayList(idArrayData);
+            processResponse(result, writer);
         }
     }
 
@@ -100,8 +100,8 @@ public class TeacherServlet extends BaseServlet{
         teacher.setEmail(postData.getString("email"));
 
         // 调用service处理，并返回给前端
-        String Lisi = _teacherService.EditorList(teacher);
+        Object[] result = _teacherService.EditorList(teacher);
         PrintWriter writer = resp.getWriter();
-        writer.println(SUCCESS(Lisi));
+        processResponse(result, writer);
     }
 }

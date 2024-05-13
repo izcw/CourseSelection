@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface ITeacherService extends IBaseService<Teacher>{
     TeacherListResultDto GetList(String Name,String Code, PagerInfoDto p);
-    String AddList(Teacher teacher);
-    String DeletesArrayList(String[] idArrayData);
-    String EditorList(Teacher teacher);
+    Object[] AddList(Teacher teacher);
+    Object[] DeletesArrayList(String[] idArrayData);
+    Object[] EditorList(Teacher teacher);
 }

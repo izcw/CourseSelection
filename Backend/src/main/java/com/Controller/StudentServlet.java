@@ -67,9 +67,9 @@ public class StudentServlet extends BaseServlet{
         String passwrod = lastSixDigits; // 截取最后学号最后6位数给passwrod
 
         // 调用service处理，并返回给前端
-        String Lisi = _StudentService.AddList(student,passwrod);
+        Object[] result = _StudentService.AddList(student,passwrod);
         PrintWriter writer = resp.getWriter();
-        writer.println(SUCCESS(Lisi));
+        processResponse(result, writer);
     }
 
 
@@ -90,8 +90,8 @@ public class StudentServlet extends BaseServlet{
             }
 
             // 调用service处理，并返回给前端
-            String Lisi = _StudentService.DeletesArrayList(idArrayData);
-            writer.println(SUCCESS(Lisi));
+            Object[] result = _StudentService.DeletesArrayList(idArrayData);
+            processResponse(result, writer);
         }
     }
 
@@ -112,10 +112,11 @@ public class StudentServlet extends BaseServlet{
         student.setEmail(postData.getString("email"));
 
         // 调用service处理，并返回给前端
-        String Lisi = _StudentService.EditorList(student);
+        Object[] result = _StudentService.EditorList(student);
         PrintWriter writer = resp.getWriter();
-        writer.println(SUCCESS(Lisi));
+        processResponse(result, writer);
     }
+
     public void GetStudentCountByClassId(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         PrintWriter writer = resp.getWriter();
         if (req.getParameter("classId")==null){

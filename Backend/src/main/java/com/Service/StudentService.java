@@ -71,15 +71,13 @@ public class StudentService extends BaseService<Student> implements IStudentServ
     }
 
 
-
-
     /**
      * 添加数据
      * @param student 对象
      * @param passwrod 初始密码
      * @return 执行状态
      */
-    public String AddList(Student student, String passwrod) {
+    public Object[] AddList(Student student, String passwrod) {
         // 构建学生信息插入语句
         String studentSql = String.format("INSERT INTO student (studentCode, userName, gender, phone, age, classId, email, createTime) VALUES ('%s', '%s', '%s', '%s', %d, %d, '%s', '%s')",
                 student.getStudentCode(), student.getUserName(), student.getGender(), student.getPhone(), student.getAge(), student.getClassId(), student.getEmail(), DateTimeHelper.GetCurrentTimeToString());
@@ -96,9 +94,9 @@ public class StudentService extends BaseService<Student> implements IStudentServ
 
         // 检查是否成功插入学生信息和用户信息
         if (studentResult > 0 && userResult > 0) {
-            return "添加成功";
+            return new Object[]{200, "添加成功"};
         } else {
-            return "添加失败";
+            return new Object[]{400, "添加失败"};
         }
     }
 
@@ -129,8 +127,6 @@ public class StudentService extends BaseService<Student> implements IStudentServ
             count++;
         }
         student.setStudentCode(newStudentCode); // 设置新学生的学生编号
-        // 打印最终的自增内容
-        System.out.println("zizehngneir：" + newStudentCode);
         return newStudentCode;
     }
 
@@ -156,27 +152,39 @@ public class StudentService extends BaseService<Student> implements IStudentServ
      * @param idArrayData 学生学号数组
      * @return 执行状态
      */
-    public String DeletesArrayList(String[] idArrayData) {
+    public Object[] DeletesArrayList(String[] idArrayData) {
         int successCount = 0; // 记录成功更新的记录数
-        // 遍历学号数组
+
+        // 遍历学号数组，依次更新两个表的delFlag字段
         for (String studentCode : idArrayData) {
-            // 构建 SQL 语句
-            String sql = "UPDATE student SET delFlag = 2 WHERE studentCode = ?";
-            // 执行操作
-            int result = deleteExecuteUpdate(sql, studentCode);
-            if (result > 0) {
-                successCount++; // 如果更新成功，增加成功计数
+            // 构建更新teacher表的SQL语句
+            String sqlTeacher = "UPDATE student SET delFlag = 2 WHERE studentCode = ?";
+            // 执行更新操作
+            int resultTeacher = deleteExecuteUpdate(sqlTeacher, studentCode);
+
+            // 构建更新user表的SQL语句
+            String sqlUser = "UPDATE user SET delFlag = 2 WHERE userName = ?";
+            // 执行更新操作
+            int resultUser = deleteExecuteUpdate(sqlUser, studentCode);
+
+            // 判断更新结果
+            if (resultTeacher > 0 && resultUser > 0) {
+                successCount++; // 如果两个表都更新成功，增加成功计数
+            } else {
+                return new Object[]{400, "删除失败"};
             }
         }
 
         if (successCount == idArrayData.length) {
             // 如果成功计数等于数组长度，说明所有记录都成功更新
-            return "删除成功";
+            return new Object[]{200, "删除成功"};
         } else {
             // 否则，返回成功更新的记录数
-            return "成功删除 " + successCount + " 条记录";
+            String msg = "成功删除 " + successCount + " 条记录";
+            return new Object[]{200, msg};
         }
     }
+
 
 
     /**
@@ -184,7 +192,7 @@ public class StudentService extends BaseService<Student> implements IStudentServ
      * @param student 对象
      * @return 执行状态
      */
-    public String EditorList(Student student) {
+    public Object[] EditorList(Student student) {
         // 构建更新语句
         String sql = String.format("UPDATE student SET  userName = '%s', gender = '%s', phone = '%s', age = %d, classId = %d, email = '%s' WHERE studentCode = '%s'",
                  student.getUserName(), student.getGender(), student.getPhone(), student.getAge(), student.getClassId(), student.getEmail(), student.getStudentCode());
@@ -192,9 +200,9 @@ public class StudentService extends BaseService<Student> implements IStudentServ
         // 执行更新操作
         int result = ExecuteUpdate(sql);
         if (result > 0) {
-            return "修改成功";
+            return new Object[]{200, "修改成功"};
         } else {
-            return "修改失败";
+            return new Object[]{400, "修改失败"};
         }
     }
     /**
