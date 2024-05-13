@@ -1,14 +1,19 @@
 <template>
   <div class="sinceChoose-container">
-    {{ t('route.sinceChooseTxt') }}
-    <countdownTime></countdownTime>
+    <countdownTime v-if="parentStatus === false" @status="handleStatusUpdate"></countdownTime>
+    <div v-else>
+      可以咯
+    </div>
   </div>
 </template>
 
 <script setup>
-import { useI18n } from 'vue-i18n';
-const { t } = useI18n();
 import countdownTime from '@/components/Card/CountdownTime.vue';
+
+const parentStatus = ref(false)
+const handleStatusUpdate = (val)=>{
+  parentStatus.value = val
+}
 </script>
 
 <style lang="scss" scoped>

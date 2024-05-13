@@ -42,12 +42,13 @@
 
           </el-card><!-- 个人信息 -->
 
-          <el-card class="card" shadow="hover" v-if="Administrator === 'student'">
+          <!-- <el-card class="card" shadow="hover" v-if="Administrator === 'student'">
             <template #header>
               <h3 class="title">{{ t('indexPage.countdownTime') }}</h3>
             </template>
             <countdownTime />
-          </el-card><!-- 倒计时 -->
+          </el-card> -->
+          <!-- 倒计时 -->
 
           <el-card class="card" shadow="hover">
             <template #header>
@@ -73,48 +74,20 @@
 <script setup>
 import { ref, computed, reactive, onBeforeMount } from 'vue';
 
-import { CountTo } from 'vue3-count-to';
 import MySchedule from '@/components/Echarts/MySchedule.vue';
 import PersonalInfo from '@/components/Card/index.vue';
 import countdownTime from '@/components/Card/CountdownTime.vue';
 
 import { useI18n } from 'vue-i18n';
-import { getResouceList } from '@/api/index';
-
 import Cell from '@/components/Cell/index.vue';
 import { noticeList } from '@/layouts/components/NavBar/data.js';
-import { useStore } from 'vuex';
-import { getUserInfoData } from '@/api/user';
+
 
 let activeName = ref('first');
-
-const store = useStore();
-
-let Administrator = store.getters['user/userType']
-console.log("vuex存储的内容:", JSON.parse(JSON.stringify(store.state)));
-
-
-
-// 获取用户信息
-getUserInfoData({
-  token: store.getters['user/accessToken']
-}).then(res => {
-  if (res.code !== 200) {
-    console.log("获取不到数据");
-  } else {
-    console.log("用户登录信息：", res);
-  }
-});
 
 
 const { t } = useI18n();
 
-const state = reactive({
-  list: [],
-  prefix: '',
-  orderList: [],
-  skillList: [],
-});
 
 const hour = new Date().getHours();
 const thisTime =
@@ -131,18 +104,6 @@ const sayHi = ref(thisTime);
 const avatar1 = ref('https://picserver.duoyu.link/picfile/image/202404/22-1713717087790.png'); // 学生头像
 const avatar2 = ref('https://picserver.duoyu.link/picfile/image/202404/22-1713717150586.png'); // 管理员头像
 
-
-const onGetResouceList = () => {
-  // getResouceList().then((res) => {
-  //   const { list, prefix, orderList, skillList } = res.data;
-  //   Object.assign(state, { list, prefix, orderList, skillList });
-  // });
-};
-
-
-onBeforeMount(() => {
-  onGetResouceList();
-});
 </script>
 
 <style lang="scss" scoped>
