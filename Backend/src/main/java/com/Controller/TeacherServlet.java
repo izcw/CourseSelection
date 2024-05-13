@@ -28,6 +28,7 @@ public class TeacherServlet extends BaseServlet{
     public void query(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         // 数据
         String Name = req.getParameter("teacherName");
+        String Code = req.getParameter("teacherCode");
 
         PagerInfoDto p = null;
         if (req.getParameter("pageNum")!=null){
@@ -37,7 +38,7 @@ public class TeacherServlet extends BaseServlet{
         }
 
         // 调用service处理，并返回给前端
-        TeacherListResultDto dto = _teacherService.GetList(Name,p);
+        TeacherListResultDto dto = _teacherService.GetList(Name,Code,p);
         PrintWriter w = resp.getWriter();
         w.println(SUCCESS(dto));
     }

@@ -11,6 +11,10 @@
         <el-input v-model.trim="queryParams.studentName" placeholder="请输入学生名称" clearable
           @keyup.enter.native="getData" />
       </el-form-item>
+      <el-form-item label="学生学号" prop="studentCode">
+        <el-input v-model.trim="queryParams.studentCode" placeholder="请输入学生学号" clearable
+          @keyup.enter.native="getData" />
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" :icon="Search" @click="searchQuery">搜索</el-button>
         <el-button :icon="Refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -230,6 +234,7 @@ const handleCurrentChange = (page) => {
 const queryParams = ref({
   classid: "",
   studentName: '',
+  studentCode:'',
   pageNum: 1,
   pageSize: 30
 })
@@ -243,6 +248,7 @@ const searchQuery = () => {
 const resetQuery = () => {
   queryParams.value.classid = ''
   queryParams.value.studentName = ''
+  queryParams.value.studentCode = ''
 }
 
 // 获取列表

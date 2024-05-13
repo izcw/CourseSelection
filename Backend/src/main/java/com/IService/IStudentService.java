@@ -14,7 +14,7 @@ import java.util.List;
  */
 
 public interface IStudentService extends IBaseService<Student>{
-    StudentListResultDto GetList(String Id, String Name, PagerInfoDto p);
+    StudentListResultDto GetList(String Id,String Name,String Code,  PagerInfoDto p);
     String AddList(Student student,String passwrod);
     String DeletesArrayList(String[] idArrayData);
     String EditorList(Student student);

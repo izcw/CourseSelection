@@ -26,9 +26,11 @@ public class StudentService extends BaseService<Student> implements IStudentServ
      * 通过传班级id与姓名查找数据
      * @param Id id（班级id）
      * @param Name 要查找的姓名（模糊查询）
+     * @param Code 要查找的学号（模糊查询）
+     * @param p 分页
      * @return 执行状态
      */
-    public StudentListResultDto GetList(String Id, String Name, PagerInfoDto p) {
+    public StudentListResultDto GetList(String Id, String Name,String Code, PagerInfoDto p) {
         StudentListResultDto dto = new StudentListResultDto();
         // 构建语句
         StringBuilder sb = new StringBuilder("SELECT s.*, c.className FROM student s ");
@@ -47,6 +49,12 @@ public class StudentService extends BaseService<Student> implements IStudentServ
         if (Name != null && !Name.isEmpty()) {
             sb.append(" AND s.userName LIKE ?");
             params.add("%" + Name + "%");
+        }
+
+        // 模糊查询 studentCode
+        if (Code != null && !Code.isEmpty()) {
+            sb.append(" AND s.studentCode LIKE ?");
+            params.add("%" + Code + "%");
         }
 
         if (p != null) {

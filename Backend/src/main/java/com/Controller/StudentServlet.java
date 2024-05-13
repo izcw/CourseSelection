@@ -31,6 +31,7 @@ public class StudentServlet extends BaseServlet{
         // 数据
         String Id =req.getParameter("classid");
         String Name = req.getParameter("studentName");
+        String Code = req.getParameter("studentCode");
 
         PagerInfoDto p = null;
         if (req.getParameter("pageNum")!=null){
@@ -38,7 +39,7 @@ public class StudentServlet extends BaseServlet{
             p.setPageNum(Integer.parseInt(req.getParameter("pageNum")));
             p.setPageSize(Integer.parseInt(req.getParameter("pageSize")));
         }
-        StudentListResultDto dto = _StudentService.GetList(Id,Name,p);
+        StudentListResultDto dto = _StudentService.GetList(Id,Name,Code,p);
         PrintWriter w = resp.getWriter();
         w.println(SUCCESS(dto));
     }

@@ -9,7 +9,7 @@ import com.Pojo.Teacher;
 import java.util.List;
 
 public interface ITeacherService extends IBaseService<Teacher>{
-    TeacherListResultDto GetList(String Name, PagerInfoDto p);
+    TeacherListResultDto GetList(String Name,String Code, PagerInfoDto p);
     String AddList(Teacher teacher);
     String DeletesArrayList(String[] idArrayData);
     String EditorList(Teacher teacher);

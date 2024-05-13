@@ -20,7 +20,7 @@ public class TeacherService extends BaseService<Teacher> implements ITeacherServ
      * @param Name 要查找的姓名（模糊查询）
      * @return 执行状态
      */
-    public TeacherListResultDto GetList(String Name, PagerInfoDto p) {
+    public TeacherListResultDto GetList(String Name,String Code, PagerInfoDto p) {
         TeacherListResultDto dto = new TeacherListResultDto();
         // 构建语句
         StringBuilder sb = new StringBuilder("SELECT * FROM teacher s ");
@@ -33,6 +33,12 @@ public class TeacherService extends BaseService<Teacher> implements ITeacherServ
         if (Name != null && !Name.isEmpty()) {
             sb.append(" AND s.teacherName LIKE ?");
             params.add("%" + Name + "%");
+        }
+
+        // 模糊查询 teacherCode
+        if (Code != null && !Code.isEmpty()) {
+            sb.append(" AND s.teacherCode LIKE ?");
+            params.add("%" + Code + "%");
         }
 
         if (p!=null){
