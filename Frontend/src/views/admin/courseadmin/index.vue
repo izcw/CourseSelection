@@ -22,19 +22,11 @@
       <el-table-column prop="enrollmentMethod" label="选课方式">
 
       </el-table-column>
-<<<<<<< HEAD
       <el-table-column prop="state" label="状态">
         <template #default="scope">
           <el-tag v-if="scope.row.state === 2">{{ formatterState(scope.row.state) }}</el-tag>
           <el-tag type="success" v-if="scope.row.state === 1">{{ formatterState(scope.row.state) }}</el-tag>
         </template>
-=======
-      <el-table-column prop="state" label="状态" >
-        <template  #default="scope">
-            <el-tag v-if="scope.row.state===2">{{ formatterState(scope.row.state) }}</el-tag>
-            <el-tag type="success" v-if="scope.row.state===1">{{ formatterState(scope.row.state) }}</el-tag>
-          </template>
->>>>>>> df678de7f559094a31688498c0d5ae18a824a205
       </el-table-column>
 
 
@@ -49,19 +41,12 @@
           <el-button size="small" type="primary" @click="release(scope.$index, scope.row)">
             发布/取消发布
           </el-button>
-<<<<<<< HEAD
           <el-button :disabled="scope.row.state === 1" size="small" type="primary"
             @click="bindingCourseShow(scope.$index, scope.row)">
             绑定课程
           </el-button>
           <el-button :disabled="scope.row.state === 1" size="small" type="primary"
             @click="bindingClassShow(scope.$index, scope.row)">
-=======
-          <el-button :disabled="scope.row.state===1" size="small" type="primary" @click="release(scope.$index, scope.row)">
-            绑定课程
-          </el-button>
-          <el-button :disabled="scope.row.state===1" size="small" type="primary" @click="release(scope.$index, scope.row)">
->>>>>>> df678de7f559094a31688498c0d5ae18a824a205
             绑定班级
           </el-button>
         </template>
@@ -93,7 +78,6 @@
         </div>
       </template>
     </el-dialog>
-<<<<<<< HEAD
     <el-dialog v-model="bindingCourseVisible" title="绑定课程" width="50%" draggable overflow>
       <el-table ref="courseMultipleTableRef" :data="courseList" style="width: 100%" @select-all="courseHandleAllChange"
         @select="courseHandleSelectionChange" @cell-click="showUnitInput">
@@ -172,8 +156,6 @@
         </div>
       </template>
     </el-dialog>
-=======
->>>>>>> df678de7f559094a31688498c0d5ae18a824a205
   </div>
 </template>
 
@@ -185,7 +167,6 @@ import {
   UpdateEnrollment as updateEnrollment,
   DeleteEnrollment as deleteEnrollment,
   GetEnrollmentById as getEnrollmentById,
-<<<<<<< HEAD
   Release,
   BindingCourse as bindingCourse,
   BindingClass as bindingClass,
@@ -229,116 +210,6 @@ const classPager = ref({
 })
 const courseTotal = ref(0)
 const classTotal = ref(0)
-=======
-  Release 
-} from '@/api/enrollment';
-import { useI18n } from 'vue-i18n';
-const { t } = useI18n();
-const tableData = ref([])
-const handleEdit = (index, row) => {
-  let query = {
-    enrollmentId: row.enrollmentId
-  }
-  getEnrollmentById(query).then(c => {
-    reset();
-
-    form.value.enrollmentId = c.data.enrollmentId;
-    form.value.enrollmentName = c.data.enrollmentName;
-    form.value.date.push(c.data.beginTime)
-    form.value.date.push(c.data.endTime)
-    form.value.enrollmentMethod = c.data.enrollmentMethod;
-    form.value.selectionPlanName = c.data.selectionPlanName;
-    formTitle.value = '修改班级'
-    formVisible.value = !formVisible.value
-  })
-}
-const formatterState= (state)=>{
-  if(state===2){
-    return '未发布';
-  }else{
-    return '已发布'
-  }
-  console.log();
-}
-const handleDelete = (index, row) => {
-  ElMessageBox.confirm(
-    `确定要删除方案名称为${row.selectionPlanName}的数据吗?`,
-    '提示',
-    {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning',
-    }
-  )
-    .then(() => {
-      let from = {
-        enrollmentId: row.enrollmentId
-      }
-      deleteEnrollment(from).then(c => {
-        if (c.code === 200) {
-          ElMessage({
-            type: 'success',
-            message: '删除成功',
-          })
-          getList()
-        } else {
-          ElMessage.error(c.msg)
-        }
-
-      })
-
-    })
-    .catch(() => {
-
-    })
-
-  console.log(index, row)
-
-}
-const release = (index,row) => 
-{
-  var text = '发布'
-  if(row.state==1){
-    text = '取消发布'
-  }
-  ElMessageBox.confirm(
-    `确定要${text}方案名称为${row.selectionPlanName}的数据吗?`,
-    '提示',
-    {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning',
-    }
-  )
-    .then(() => {
-      let from = {
-        enrollmentId: row.enrollmentId
-      }
-      Release(from).then(c => {
-        if (c.code === 200) {
-          ElMessage({
-            type: 'success',
-            message: text+'成功',
-          })
-          getList()
-        } else {
-          ElMessage.error(c.msg)
-        }
-
-      })
-
-    })
-    .catch(() => {
-
-    })
-  
- }
-
-const formVisible = ref(false)
-const formTitle = ref('')
-const formLabelWidth = '140px'
-const ruleFormRef = ref(null)
->>>>>>> df678de7f559094a31688498c0d5ae18a824a205
 const disabledDate = (time) => {
 
   return time.getTime() < Date.now() - 8.64e7
@@ -349,10 +220,7 @@ const enrollmentMethod = ref([
     label: '线上'
   }
 ])
-<<<<<<< HEAD
 
-=======
->>>>>>> df678de7f559094a31688498c0d5ae18a824a205
 const rules = reactive({
   selectionPlanName: [
     { required: true, message: '选课方案名称不能为空', trigger: 'blur' },
@@ -389,7 +257,6 @@ const form = ref({
   enrollmentMethod: '',
 
 })
-<<<<<<< HEAD
 
 let tableRowEditId = ref(null) // 控制可编辑的每一行
 let tableColumnEditIndex = ref(null) //控制可编辑的每一列
@@ -585,8 +452,6 @@ const release = (index, row) => {
 }
 
 
-=======
->>>>>>> df678de7f559094a31688498c0d5ae18a824a205
 const submit = () => {
   ruleFormRef.value.validate(valid => {
     if (valid) {
@@ -651,7 +516,6 @@ const getList = () => {
     tableData.value = c.data
   })
 }
-<<<<<<< HEAD
 const bindingCourseShow = async (index, row) => {
 
 
@@ -853,8 +717,6 @@ const classHandleAllChange = (selecteds) => {
   }
 
 }
-=======
->>>>>>> df678de7f559094a31688498c0d5ae18a824a205
 onMounted(() => {
   getList()
 })

@@ -1,19 +1,15 @@
 package com.Service;
 
 import com.IService.IEnrollmentCourseService;
-<<<<<<< HEAD
+
 import com.Pojo.DTO.EnrollmentBindingDto;
 import com.Pojo.DTO.MaximumQuantityDto;
 import com.Pojo.EnrollmentCourse;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-=======
-import com.Pojo.EnrollmentCourse;
 
-import java.util.List;
->>>>>>> df678de7f559094a31688498c0d5ae18a824a205
+
 
 public class EnrollmentCourseService extends BaseService<EnrollmentCourse> implements IEnrollmentCourseService {
 
@@ -30,7 +26,7 @@ public class EnrollmentCourseService extends BaseService<EnrollmentCourse> imple
         }
         return GetList(sb.toString());
     }
-<<<<<<< HEAD
+
 
     @Override
     public Boolean BindingCourse(EnrollmentBindingDto dto) {
@@ -48,6 +44,5 @@ public class EnrollmentCourseService extends BaseService<EnrollmentCourse> imple
     }
 
 
-=======
->>>>>>> df678de7f559094a31688498c0d5ae18a824a205
+
 }
