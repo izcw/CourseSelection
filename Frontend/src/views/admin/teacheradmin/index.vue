@@ -5,13 +5,8 @@
         <el-input v-model.trim="queryParams.teacherName" placeholder="请输入教师名称" clearable
           @keyup.enter.native="getData" />
       </el-form-item>
-      <el-form-item label="教师编号" prop="className">
-        <el-input v-model.trim="queryParams.teacherCode" placeholder="请输入教师编号" clearable
-          @keyup.enter.native="getData" />
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" :icon="Search" @click="searchQuery">搜索</el-button>
-        <el-button :icon="Refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form><!-- 搜索 -->
 
@@ -194,15 +189,9 @@ const handleCurrentChange = (page) => {
 // 搜索
 const queryParams = ref({
   teacherName: '',
-  teacherCode:'',
   pageNum: 1,
   pageSize: 30
 })
-
-const resetQuery = () => {
-  queryParams.value.teacherName = ''
-  queryParams.value.teacherCode = ''
-}
 
 const searchQuery = () => {
   getData()

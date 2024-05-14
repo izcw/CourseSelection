@@ -14,9 +14,8 @@ const state = {
   accessToken: getCookie("token"),
   username: '',
   avatar: '',
+  userType:getCookie("userType"),
   permissions: [],
-  userType: getCookie("userType"),
-  info: {}
 };
 
 const getters = {
@@ -25,12 +24,11 @@ const getters = {
   avatar: (state) => state.avatar,
   permissions: (state) => state.permissions,
   userType: (state) => state.userType,
-  info: (state) => state.info
 };
-
 const mutations = {
   setAccessToken(state, accessToken) {
     state.accessToken = accessToken;
+    
     setAccessToken(accessToken);
   },
   setUsername(state, username) {
@@ -39,17 +37,13 @@ const mutations = {
   setAvatar(state, avatar) {
     state.avatar = avatar;
   },
-  setUserType(state, userType) {
+  setUserType(state,userType){
     state.userType = userType;
   },
   setPermissions(state, permissions) {
     state.permissions = permissions;
   },
-  setUserInfo(state, userInfo) {
-    state.info = userInfo;
-  }
 };
-
 const actions = {
   setPermissions({ commit }, permissions) {
     commit('setPermissions', permissions);
@@ -86,7 +80,7 @@ const actions = {
       return false;
     }
     let { permissions, username, avatar } = data;
-    // console.log(data);
+    console.log(data)
     if (permissions && username && Array.isArray(permissions)) {
       commit('setPermissions', permissions);
       commit('setUsername', username);
@@ -105,9 +99,8 @@ const actions = {
   resetAccessToken({ commit }) {
     commit('setPermissions', []);
     commit('setAccessToken', '');
-    commit('setUserInfo', {}); // 重置用户信息
+    
     removeAccessToken();
   },
 };
-
 export default { state, getters, mutations, actions };

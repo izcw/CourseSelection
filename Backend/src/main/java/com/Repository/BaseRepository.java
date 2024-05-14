@@ -8,6 +8,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -305,9 +307,23 @@ public class BaseRepository<T> implements IBaseRepository<T> {
     public static <T> T initTClass(Class<T> cls, Map<String, Object> dataMap) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchFieldException {
         T t = cls.getDeclaredConstructor().newInstance();
         Field[] declaredFields = t.getClass().getDeclaredFields();
+
         for (Field f1 : declaredFields) {
             String fieldName = f1.getName().toUpperCase();
+
             Object o1 = dataMap.get(fieldName);
+            try {
+                if (o1.getClass().toString().equals("class java.time.LocalDateTime")) {
+                    String pattern = "yyyy-MM-dd HH:mm:ss";
+                    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(pattern);
+
+                    LocalDateTime o11 = (LocalDateTime) o1;
+                    o1 = o11.format(dateTimeFormatter);
+                }
+            }catch (Exception e){
+            }
+
+
             if (o1 != null) {
                 f1.setAccessible(true);
                 f1.set(t, o1);

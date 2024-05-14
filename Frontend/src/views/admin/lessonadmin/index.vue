@@ -61,6 +61,10 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination v-model:current-page="queryParams.pageNum" v-model:page-size="queryParams.pageSize"
+        :page-sizes="pageSizes" :small="small" :disabled="disabled" :background="background"
+        layout="total, sizes, prev, pager, next, jumper" :total="courseTotal" @size-change="handleSizeChange"
+        @current-change="handleCurrentChange" />
     <el-dialog v-model="formVisible" :title="formTitle" width="30%">
       <el-form :model="form" :rules="rules" ref="ruleFormRef">
         <el-form-item label="课程名称" :label-width="formLabelWidth" prop="courseName">
@@ -104,10 +108,13 @@ const queryParams = ref({
   courseCode: '',
   courseName: '',
   teacherId: undefined,
-  courseTypeId: undefined
+  courseTypeId: undefined,
+  pageNum: 1,
+  pageSize: 10,
 })
 const ruleFormRef = ref(null)
 const tableData = ref([])
+const courseTotal =ref(0)
 const teachers = ref([])
 const types = ref([])
 const formTitle = ref('')
@@ -145,6 +152,10 @@ const form = ref({
 const formLabelWidth = '140px'
 const handleQuery = () => {
   getList();
+}
+const handleCurrentChange = (val)=>{
+  queryParams.value.pageNum = val
+  getList()
 }
 const handleEdit = (index, row) => 
 {
@@ -217,6 +228,8 @@ const resetQuery = () => {
   queryParams.value.courseCode = ''
   queryParams.value.teacherId = undefined
   queryParams.value.courseTypeId = undefined
+  queryParams.value.pageNum = 1,
+  queryParams.value.pageSize = 10,
   getList();
 }
 const handleDelete =  (index, row) => 
@@ -265,7 +278,9 @@ const getList = () => {
     courseCode: queryParams.value.courseCode,
     courseName: queryParams.value.courseName,
     teacherId: queryParams.value.teacherId === undefined ? 0 : queryParams.value.teacherId,
-    courseTypeId: queryParams.value.courseTypeId === undefined ? 0 : queryParams.value.courseTypeId
+    courseTypeId: queryParams.value.courseTypeId === undefined ? 0 : queryParams.value.courseTypeId,
+    pageNum: queryParams.value.pageNum,
+  pageSize: queryParams.value.pageSize,
   }
   if (query.teacherId === '') {
     query.teacherId = 0
@@ -275,7 +290,8 @@ const getList = () => {
   }
 
   getCourseList(query).then(c => {
-    tableData.value = c.data
+    courseTotal.value = c.data.pagerInfoDto.totalNum
+    tableData.value = c.data.list
 
   })
 }

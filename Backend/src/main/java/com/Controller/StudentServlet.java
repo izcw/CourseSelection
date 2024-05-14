@@ -1,7 +1,7 @@
 package com.Controller;
 import com.IService.IStudentService;
 import com.Pojo.DTO.PagerInfoDto;
-import com.Pojo.DTO.StudentListResultDto;
+import com.Pojo.DTO.ListResultDto;
 import com.Pojo.Student;
 import com.Service.StudentService;
 import com.Tools.APIHelper;
@@ -13,8 +13,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @Author：2331020120242张成威
@@ -31,7 +29,6 @@ public class StudentServlet extends BaseServlet{
         // 数据
         String Id =req.getParameter("classid");
         String Name = req.getParameter("studentName");
-        String Code = req.getParameter("studentCode");
 
         PagerInfoDto p = null;
         if (req.getParameter("pageNum")!=null){
@@ -39,7 +36,7 @@ public class StudentServlet extends BaseServlet{
             p.setPageNum(Integer.parseInt(req.getParameter("pageNum")));
             p.setPageSize(Integer.parseInt(req.getParameter("pageSize")));
         }
-        StudentListResultDto dto = _StudentService.GetList(Id,Name,Code,p);
+        ListResultDto<Student> dto = _StudentService.GetList(Id,Name,p);
         PrintWriter w = resp.getWriter();
         w.println(SUCCESS(dto));
     }
@@ -58,18 +55,12 @@ public class StudentServlet extends BaseServlet{
         student.setAge(postData.getInteger("age"));
         student.setPhone(postData.getString("phone"));
         student.setEmail(postData.getString("email"));
-        String classId = String.valueOf(student.getClassId());
-
-        // 学号自增以及截取学号最后6位数当初始密码
-        String studentCode = _StudentService.NumberingRules(student, classId);
-        student.setStudentCode(studentCode); // 重新设置studentCode
-        String lastSixDigits = studentCode.substring(studentCode.length() - 6);
-        String passwrod = lastSixDigits; // 截取最后学号最后6位数给passwrod
+        String passwrod = postData.getString("passwrod");
 
         // 调用service处理，并返回给前端
-        Object[] result = _StudentService.AddList(student,passwrod);
+        String Lisi = _StudentService.AddList(student,passwrod);
         PrintWriter writer = resp.getWriter();
-        processResponse(result, writer);
+        writer.println(SUCCESS(Lisi));
     }
 
 
@@ -90,8 +81,8 @@ public class StudentServlet extends BaseServlet{
             }
 
             // 调用service处理，并返回给前端
-            Object[] result = _StudentService.DeletesArrayList(idArrayData);
-            processResponse(result, writer);
+            String Lisi = _StudentService.DeletesArrayList(idArrayData);
+            writer.println(SUCCESS(Lisi));
         }
     }
 
@@ -112,11 +103,10 @@ public class StudentServlet extends BaseServlet{
         student.setEmail(postData.getString("email"));
 
         // 调用service处理，并返回给前端
-        Object[] result = _StudentService.EditorList(student);
+        String Lisi = _StudentService.EditorList(student);
         PrintWriter writer = resp.getWriter();
-        processResponse(result, writer);
+        writer.println(SUCCESS(Lisi));
     }
-
     public void GetStudentCountByClassId(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         PrintWriter writer = resp.getWriter();
         if (req.getParameter("classId")==null){
@@ -124,6 +114,6 @@ public class StudentServlet extends BaseServlet{
             return;
         }
         int id = Integer.parseInt(req.getParameter("classId"));
-        writer.println(SUCCESS(_StudentService.GetStudentCountByClassId(id)));
+        writer.println(SUCCESS(_StudentService.GetStudentByClassId(id).size()));
     }
 }

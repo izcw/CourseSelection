@@ -3,6 +3,8 @@ package com.Controller;
 import com.IService.ICourseService;
 import com.Pojo.ClassInfo;
 import com.Pojo.Course;
+import com.Pojo.DTO.ListResultDto;
+import com.Pojo.DTO.PagerInfoDto;
 import com.Service.CourseService;
 import com.Tools.APIHelper;
 import com.Tools.DateTimeHelper;
@@ -33,10 +35,15 @@ public class CourseServlet extends BaseServlet{
         if (req.getParameter("courseCode")!=null&&!req.getParameter("courseCode").equals("")){
             c.setCourseCode(req.getParameter("courseCode"));
         }
-
+        PagerInfoDto p = null;
+        if (req.getParameter("pageNum")!=null){
+            p = new PagerInfoDto();
+            p.setPageNum(Integer.parseInt(req.getParameter("pageNum")));
+            p.setPageSize(Integer.parseInt(req.getParameter("pageSize")));
+        }
         PrintWriter w = resp.getWriter();
-        List<Course> courses = _courseServise.GetCourseList(c);
-        w.println(SUCCESS(courses));
+        ListResultDto<Course> dto = _courseServise.GetCourseList(c, p);
+        w.println(SUCCESS(dto));
     }
     public void add(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         PrintWriter writer = resp.getWriter();

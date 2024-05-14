@@ -1,11 +1,16 @@
 package com.Controller;
 
 import com.IService.IClassService;
+import com.IService.IStudentService;
 import com.IService.IUserService;
 import com.Pojo.ClassInfo;
 import com.Pojo.DTO.BindingStudentDto;
+import com.Pojo.DTO.ListResultDto;
+import com.Pojo.DTO.PagerInfoDto;
 import com.Pojo.Student;
+import com.Pojo.Teacher;
 import com.Service.ClassService;
+import com.Service.StudentService;
 import com.Service.UserService;
 import com.Tools.APIHelper;
 import com.Tools.APIResult;
@@ -23,6 +28,7 @@ import java.util.List;
 @WebServlet("/ClassServlet")
 public class ClassServlet extends BaseServlet{
     public IClassService _classService = new ClassService();
+    private IStudentService _studentService = new StudentService();
     public void GetList(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         ClassInfo c = new ClassInfo();
         if (req.getParameter("teacherId")!=null&&!req.getParameter("teacherId").equals("")){
@@ -31,10 +37,15 @@ public class ClassServlet extends BaseServlet{
         if (req.getParameter("className")!=null&&!req.getParameter("className").equals("")){
             c.setClassName(req.getParameter("className"));
         }
-
+        PagerInfoDto p = null;
+        if (req.getParameter("pageNum")!=null){
+            p = new PagerInfoDto();
+            p.setPageNum(Integer.parseInt(req.getParameter("pageNum")));
+            p.setPageSize(Integer.parseInt(req.getParameter("pageSize")));
+        }
         PrintWriter w = resp.getWriter();
-        List<ClassInfo> classInfos = _classService.GetClassList(c);
-        w.println(SUCCESS(classInfos));
+        ListResultDto<ClassInfo> dto = _classService.GetClassList(c,p);
+        w.println(SUCCESS(dto));
     }
 
     public void add(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -183,6 +194,10 @@ public class ClassServlet extends BaseServlet{
         }
         try {
             JSONArray jsonArray = postData.getJSONArray("studentIds");
+            if (jsonArray.isEmpty()){
+                writer.println(ERROR("请选择学生"));
+                return;
+            }
             List<Integer> studentIds = jsonArray.toJavaList(Integer.class);
             BindingStudentDto dto = new BindingStudentDto();
             int classId = Integer.parseInt(postData.getString("classId"));
@@ -204,5 +219,6 @@ public class ClassServlet extends BaseServlet{
 
 
     }
+
 
 }

@@ -53,6 +53,10 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination v-model:current-page="queryParams.pageNum" v-model:page-size="queryParams.pageSize"
+        :page-sizes="pageSizes" :small="small" :disabled="disabled" :background="background"
+        layout="total, sizes, prev, pager, next, jumper" :total="classTotal" @size-change="handleSizeChange"
+        @current-change="handleClassCurrentChange" />
     <el-dialog v-model="bindingVisible" title="绑定学生" width="50%" draggable overflow>
       <el-table ref="multipleTableRef" :row-key="(row) => row.userId" :data="studentList" style="width: 100%"
         @selection-change="handleSelectionChange">
@@ -141,6 +145,8 @@ const bindingVisible = ref(false)
 const queryParams = reactive({
   className: '',
   teacherId: undefined,
+  pageNum: 1,
+  pageSize: 10,
 })
 let selectionClassId = ref(0)
 const pageSizes = ref([10, 20, 30, 40, 50])
@@ -151,6 +157,7 @@ const small = ref(false)
 const background = ref(false)
 const disabled = ref(false)
 const studentTotal = ref(0)
+const classTotal = ref(0)
 const options = Array.from({ length: 9 }).map((_, idx) => ({
   value: `0${idx + 1}`,
   label: `0${idx + 1}`,
@@ -166,6 +173,7 @@ let studentPager = ref({
   pageNum: 1,
   pageSize: 10,
 })
+
 const multipleTableRef = ref()
 const rules = reactive({
   className: [
@@ -280,6 +288,10 @@ const handleSelectionChange = (val) => {
 const handleSizeChange = (val) => {
   console.log(`${val} items per page`)
 }
+const handleClassCurrentChange = (val)=>{
+  queryParams.pageNum = val
+  getList()
+}
 const handleCurrentChange = (val) => {
   studentPager.value.pageNum = val
   getStudentData();
@@ -391,19 +403,22 @@ const reset = () => {
   form.value.teacherId = undefined
   form.value.classId = 0
   form.value.classNumber = ''
-
+  
 }
 const getList = () => {
   let query = {
     className: queryParams.className,
-    teacherId: queryParams.teacherId === undefined ? 0 : queryParams.teacherId
+    teacherId: queryParams.teacherId === undefined ? 0 : queryParams.teacherId,
+    pageNum: queryParams.pageNum,
+  pageSize: queryParams.pageSize,
   }
   if (query.teacherId === '') {
     query.teacherId = 0
   }
 
   getClassList(query).then(c => {
-    tableData.value = c.data
+    tableData.value = c.data.list
+    classTotal.value = c.data.pagerInfoDto.totalNum
     tableData.value.forEach(item=>{
       let query={
         classId:item.classId
@@ -424,6 +439,8 @@ const resetQuery = () => {
 
   queryParams.className = ''
   queryParams.teacherId = undefined
+  queryParams.pageNum = 1
+  queryParams.pageSize = 10
   getList();
 }
 let store = useStore();

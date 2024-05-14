@@ -37,12 +37,12 @@ router.beforeEach(async (to, from, next) => {
         try {
           let permissions = ['admin'];
           if (!loginInterception) {
-            // console.log('我是1')
+            console.log('我是1')
             //settings.js loginInterception为false时，创建虚拟权限
             await store.dispatch('user/setPermissions', ['admin']);
             permissions = ['admin'];
           } else {
-            // console.log('我是2')
+            console.log('我是2')
             permissions = await store.dispatch('user/getUserInfo');
           }
 

@@ -3,7 +3,10 @@ package com.Service;
 import com.IService.IClassService;
 import com.Pojo.ClassInfo;
 import com.Pojo.DTO.BindingStudentDto;
+import com.Pojo.DTO.ListResultDto;
+import com.Pojo.DTO.PagerInfoDto;
 import com.Pojo.Student;
+import com.Pojo.Teacher;
 import com.Tools.DateTimeHelper;
 
 import java.util.ArrayList;
@@ -11,7 +14,8 @@ import java.util.List;
 
 public class ClassService extends BaseService<ClassInfo> implements IClassService {
     @Override
-    public List<ClassInfo> GetClassList(ClassInfo c) {
+    public ListResultDto<ClassInfo> GetClassList(ClassInfo c, PagerInfoDto p) {
+        ListResultDto<ClassInfo> dto = new ListResultDto<ClassInfo>();
         StringBuilder sb = new StringBuilder("select * from classInfo c left join teacher t on c.teacherId = t.teacherId  where c.delFlag = 1 ");
         if(c.getClassName()!=null&&!c.getClassName().equals("")){
             sb.append(String.format(" and c.className like '%%%s%%' ",c.getClassName()));
@@ -20,11 +24,24 @@ public class ClassService extends BaseService<ClassInfo> implements IClassServic
             sb.append(String.format(" and c.teacherId = %d ",c.getTeacherId()));
 
         }
-        return GetList(sb.toString());
+        if (p != null) {
+            int count = GetList(sb.toString()).size();
+            p.setTotalNum(count);
+            sb.append(String.format(" limit %d,%d ",(p.getPageNum()-1)*p.getPageSize(),p.getPageSize()));
+        }
+        List<ClassInfo> classInfos = GetList(sb.toString());
+        dto.setList(classInfos);
+        dto.setPagerInfoDto(p);
+        return dto;
     }
     //新增班级实体
     @Override
     public String AddClass(ClassInfo c) {
+        String existCheck = String.format("select * from classInfo where className = '%s'  ",c.getClassName());
+        ClassInfo classInfo = GetFirst(existCheck);
+        if(classInfo!=null){
+            return "班级名称已存在";
+        }
         c.setDelFlag("1");
         c.setNumberOfStudent(0);
         String date = DateTimeHelper.GetCurrentTimeToString();
@@ -78,6 +95,6 @@ public class ClassService extends BaseService<ClassInfo> implements IClassServic
            sqls.add(sql);
         }
         int i = ExecuteUpdate(sqls);
-        return i == dto.getStudentIds().size();
+        return i >0;
     }
 }

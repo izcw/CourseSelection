@@ -3,11 +3,14 @@ package com.Service;
 import com.IService.ICourseService;
 import com.Pojo.ClassInfo;
 import com.Pojo.Course;
+import com.Pojo.DTO.ListResultDto;
+import com.Pojo.DTO.PagerInfoDto;
 
 import java.util.List;
 
 public class CourseService extends BaseService<Course> implements ICourseService {
-    public List<Course> GetCourseList(Course c) {
+    public ListResultDto<Course> GetCourseList(Course c, PagerInfoDto p) {
+        ListResultDto<Course> dto = new ListResultDto<Course>();
         StringBuilder sb = new StringBuilder("select * from course c left join course_type ct on c.courseTypeId = ct.courseTypeId left JOIN teacher t on c.teacherId = t.teacherId  where c.delFlag = 1 ");
         if(c.getCourseName()!=null&&!c.getCourseName().equals("")){
             sb.append(String.format(" and c.CourseName like '%%%s%%' ",c.getCourseName()));
@@ -23,7 +26,16 @@ public class CourseService extends BaseService<Course> implements ICourseService
             sb.append(String.format(" and c.CourseTypeId = %d ",c.getCourseTypeId()));
 
         }
-        return GetList(sb.toString());
+        if (p != null) {
+            int count = GetList(sb.toString()).size();
+            p.setTotalNum(count);
+            sb.append(String.format(" limit %d,%d ",(p.getPageNum()-1)*p.getPageSize(),p.getPageSize()));
+        }
+        List<Course> courses = GetList(sb.toString());
+        dto.setList(courses);
+        dto.setPagerInfoDto(p);
+        return dto;
+
     }
 
     @Override
