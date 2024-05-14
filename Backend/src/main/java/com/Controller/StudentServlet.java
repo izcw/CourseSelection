@@ -1,7 +1,7 @@
 package com.Controller;
 import com.IService.IStudentService;
 import com.Pojo.DTO.PagerInfoDto;
-import com.Pojo.DTO.StudentListResultDto;
+import com.Pojo.DTO.ListResultDto;
 import com.Pojo.Student;
 import com.Service.StudentService;
 import com.Tools.APIHelper;
@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 /**
  * @Author：2331020120242张成威
@@ -37,7 +36,7 @@ public class StudentServlet extends BaseServlet{
             p.setPageNum(Integer.parseInt(req.getParameter("pageNum")));
             p.setPageSize(Integer.parseInt(req.getParameter("pageSize")));
         }
-        StudentListResultDto dto = _StudentService.GetList(Id,Name,p);
+        ListResultDto<Student> dto = _StudentService.GetList(Id,Name,p);
         PrintWriter w = resp.getWriter();
         w.println(SUCCESS(dto));
     }
@@ -115,6 +114,6 @@ public class StudentServlet extends BaseServlet{
             return;
         }
         int id = Integer.parseInt(req.getParameter("classId"));
-        writer.println(SUCCESS(_StudentService.GetStudentCountByClassId(id)));
+        writer.println(SUCCESS(_StudentService.GetStudentByClassId(id).size()));
     }
 }

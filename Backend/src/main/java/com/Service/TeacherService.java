@@ -1,10 +1,8 @@
 package com.Service;
 
 import com.IService.ITeacherService;
+import com.Pojo.DTO.ListResultDto;
 import com.Pojo.DTO.PagerInfoDto;
-import com.Pojo.DTO.StudentListResultDto;
-import com.Pojo.DTO.TeacherListResultDto;
-import com.Pojo.Student;
 import com.Pojo.Teacher;
 import com.Tools.DateTimeHelper;
 import com.Tools.MD5Helper;
@@ -20,8 +18,8 @@ public class TeacherService extends BaseService<Teacher> implements ITeacherServ
      * @param Name 要查找的姓名（模糊查询）
      * @return 执行状态
      */
-    public TeacherListResultDto GetList(String Name, PagerInfoDto p) {
-        TeacherListResultDto dto = new TeacherListResultDto();
+    public ListResultDto<Teacher> GetList(String Name, PagerInfoDto p) {
+        ListResultDto<Teacher> dto = new ListResultDto<Teacher>();
         // 构建语句
         StringBuilder sb = new StringBuilder("SELECT * FROM teacher s ");
         sb.append("WHERE s.delFlag = 1");

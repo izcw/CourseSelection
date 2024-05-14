@@ -2,15 +2,12 @@ package com.Service;
 
 import com.IService.IStudentService;
 import com.Pojo.DTO.PagerInfoDto;
-import com.Pojo.DTO.StudentListResultDto;
+import com.Pojo.DTO.ListResultDto;
 import com.Pojo.Student;
 import com.Tools.DateTimeHelper;
 import com.Tools.MD5Helper;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -27,8 +24,8 @@ public class StudentService extends BaseService<Student> implements IStudentServ
      * @param Name 要查找的姓名（模糊查询）
      * @return 执行状态
      */
-    public StudentListResultDto GetList(String Id, String Name, PagerInfoDto p) {
-        StudentListResultDto dto = new StudentListResultDto();
+    public ListResultDto<Student> GetList(String Id, String Name, PagerInfoDto p) {
+        ListResultDto<Student> dto = new ListResultDto<Student>();
         // 构建语句
         StringBuilder sb = new StringBuilder("SELECT s.*, c.className FROM student s ");
         sb.append("LEFT JOIN classinfo c ON s.classId = c.classId ");
@@ -145,10 +142,10 @@ public class StudentService extends BaseService<Student> implements IStudentServ
      * @param classId 班级id
      * @return 执行状态
      */
-    public int GetStudentCountByClassId(int classId){
+    public List<Student> GetStudentByClassId(int classId){
         String sql =  String.format(" select * from student where classId = %d",classId);
 
-        return ExecuteQueryCount(sql);
+        return GetList(sql);
     }
 
 }
