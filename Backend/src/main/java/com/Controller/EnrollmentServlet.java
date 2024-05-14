@@ -1,5 +1,6 @@
 package com.Controller;
 
+<<<<<<< HEAD
 import com.IService.IEnrollmentClassService;
 import com.IService.IEnrollmentCourseService;
 import com.IService.IEnrollmentService;
@@ -15,6 +16,14 @@ import com.Service.EnrollmentService;
 import com.Tools.APIHelper;
 import com.Tools.DateTimeHelper;
 import com.alibaba.fastjson.JSONArray;
+=======
+import com.IService.IEnrollmentService;
+import com.Pojo.Course;
+import com.Pojo.Enrollment;
+import com.Service.EnrollmentService;
+import com.Tools.APIHelper;
+import com.Tools.DateTimeHelper;
+>>>>>>> df678de7f559094a31688498c0d5ae18a824a205
 import com.alibaba.fastjson.JSONObject;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,13 +32,19 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+<<<<<<< HEAD
 import java.util.Optional;
+=======
+>>>>>>> df678de7f559094a31688498c0d5ae18a824a205
 
 @WebServlet("/EnrollmentServlet")
 public class EnrollmentServlet extends  BaseServlet{
     private IEnrollmentService _EnrollmentService = new EnrollmentService();
+<<<<<<< HEAD
     private IEnrollmentCourseService _enrollmentCourseService = new EnrollmentCourseService();
     private IEnrollmentClassService _enrollmentClassService = new EnrollmentClassService();
+=======
+>>>>>>> df678de7f559094a31688498c0d5ae18a824a205
     public void GetList(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Enrollment e = new Enrollment();
         PrintWriter w = resp.getWriter();
@@ -175,6 +190,7 @@ public class EnrollmentServlet extends  BaseServlet{
         }
 
     }
+<<<<<<< HEAD
     public void BindingCourse(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         PrintWriter writer = resp.getWriter();
         JSONObject postData = APIHelper.getPostData(req);
@@ -288,4 +304,6 @@ public class EnrollmentServlet extends  BaseServlet{
         List<EnrollmentClass> list = _enrollmentClassService.GetList(enrollmentClass);
         writer.println(SUCCESS(list));
     }
+=======
+>>>>>>> df678de7f559094a31688498c0d5ae18a824a205
 }

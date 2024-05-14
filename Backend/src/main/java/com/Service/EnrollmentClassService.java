@@ -1,11 +1,17 @@
 package com.Service;
 
 import com.IService.IEnrollmentClassService;
+<<<<<<< HEAD
 import com.Pojo.DTO.EnrollmentBindingDto;
 import com.Pojo.EnrollmentClass;
 import com.Pojo.EnrollmentCourse;
 
 import java.util.ArrayList;
+=======
+import com.Pojo.EnrollmentClass;
+import com.Pojo.EnrollmentCourse;
+
+>>>>>>> df678de7f559094a31688498c0d5ae18a824a205
 import java.util.List;
 
 public class EnrollmentClassService extends BaseService<EnrollmentClass> implements IEnrollmentClassService {
@@ -22,6 +28,7 @@ public class EnrollmentClassService extends BaseService<EnrollmentClass> impleme
         }
         return GetList(sb.toString());
     }
+<<<<<<< HEAD
 
     @Override
     public Boolean BindingClass(EnrollmentBindingDto dto) {
@@ -36,4 +43,6 @@ public class EnrollmentClassService extends BaseService<EnrollmentClass> impleme
         int i = ExecuteUpdate(sqls);
         return i >0;
     }
+=======
+>>>>>>> df678de7f559094a31688498c0d5ae18a824a205
 }

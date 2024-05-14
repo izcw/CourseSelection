@@ -42,6 +42,7 @@ export const getList = (params) => {
       params:params,
   
     });
+<<<<<<< HEAD
   };
   export const BindingCourse = (data) => {
     return request({
@@ -72,4 +73,6 @@ export const getList = (params) => {
       params:params,
   
     });
+=======
+>>>>>>> df678de7f559094a31688498c0d5ae18a824a205
   };
