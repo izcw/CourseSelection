@@ -12,6 +12,7 @@ import { getCookie } from '@/utils/index';
 // eslint-disable-next-line no-unused-vars
 let tokenLose = true;
 
+
 /**
  *
  * @description 处理code异常
@@ -19,7 +20,7 @@ let tokenLose = true;
  * @param {*} msg
  */
 const handleCode = (code, msg) => {
-  console.log(code,'code')
+  // console.log(code,'code')
   switch (code) {
     case invalidCode:
       tokenLose = false;
@@ -42,7 +43,7 @@ const handleCode = (code, msg) => {
       ElMessage.error(msg || `后端接口参数有误`);
       break;
     default:
-      console.log('---');
+      // console.log('---');
       ElMessage.error(msg || `后端接口${code}异常`);
       break;
   }
@@ -62,7 +63,7 @@ instance.interceptors.request.use(
     if (getCookie("token")) {
       config.headers['token'] = getCookie("token");
     }
-    console.log(config,'config')
+    // console.log(config,'config')
     if (
       config.data &&
       config.headers['Content-Type'] === 'application/x-www-form-urlencoded;charset=UTF-8'
@@ -85,7 +86,7 @@ instance.interceptors.response.use(
     if (successCode.indexOf(code) !== -1) {
       return res;
     } else {
-      console.log('---====', response);
+      // console.log('---====', response);
       handleCode(code, msg);
       return Promise.reject();
     }
@@ -95,7 +96,7 @@ instance.interceptors.response.use(
     console.log(error);
     if (error.response && error.response.data) {
       const { status, data } = response;
-      console.log('---===1222=', response);
+      // console.log('---===1222=', response);
       handleCode(status, data.msg || message);
       return Promise.reject(error);
     } else {
@@ -108,10 +109,10 @@ instance.interceptors.response.use(
       }
       if (message.includes('Request failed with status code')) {
         const code = message.substr(message.length - 3);
-        console.log('---===2244=', response);
+        // console.log('---===2244=', response);
         message = '后端接口' + code + '异常';
       }
-      console.log('---===224ee4=', response);
+      // console.log('---===224ee4=', response);
       ElMessage.error(message || `后端接口未知异常`);
       return Promise.reject(error);
     }

@@ -81,13 +81,38 @@ public class BaseServlet extends HttpServlet {
     public Object SUCCESS(Object data){
         return JSONObject.toJSON(new APIResult(200,"success",data));
     };
-    public Object SUCCESS(String msg){
+    public static Object SUCCESS(String msg){
         return JSONObject.toJSON(new APIResult(200,msg));
     };
     public Object ERROR(String msg){
         return JSONObject.toJSON(new APIResult(401,msg));
     }
-    public Object ERROR(int code,String msg){
+    public static Object ERROR(int code, String msg){
         return JSONObject.toJSON(new APIResult(code,msg));
+    }
+
+
+    /**
+     * 传入状态码和消息
+     * @param result Object[]{200, "添加成功"}
+     * @param writer resp.getWriter();
+     */
+    public static void processResponse(Object[] result, PrintWriter writer) {
+        if (result != null && result.length == 2) {
+            // 如果数组不为空且长度为2，则提取状态码和消息
+            int statusCode = (int) result[0];
+            String message = (String) result[1];
+
+            if (statusCode == 200) {
+                writer.println(SUCCESS(message));
+            } else {
+                writer.println(ERROR(statusCode, message));
+            }
+        } else {
+            // 如果数组为空或者长度不为2，则给出默认的状态码和消息
+            int defaultStatusCode = 400;
+            String defaultMessage = "未知错误";
+            writer.println(ERROR(defaultStatusCode, "请求失败，状态码: " + defaultStatusCode + "，消息: " + defaultMessage));
+        }
     }
 }

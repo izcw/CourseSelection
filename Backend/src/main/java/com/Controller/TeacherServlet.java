@@ -1,19 +1,24 @@
 package com.Controller;
 
+import com.IService.IStudentService;
 import com.IService.ITeacherService;
-import com.Pojo.DTO.ListResultDto;
 import com.Pojo.DTO.PagerInfoDto;
+import com.Pojo.DTO.TeacherListResultDto;
+import com.Pojo.Student;
 import com.Pojo.Teacher;
+import com.Service.StudentService;
 import com.Service.TeacherService;
 import com.Tools.APIHelper;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 @WebServlet("/TeacherServlet")
 public class TeacherServlet extends BaseServlet{
@@ -23,6 +28,7 @@ public class TeacherServlet extends BaseServlet{
     public void query(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         // 数据
         String Name = req.getParameter("teacherName");
+        String Code = req.getParameter("teacherCode");
 
         PagerInfoDto p = null;
         if (req.getParameter("pageNum")!=null){
@@ -32,7 +38,7 @@ public class TeacherServlet extends BaseServlet{
         }
 
         // 调用service处理，并返回给前端
-        ListResultDto<Teacher> dto = _teacherService.GetList(Name,p);
+        TeacherListResultDto dto = _teacherService.GetList(Name,Code,p);
         PrintWriter w = resp.getWriter();
         w.println(SUCCESS(dto));
     }
@@ -51,9 +57,9 @@ public class TeacherServlet extends BaseServlet{
         teacher.setEmail(postData.getString("email"));
 
         // 调用service处理，并返回给前端
-        String Lisi = _teacherService.AddList(teacher);
+        Object[] result = _teacherService.AddList(teacher);
         PrintWriter writer = resp.getWriter();
-        writer.println(SUCCESS(Lisi));
+        processResponse(result, writer);
     }
 
 
@@ -74,10 +80,11 @@ public class TeacherServlet extends BaseServlet{
             }
 
             // 调用service处理，并返回给前端
-            String Lisi = _teacherService.DeletesArrayList(idArrayData);
-            writer.println(SUCCESS(Lisi));
+            Object[] result =_teacherService.DeletesArrayList(idArrayData);
+            processResponse(result, writer);
         }
     }
+
 
     // 编辑
     public void editor(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -94,8 +101,8 @@ public class TeacherServlet extends BaseServlet{
         teacher.setEmail(postData.getString("email"));
 
         // 调用service处理，并返回给前端
-        String Lisi = _teacherService.EditorList(teacher);
+        Object[] result = _teacherService.EditorList(teacher);
         PrintWriter writer = resp.getWriter();
-        writer.println(SUCCESS(Lisi));
+        processResponse(result, writer);
     }
 }

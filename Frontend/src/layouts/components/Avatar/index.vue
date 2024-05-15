@@ -4,7 +4,7 @@
       <!--<el-avatar class="user-avatar" :src="avatar"></el-avatar>-->
       <img class="user-avatar" :src="avatar1" alt="" />
       <div class="user-name">
-        {{ userName }}
+        {{ info.userName }}
         <i class="el-icon-arrow-down el-icon--right"></i>
       </div>
     </span>
@@ -16,6 +16,7 @@
     </template>
   </el-dropdown>
 </template>
+
 
 <script>
 export default {
@@ -31,12 +32,20 @@ import { setting } from '@/config/setting';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 
+const store = useStore();
+
+const info = ref({})
+async function getUserInfo() {
+    info.value = await store.getters['user/info'][0]
+}
+setTimeout(() => {
+    getUserInfo()
+}, 200)
+
 const { title, recordRoute } = setting;
 const { t } = useI18n();
 const avatar1 = ref('https://picserver.duoyu.link/picfile/image/202404/22-1713717087790.png'); // 学生头像
 const avatar2 = ref('https://picserver.duoyu.link/picfile/image/202404/22-1713717150586.png'); // 管理员头像
-const userName = ref('张三');
-const store = useStore();
 const router = useRouter();
 
 defineProps({

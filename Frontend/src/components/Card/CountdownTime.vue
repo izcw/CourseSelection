@@ -3,44 +3,58 @@
         <div v-if="Notopen">
             <el-empty description="当前不是选课开放时间" :image-size="100" :image="stopimg" />
         </div>
+        
         <div v-else>
             <div v-if="statusTime">
                 <h3>可以开始选课了</h3>
                 <router-link to="/sinceChoose">
-                    <el-button size="large" type="primary">开始选课</el-button>
+                    <el-button size="large"  @click="updateStatus()" type="primary">开始选课</el-button>
                 </router-link>
             </div>
             <div v-else>
-                <div class="countdown-item">
+                <span class="countdown-item">
                     <span>{{ days }}</span>
                     <span>天</span>
-                </div>
-                <div class="countdown-item">
+                </span>
+                <span class="countdown-item">
                     <span>{{ hours }}</span>
                     <span>时</span>
-                </div>
-                <div class="countdown-item">
+                </span>
+                <span class="countdown-item">
                     <span>{{ minutes }}</span>
                     <span>分</span>
-                </div>
-                <div class="countdown-item">
+                </span>
+                <span class="countdown-item">
                     <span>{{ seconds }}</span>
                     <span>秒</span>
-                </div>
+                </span>
+                <span class="countdown-item">
+                    <span>后开放选课</span>
+                </span>
+                
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, watchEffect } from 'vue';
+import { ref, computed, onUnmounted, watchEffect } from 'vue';
 import stopimg from "@/assets/icon/stop.png"
 
-const Notopen = ref(false); // 是否开放选课时间，默认为不开放
 
+const childStatus = ref(false);
+const emits = defineEmits(["status"])
+const updateStatus = ()=>{
+    childStatus.value = !childStatus.value
+    emits("status",childStatus.value)
+}
+
+
+
+
+const Notopen = ref(false); // 是否开放选课时间，默认为开放
 const statusTime = ref(false); // 倒计时状态
-
-const deadline = new Date('2024-04-22T22:38:00'); // 截止日期
+const deadline = new Date('2024-05-13T22:07:00'); // 选课开放时间
 
 const timeRemaining = ref(getTimeRemaining());
 

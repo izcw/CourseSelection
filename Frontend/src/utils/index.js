@@ -3,6 +3,7 @@
  * @description 常用公共工具函数
  */
 
+
 import { setting } from '@/config/setting';
 const { title } = setting;
 
@@ -15,7 +16,7 @@ export const getPageTitle = (pageTitle) => {
 export const getCookie=(cookieName) =>{
   
   const strCookie = document.cookie
-  console.log(strCookie)
+  // console.log(strCookie)
   const cookieList = strCookie.split(';')
   
   for(let i = 0; i < cookieList.length; i++) {

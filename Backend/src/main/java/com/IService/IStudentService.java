@@ -1,7 +1,7 @@
 package com.IService;
 
 import com.Pojo.DTO.PagerInfoDto;
-import com.Pojo.DTO.ListResultDto;
+import com.Pojo.DTO.StudentListResultDto;
 import com.Pojo.Student;
 
 import java.util.List;
@@ -13,11 +13,12 @@ import java.util.List;
  * @Description：
  */
 
-public interface IStudentService extends IBaseService<Student>{
-    ListResultDto<Student> GetList(String Id, String Name, PagerInfoDto p);
-    String AddList(Student student,String passwrod);
-    String DeletesArrayList(String[] idArrayData);
-    String EditorList(Student student);
 
-     List<Student> GetStudentByClassId(int classId);
+public interface IStudentService extends IBaseService<Student>{
+    StudentListResultDto GetList(String Id,String Name,String Code,  PagerInfoDto p);
+    Object[] AddList(Student student,String passwrod);
+    Object[] DeletesArrayList(String[] idArrayData);
+    Object[] EditorList(Student student);
+    String NumberingRules(Student student,String classId);
+    int GetStudentCountByClassId(int classId);
 }
