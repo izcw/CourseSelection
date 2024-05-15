@@ -3,6 +3,7 @@
         <div v-if="Notopen">
             <el-empty description="当前不是选课开放时间" :image-size="100" :image="stopimg" />
         </div>
+        
         <div v-else>
             <div v-if="statusTime">
                 <h3>可以开始选课了</h3>

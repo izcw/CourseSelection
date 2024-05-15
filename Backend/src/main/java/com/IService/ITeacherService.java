@@ -8,6 +8,7 @@ import com.Pojo.Teacher;
 
 import java.util.List;
 
+
 public interface ITeacherService extends IBaseService<Teacher>{
     TeacherListResultDto GetList(String Name,String Code, PagerInfoDto p);
     Object[] AddList(Teacher teacher);

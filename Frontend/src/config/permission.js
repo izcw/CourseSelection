@@ -10,6 +10,7 @@ import { getPageTitle } from '@/utils/index';
 import { setting } from '@/config/setting';
 const { authentication, loginInterception, progressBar, routesWhiteList, recordRoute } = setting;
 
+
 NProgress.configure({
   easing: 'ease',
   speed: 500,

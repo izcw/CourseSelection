@@ -118,6 +118,7 @@
   </div>
 </template>
 
+
 <script setup>
 import { ref, reactive } from 'vue';
 import { getStudentList, getAddStudentList, getDeleteMultipleStudentList, getEditorStudentList } from '@/api/student.js';

@@ -17,6 +17,7 @@
   </el-dropdown>
 </template>
 
+
 <script>
 export default {
   name: 'Avatar',

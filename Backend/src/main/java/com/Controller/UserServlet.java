@@ -42,6 +42,7 @@ public class UserServlet extends BaseServlet{
 
     }
 
+
     public void GetUserinfodata(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 //        String token = req.getParameter("token");
         String token = req.getHeader("token");

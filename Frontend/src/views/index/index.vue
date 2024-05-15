@@ -42,6 +42,7 @@
 
           </el-card><!-- 个人信息 -->
 
+          
           <!-- <el-card class="card" shadow="hover" v-if="Administrator === 'student'">
             <template #header>
               <h3 class="title">{{ t('indexPage.countdownTime') }}</h3>

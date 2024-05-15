@@ -91,6 +91,7 @@ public class BaseServlet extends HttpServlet {
         return JSONObject.toJSON(new APIResult(code,msg));
     }
 
+
     /**
      * 传入状态码和消息
      * @param result Object[]{200, "添加成功"}

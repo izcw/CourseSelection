@@ -13,6 +13,7 @@ import java.util.List;
  * @Description：
  */
 
+
 public interface IStudentService extends IBaseService<Student>{
     StudentListResultDto GetList(String Id,String Name,String Code,  PagerInfoDto p);
     Object[] AddList(Student student,String passwrod);

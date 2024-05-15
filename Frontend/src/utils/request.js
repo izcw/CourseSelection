@@ -12,6 +12,7 @@ import { getCookie } from '@/utils/index';
 // eslint-disable-next-line no-unused-vars
 let tokenLose = true;
 
+
 /**
  *
  * @description 处理code异常

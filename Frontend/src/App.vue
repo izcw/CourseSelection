@@ -6,6 +6,7 @@
   </el-config-provider>
 </template>
 
+
 <script setup>
 import { onMounted, computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
@@ -46,6 +47,7 @@ const changeBodyWidth = () => {
 const changeResize = () => {
   changeBodyWidth();
 };
+
 
 // 获取用户信息
 // async function setUserInfo() {

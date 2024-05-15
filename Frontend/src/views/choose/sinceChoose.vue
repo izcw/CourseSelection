@@ -7,6 +7,7 @@
   </div>
 </template>
 
+
 <script setup>
 import countdownTime from '@/components/Card/CountdownTime.vue';
 

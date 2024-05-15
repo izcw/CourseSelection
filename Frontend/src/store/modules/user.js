@@ -5,6 +5,7 @@ import { setting } from '@/config/setting';
 const { title, tokenName } = setting;
 import { resetRouter } from '@/router';
 
+
 import i18n from '@/locales';
 const { global } = i18n;
 
