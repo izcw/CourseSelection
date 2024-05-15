@@ -439,14 +439,11 @@
                 console.log("1111")
                 closeLoading();
                 window.sessionStorage.setItem("token",data.data)
-                 location.href="http://localhost:8089/#/"
-
+                 location.href="http://localhost:8089/"
             }else if(data.code == 401){
                 closeLoading();
                 alert(data.message)
             }
-
-
         };
 
     }

@@ -54,10 +54,9 @@ router.beforeEach(async (to, from, next) => {
             accessRoutes = await store.dispatch('routes/setAllRoutes');
           }
              
-          accessRoutes.forEach((item) => { 
-            if(item.role===store.getters['user/userType']||item.name==='Root'||item.name==='404Page'||item.name==='notMatch'){
-              
-              router.addRoute(item);    
+          accessRoutes.forEach((item) => {
+            if(item.role===store.getters['user/userType']||item.role==='Root'||item.name==='Root'||item.name==='404Page'||item.name==='notMatch'){
+              router.addRoute(item);   
             }        
                   
           });

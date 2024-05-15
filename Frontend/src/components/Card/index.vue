@@ -1,8 +1,17 @@
 <template>
     <div>
-        <p v-if="userType == 'student'">学号：{{info.studentCode}}</p>
-        <p v-if="userType == 'teacher'">编号：{{info.teacherCode}}</p>
-        <p>姓名：{{info.userName}}</p>
+        <div v-if="userType == 'student'">
+            <p>姓名：{{info.userName}}</p>
+            <p>学号：{{info.studentCode}}</p>
+        </div>
+        <div v-else-if="userType == 'teacher'">
+            <p>姓名：{{info.teacherName}}</p>
+            <p>编号：{{info.teacherCode}}</p>
+        </div>
+        <div v-else>
+            <p>姓名：{{info.userName}}</p>
+        </div>
+        
         <p>身份：
             <el-tag type="primary" v-if="userType == 'student'">学生</el-tag>
             <el-tag type="warning"  v-else-if="userType == 'teacher'">教师</el-tag>

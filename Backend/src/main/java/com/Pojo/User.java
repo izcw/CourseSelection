@@ -7,7 +7,7 @@ public class User {
     public String UserType;
 
     // 其他
-    public String teacherId;
+    public Integer teacherId;
     public String teacherCode;
     public String studentCode;
     public String teacherName;
@@ -19,7 +19,7 @@ public class User {
     public User() {
     }
 
-    public User(Integer UserId, String UserName, String Password, String UserType, String teacherId, String teacherCode, String studentCode, String teacherName, String gender, String phone, Integer age, String email) {
+    public User(Integer UserId, String UserName, String Password, String UserType, Integer teacherId, String teacherCode, String studentCode, String teacherName, String gender, String phone, Integer age, String email) {
         this.UserId = UserId;
         this.UserName = UserName;
         this.Password = Password;
@@ -102,7 +102,7 @@ public class User {
      * 获取
      * @return teacherId
      */
-    public String getTeacherId() {
+    public Integer getTeacherId() {
         return teacherId;
     }
 
@@ -110,7 +110,7 @@ public class User {
      * 设置
      * @param teacherId
      */
-    public void setTeacherId(String teacherId) {
+    public void setTeacherId(Integer teacherId) {
         this.teacherId = teacherId;
     }
 

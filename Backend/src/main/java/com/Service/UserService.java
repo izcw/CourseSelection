@@ -34,7 +34,7 @@ public class UserService extends BaseService<User> implements IUserService {
      */
     public List<User> GetList(String Id) {
         // 构建语句
-        String sql = "SELECT userType FROM user WHERE userId = ? AND delFlag = 1";
+        String sql = "SELECT userType,UserName FROM user WHERE userId = ? AND delFlag = 1";
         List<Object> params = Collections.singletonList(Id);
         List<User> userList = GetListparams(sql, params);
 
@@ -42,12 +42,13 @@ public class UserService extends BaseService<User> implements IUserService {
         if (!userList.isEmpty()) {
             User user = userList.get(0);
             String userType = user.getUserType();
+            String code = user.getUserName();
 
             // 根据用户类型获取对应的完整用户信息
             if ("student".equals(userType)) {
-                return getStudentInfo(Id);
+                return getStudentInfo(code);
             } else if ("teacher".equals(userType)) {
-                return getTeacherInfo(Id);
+                return getTeacherInfo(code);
             } else {
                 // 如果用户类型不是学生或教师，则直接返回用户信息
                 return getUserInfo(Id);
@@ -58,23 +59,23 @@ public class UserService extends BaseService<User> implements IUserService {
 
     /**
      * 从student表中获取学生信息
-     * @param id 用户id
+     * @param code 用户id
      * @return 学生信息列表
      */
-    private List<User> getStudentInfo(String id) { // 修改这里的参数类型为 String
-        String sql = "SELECT * FROM student WHERE userId = ? AND delFlag = 1";
-        List<Object> params = Collections.singletonList(id);
+    private List<User> getStudentInfo(String code) { // 修改这里的参数类型为 String
+        String sql = "SELECT * FROM student WHERE studentCode = ? AND delFlag = 1";
+        List<Object> params = Collections.singletonList(code);
         return GetListparams(sql, params);
     }
 
     /**
      * 从teacher表中获取教师信息
-     * @param id 用户id
+     * @param code 用户id
      * @return 教师信息列表
      */
-    private List<User> getTeacherInfo(String id) { // 修改这里的参数类型为 String
-        String sql = "SELECT * FROM teacher WHERE teacherId = ? AND delFlag = 1";
-        List<Object> params = Collections.singletonList(id);
+    private List<User> getTeacherInfo(String code) { // 修改这里的参数类型为 String
+        String sql = "SELECT * FROM teacher WHERE teacherCode = ? AND delFlag = 1";
+        List<Object> params = Collections.singletonList(code);
         return GetListparams(sql, params);
     }
 

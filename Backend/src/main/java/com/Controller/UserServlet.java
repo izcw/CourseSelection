@@ -46,11 +46,11 @@ public class UserServlet extends BaseServlet{
     public void GetUserinfodata(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 //        String token = req.getParameter("token");
         String token = req.getHeader("token");
-        System.out.println("Token-----"+token);
+//        System.out.println("Token-----"+token);
 
         Integer Id = TokenHelper.verify(token);
         String strId = Id.toString(); // 将整数id转换为字符串类型
-        System.out.println("UserId-----"+strId);
+//        System.out.println("UserId-----"+strId);
 
 
         // 调用service处理，并返回给前端

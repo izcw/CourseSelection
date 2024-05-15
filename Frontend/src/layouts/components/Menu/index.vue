@@ -7,9 +7,12 @@
 
       <Logo v-if="isLogo" />
       <template v-for="item in routes">
-        <template v-if="!item.hidden && item.role === userType || item.role === 'Root'">
-          <MenuItem :item="{ ...item, isBlack }" :key="item.path" />
-        </template>
+        <div v-for="(item2,index) in item.rolearr" :key="index">
+          <template v-if="!item.hidden && item2 === userType">
+            <MenuItem :item="{ ...item, isBlack }" :key="item.path" />
+          </template>
+        </div>
+       
       </template>
     </el-menu>
   </el-scrollbar>

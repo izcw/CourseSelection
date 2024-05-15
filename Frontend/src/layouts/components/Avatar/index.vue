@@ -4,7 +4,15 @@
       <!--<el-avatar class="user-avatar" :src="avatar"></el-avatar>-->
       <img class="user-avatar" :src="avatar1" alt="" />
       <div class="user-name">
-        {{ info.userName }}
+        <div v-if="userType == 'student'">
+          <p>{{info.userName}}</p>
+      </div>
+      <div v-else-if="userType == 'teacher'">
+          <p>{{info.teacherName}}</p>
+      </div>
+      <div v-else>
+          <p>{{info.userName}}</p>
+      </div>
         <i class="el-icon-arrow-down el-icon--right"></i>
       </div>
     </span>
@@ -35,8 +43,10 @@ import { useI18n } from 'vue-i18n';
 const store = useStore();
 
 const info = ref({})
+const userType = ref({})
 async function getUserInfo() {
     info.value = await store.getters['user/info'][0]
+    userType.value = await store.getters['user/userType']
 }
 setTimeout(() => {
     getUserInfo()

@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHashHistory ,createWebHistory} from 'vue-router';
 import Layout from '@/layouts/index.vue';
 import i18n from '@/locales';
 const { global } = i18n;
@@ -33,6 +33,7 @@ export const asyncRoutes = [
     redirect: '/index',
     name: 'Root',
     role:'Root',
+    rolearr:['admin','teacher'],
     children: [
       {
         path: '/index',
@@ -52,6 +53,7 @@ export const asyncRoutes = [
     component: Layout,
     name: 'student',
     role:'student',
+    rolearr:['student'],
     meta: { title: global.t('route.student'), icon: 'icon-people'},
     children: [
       {
@@ -62,6 +64,7 @@ export const asyncRoutes = [
           title: global.t('route.personalStudent'),
           icon: 'icon-info',
           role:'student',
+          rolearr:['student'],
         },
       },
       {
@@ -72,6 +75,7 @@ export const asyncRoutes = [
           title: global.t('route.queryScheduleTxt'),
           icon: 'icon-table-file',
           role:'student',
+          rolearr:['student'],
         },
       },
       {
@@ -82,6 +86,7 @@ export const asyncRoutes = [
           title: global.t('route.querycourseTxt'),
           icon: 'icon-check-correct',
           role:'student',
+          rolearr:['student'],
         },
       }
     ],
@@ -92,6 +97,7 @@ export const asyncRoutes = [
     component: Layout,
     name: 'Choose',
     role:'student',
+    rolearr:['student'],
     meta: { title: global.t('route.choose'), icon: 'icon-full-selection' },
     children: [
       {
@@ -101,7 +107,8 @@ export const asyncRoutes = [
         meta: {
           title: global.t('route.courseinfoTxt'),
           icon: 'icon-eyes',
-          role:'student'
+          role:'student',
+          rolearr:['student'],
         },
       },
       {
@@ -111,7 +118,8 @@ export const asyncRoutes = [
         meta: {
           title: global.t('route.sinceChooseTxt'),
           icon: 'icon-like',
-          role:'student'
+          role:'student',
+          rolearr:['student'],
         },
       }
       
@@ -123,12 +131,13 @@ export const asyncRoutes = [
     component: Layout,
     name: 'lessonadmin',
     role:'admin',
+    rolearr:['admin'],
     children: [
       {
         path: '/lessonadmin',
         component: () => import('@/views/admin/lessonadmin/index.vue'),
         name: 'lessonadmin',
-        meta: { title: global.t('route.lessonadminTxt'), icon: 'icon-app-switch',role:'admin' },
+        meta: { title: global.t('route.lessonadminTxt'), icon: 'icon-app-switch',role:'admin',rolearr:['admin'], },
       },
     ],
   },
@@ -137,13 +146,14 @@ export const asyncRoutes = [
     path: '/courseadmin',
     component: Layout,
     name: 'courseadmin',
-    role:'admin', 
+    role:'Root', 
+    rolearr:['admin','teacher'],
     children: [
       {
         path: '/courseadmin',
         component: () => import('@/views/admin/courseadmin/index.vue'),
         name: 'courseadmin',
-        meta: { title: global.t('route.courseadminTxt'), icon: 'icon-full-selection' ,role:'admin'},
+        meta: { title: global.t('route.courseadminTxt'), icon: 'icon-full-selection' ,role:'Root',rolearr:['admin'],},
       },
     ],
   },
@@ -152,13 +162,14 @@ export const asyncRoutes = [
     path: '/classadmin',
     component: Layout,
     name: 'classadmin',
-    role:'admin',
+    role:'Root',
+    rolearr:['admin','teacher'],
     children: [
       {
         path: '/classadmin',
         component: () => import('@/views/admin/classadmin/index.vue'),
         name: 'classadmin',
-        meta: { title: global.t('route.classadminTxt'), icon: 'icon-school',role:'admin'},
+        meta: { title: global.t('route.classadminTxt'), icon: 'icon-school',role:'Root', rolearr:['admin','teacher'],},
       },
     ],
   },
@@ -167,13 +178,14 @@ export const asyncRoutes = [
     path: '/studentadmin',
     component: Layout,
     name: 'studentadmin',
-    role:'admin',
+    role:'Root',
+    rolearr:['admin','teacher'],
     children: [
       {
         path: '/studentadmin',
         component: () => import('@/views/admin/studentadmin/index.vue'),
         name: 'studentadmin',
-        meta: { title: global.t('route.studentadminTxt'), icon: 'icon-peoples' ,role:'admin'},
+        meta: { title: global.t('route.studentadminTxt'), icon: 'icon-peoples' ,role:'Root', rolearr:['admin','teacher'],},
       },
     ],
   },
@@ -183,12 +195,13 @@ export const asyncRoutes = [
     component: Layout,
     name: 'teacheradmin',
     role:'admin',
+    rolearr:['admin'],
     children: [
       {
         path: '/teacheradmin',
         component: () => import('@/views/admin/teacheradmin/index.vue'),
         name: 'teacheradmin',
-        meta: { title: global.t('route.teacheradminTxt'), icon: 'icon-people-bottom-card',role:'admin' },
+        meta: { title: global.t('route.teacheradminTxt'), icon: 'icon-people-bottom-card',role:'admin', rolearr:['admin'], },
       },
     ],
   },
@@ -302,7 +315,7 @@ export const asyncRoutes = [
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes: constantRoutes,
 });
 
