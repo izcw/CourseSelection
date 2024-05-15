@@ -22,12 +22,7 @@
       <el-table-column prop="enrollmentMethod" label="选课方式">
 
       </el-table-column>
-      <el-table-column prop="state" label="状态">
-        <template #default="scope">
-          <el-tag v-if="scope.row.state === 2">{{ formatterState(scope.row.state) }}</el-tag>
-          <el-tag type="success" v-if="scope.row.state === 1">{{ formatterState(scope.row.state) }}</el-tag>
-        </template>
-      </el-table-column>
+     
 
 
       <el-table-column label="操作" width="450">
@@ -38,9 +33,7 @@
           <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">
             删除
           </el-button>
-          <el-button size="small" type="primary" @click="release(scope.$index, scope.row)">
-            发布/取消发布
-          </el-button>
+      
           <el-button :disabled="scope.row.state === 1" size="small" type="primary"
             @click="bindingCourseShow(scope.$index, scope.row)">
             绑定课程
