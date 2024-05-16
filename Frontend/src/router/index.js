@@ -206,6 +206,22 @@ export const asyncRoutes = [
     ],
   },
   {
+    //选课结果管理
+    path: '/resultadmin',
+    component: Layout,
+    name: 'resultadmin',
+    role:'admin',
+    rolearr:['admin'],
+    children: [
+      {
+        path: '/resultadmin',
+        component: () => import('@/views/admin/resultadmin/index.vue'),
+        name: 'resultadmin',
+        meta: { title: global.t('route.resultadminTxt'), icon: 'icon-people-bottom-card',role:'admin', rolearr:['admin'], },
+      },
+    ],
+  },
+  {
     path: '/comp',
     component: Layout,
     name: 'Comp',

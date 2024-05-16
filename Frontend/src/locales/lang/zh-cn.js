@@ -25,6 +25,7 @@ export default {
     courseadminTxt:"选课管理",
     studentadminTxt:"学生管理",
     teacheradminTxt:"教师管理",
+    resultadminTxt:"选课结果",
     classadminTxt:"班级管理",
     lessonadminTxt:"课程管理",
     querycourseTxt:"查询选课信息",
