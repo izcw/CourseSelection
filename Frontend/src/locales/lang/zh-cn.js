@@ -17,7 +17,7 @@ export default {
     page401: '401',
     page404: '404',
     choose:"选课",
-    courseinfoTxt:"课程信息",
+    courseinfoTxt:"可选课程信息",
     sinceChooseTxt:"自主选课",
     student:"学生信息",
     personalStudent:"查询个人信息",

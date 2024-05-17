@@ -206,7 +206,7 @@ getList({
   if (res.code !== 200) {
     console.log("班级信息-获取不到数据");
   } else {
-    classinfoDate.value = res.data
+    classinfoDate.value = res.data.list
     console.log("班级信息-请求：", res);
   }
 });

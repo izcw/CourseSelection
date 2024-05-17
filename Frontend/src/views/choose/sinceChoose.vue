@@ -1,8 +1,10 @@
 <template>
   <div class="sinceChoose-container">
-    <countdownTime v-if="parentStatus === false" @status="handleStatusUpdate"></countdownTime>
+    <div v-if="parentStatus === false" style="padding:100px;">
+      <countdownTime  @status="handleStatusUpdate"></countdownTime>
+    </div>
     <div v-else>
-      可以咯
+      <selectionOperation></selectionOperation>
     </div>
   </div>
 </template>
@@ -10,8 +12,9 @@
 
 <script setup>
 import countdownTime from '@/components/Card/CountdownTime.vue';
+import selectionOperation from '@/views/choose/selectionOperation.vue';
 
-const parentStatus = ref(false)
+const parentStatus = ref(true)
 const handleStatusUpdate = (val)=>{
   parentStatus.value = val
 }
@@ -19,7 +22,6 @@ const handleStatusUpdate = (val)=>{
 
 <style lang="scss" scoped>
 .sinceChoose-container {
-  padding: $base-main-padding;
   background-color: $base-color-white;
 
   .row {

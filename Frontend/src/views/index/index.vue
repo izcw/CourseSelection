@@ -43,12 +43,12 @@
           </el-card><!-- 个人信息 -->
 
           
-          <!-- <el-card class="card" shadow="hover" v-if="Administrator === 'student'">
+          <el-card class="card" shadow="hover" v-if="userType === 'student'">
             <template #header>
               <h3 class="title">{{ t('indexPage.countdownTime') }}</h3>
             </template>
             <countdownTime />
-          </el-card> -->
+          </el-card>
           <!-- 倒计时 -->
 
           <el-card class="card" shadow="hover">
@@ -82,6 +82,17 @@ import countdownTime from '@/components/Card/CountdownTime.vue';
 import { useI18n } from 'vue-i18n';
 import Cell from '@/components/Cell/index.vue';
 import { noticeList } from '@/layouts/components/NavBar/data.js';
+import { useStore } from 'vuex';
+
+const store = useStore();
+
+const userType = ref({})
+async function getUserInfo() {
+    userType.value = await store.getters['user/userType']
+}
+setTimeout(()=>{
+    getUserInfo()
+},200)
 
 
 let activeName = ref('first');

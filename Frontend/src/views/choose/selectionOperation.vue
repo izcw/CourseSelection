@@ -14,8 +14,20 @@
 
 <script setup>
 import { ref } from "vue"
-const select1 = ref('')
-const select2 = ref('')
+import { useStore } from 'vuex';
+
+const store = useStore();
+const info = ref({})
+async function getUserInfo() {
+    info.value = await store.getters['user/info'][0]
+    console.log("info----" + JSON.stringify(info.value));
+}
+setTimeout(()=>{
+    getUserInfo()
+},200)
+
+
+
 </script>
 
 <style lang="scss" scoped>

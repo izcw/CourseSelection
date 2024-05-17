@@ -6,7 +6,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" href="./images/favicon.ico" />
-        <title>登录-学生选课管理系统</title>
+        <title>修改密码-学生选课管理系统</title>
         <style>
             * {
                 margin: 0;
@@ -40,7 +40,7 @@
 
             .loginBox {
                 width: 400px;
-                height: 470px;
+                height: 580px;
                 background-color: #fff;
                 margin: 100px auto;
                 border-radius: 10px;
@@ -371,12 +371,13 @@
                 line-height: 30px;
             }
 
-            .changepasswd {
+            .gologin{
+                position: absolute;
                 font-size: 14px;
                 color: #999;
                 position: absolute;
-                bottom: 26px;
-                right: 36px;
+                top: 26px;
+                left: 36px;
             }
         </style>
     </head>
@@ -399,32 +400,30 @@
             </div>
         </div>
         <div class="loginBox">
-            <h2>学生选课系统</h2>
-
+            <a href="/" class="gologin">返回</a>
+            <h2>修改密码-学生选课系统</h2>
             <div class="item">
-                <input id="username" type="text" value="admin" required>
+                <input id="username" type="text" value="" required>
                 <label for="">用户名</label>
             </div>
             <div class="item">
-                <input id="password" type="password" value="123456" required>
-                <label for="">密码</label>
+                <input id="oldpassword" type="password" value="" required>
+                <label for="">旧密码</label>
             </div>
-
-            <div class="select">
-                <select name="cars" id="select">
-                    <option value="student">学生</option>
-                    <option value="teacher">老师</option>
-                    <option value="admin" selected>管理员</option>
-                </select>
+            <div class="item">
+                <input id="newpassword" type="password" value="" required>
+                <label for="">新密码</label>
             </div>
-
-            <button class="btn" onclick="login();">登录
+            <div class="item">
+                <input id="newpassword2" type="password" value="" required>
+                <label for="">确认新密码</label>
+            </div>
+            <button class="btn" onclick="login();">确认
                 <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-            <a href="/changepasswd.jsp" class="changepasswd">修改密码</a>
 
         </div>
         <script type="text/javascript">
@@ -441,46 +440,59 @@
             }
 
             function login() {
-
                 var username = document.getElementById('username').value
-                var password = document.getElementById('password').value
-                var selectVal = document.getElementById('select').value
+                var oldpassword = document.getElementById('oldpassword').value
+                var newpassword = document.getElementById('newpassword').value
+                var newpassword2 = document.getElementById('newpassword2').value
 
                 if (username === '') {
                     alert('账号不能为空')
                     return
                 }
-                if (password === '') {
-                    alert('密码不能为空')
+                if (oldpassword === '') {
+                    alert('旧密码不能为空')
+                    return
+                }
+                if (newpassword === '') {
+                    alert('新密码不能为空')
+                    return
+                }
+                if (newpassword2 === '' || newpassword2 != newpassword) {
+                    alert('两次密码不一致')
                     return
                 }
 
+
                 loading();
-                var url = "/LoginServlet?action=Login";
+                var url = "/UserServlet?action=changepassword";
                 var httpRequest = new XMLHttpRequest();
                 httpRequest.open('POST', url, true);
                 httpRequest.setRequestHeader("Content-type", "application/json");
-                var obj = {
-                    "username": username,
-                    "password": password,
-                    "userType": selectVal
+                var data = {
+                    "code": username,
+                    "oldpassword": oldpassword,
+                    "newpassword": newpassword,
                 };
 
-                httpRequest.send(JSON.stringify(obj));
+                httpRequest.send(JSON.stringify(data));
 
                 // 响应后的回调函数
-                httpRequest.onreadystatechange = function (res) {
-                    let data = JSON.parse(res.target.response)
-                    if (data.code == 200) {
-                        console.log("1111")
+                httpRequest.onreadystatechange = function () {
+                    if (httpRequest.readyState === 4) { // 请求已完成
                         closeLoading();
-                        window.sessionStorage.setItem("token", data.data)
-                        location.href = "http://localhost:8089/"
-                    } else if (data.code == 401) {
-                        closeLoading();
-                        alert(data.message)
+                        if (httpRequest.status === 200) { // 响应已就绪
+                            let data = JSON.parse(httpRequest.responseText);
+                            console.log("***" + JSON.stringify(data));
+                            if (data.code == 200) {
+                                location.href = "/";
+                            }
+                            alert(data.msg);
+                        } else {
+                            alert("请求失败，状态码：" + httpRequest.status);
+                        }
                     }
                 };
+                ƒ
 
             }
 

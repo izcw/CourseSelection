@@ -8,6 +8,7 @@ public class User {
 
     // 其他
     public Integer teacherId;
+    public Integer classId;
     public String teacherCode;
     public String studentCode;
     public String teacherName;

@@ -7,16 +7,16 @@
 
     </el-row>
     <el-table :data="tableData" border style="width: 100%">
-      <el-table-column prop="selectionPlanName" label="选课方案名称">
+      <el-table-column prop="selectionPlanName" label="选课方案名称" width="260">
 
       </el-table-column>
 
-      <el-table-column prop="beginTime" label="开始时间">
+      <el-table-column prop="beginTime" label="开始时间"  width="160">
 
       </el-table-column>
 
 
-      <el-table-column prop="endTime" label="结束时间">
+      <el-table-column prop="endTime" label="结束时间"  width="160">
 
       </el-table-column>
       <el-table-column prop="enrollmentMethod" label="选课方式">

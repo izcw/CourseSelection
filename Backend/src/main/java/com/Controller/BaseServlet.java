@@ -40,7 +40,7 @@ public class BaseServlet extends HttpServlet {
         //判断请求地址如果不是登录接口则验证有没有token以及token是否合法
         String method1 = req.getMethod();
 
-        if (!servletPath.equals("/LoginServlet")&&!method1.equals("OPTIONS")){
+        if (!servletPath.equals("/LoginServlet")&&!servletPath.equals("/UserServlet")&&!method1.equals("OPTIONS")){
             String token = req.getHeader("token");
 
             if(token!=null){
