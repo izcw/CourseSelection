@@ -16,7 +16,7 @@ public class EnrollmentStudentService extends BaseService<EnrollmentStudent> imp
     @Override
     public ListResultDto<EnrollmentStudent> GetList(EnrollmentStudent e, PagerInfoDto p ) {
         ListResultDto<EnrollmentStudent> dto = new ListResultDto<EnrollmentStudent>();
-        StringBuilder sb = new StringBuilder(" select * from enrollment_student es left join course c on es.courseId = c.courseId left join (select s2.userId,s2.studentCode,s2.userName,s2.age,s2.gender,s2.phone,s2.email,c2.className from student s2 left join classinfo c2 on s2.classId = c2.classId  ) s1 on es.studentId = s1.userId where true ");
+        StringBuilder sb = new StringBuilder(" select * from enrollment_student es left join course c on es.courseCode = c.courseCode left join (select s2.userId,s2.studentCode,s2.userName,s2.age,s2.gender,s2.phone,s2.email,c2.className from student s2 left join classinfo c2 on s2.classId = c2.classId  ) s1 on es.studentCode = s1.studentCode where true ");
 
         //根据学生姓名查询
         if (e.getStudent().getUserName()!=null){

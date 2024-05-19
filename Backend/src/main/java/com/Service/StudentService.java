@@ -212,9 +212,9 @@ public class StudentService extends BaseService<Student> implements IStudentServ
      * @return 执行状态
      */
     public int GetStudentCountByClassId(int classId){
-        String sql =  String.format(" select * from student where classId = %d",classId);
-
-        return ExecuteQueryCount(sql);
+        String sql =  String.format(" select * from student where classId = %d and delFlag = '1' ",classId);
+        Integer i = GetList(sql).size();
+        return i;
     }
 
 }
