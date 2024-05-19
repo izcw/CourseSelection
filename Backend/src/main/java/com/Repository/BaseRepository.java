@@ -271,16 +271,17 @@ public class BaseRepository<T> implements IBaseRepository<T> {
             conn = SqlHelper.GetConnection();
             sm = SqlHelper.GetStatement(conn);
             rs = sm.executeQuery(sql);
-            while (rs.next()) {
-                count++;
+            if (rs.next()) { // 检查结果集是否有下一行
+                count = rs.getInt(1); // 获取结果数量
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            SqlHelper.CloseResources(conn, sm,rs);
+            SqlHelper.CloseResources(conn, sm, rs);
         }
         return count;
     }
+
 
     /**
      * 执行SQL语句

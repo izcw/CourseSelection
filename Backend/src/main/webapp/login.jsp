@@ -402,19 +402,19 @@
             <h2>学生选课系统</h2>
 
             <div class="item">
-                <input id="username" type="text" value="admin" required>
+                <input id="username" type="text" value="" required>
                 <label for="">用户名</label>
             </div>
             <div class="item">
-                <input id="password" type="password" value="123456" required>
+                <input id="password" type="password" value="" required>
                 <label for="">密码</label>
             </div>
 
             <div class="select">
                 <select name="cars" id="select">
-                    <option value="student">学生</option>
+                    <option value="student" selected>学生</option>
                     <option value="teacher">老师</option>
-                    <option value="admin" selected>管理员</option>
+                    <option value="admin">管理员</option>
                 </select>
             </div>
 

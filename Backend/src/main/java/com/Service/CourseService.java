@@ -6,6 +6,9 @@ import com.Pojo.Course;
 import com.Pojo.DTO.ListResultDto;
 import com.Pojo.DTO.PagerInfoDto;
 
+import java.sql.PreparedStatement;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CourseService extends BaseService<Course> implements ICourseService {
@@ -77,4 +80,86 @@ public class CourseService extends BaseService<Course> implements ICourseService
         String sql = String.format("select * from course where courseId = %d limit 1",id);
         return GetFirst(sql);
     }
+
+
+    /**
+     * 通过传选课类别id查找数据
+     * @param Id id（选课类别id）
+     * @return 执行状态
+     */
+    public List<Course> GetstudentshowCourseList(String Id) {
+        // 构建查询的 SQL 语句
+        StringBuilder sb = new StringBuilder();
+        sb.append("SELECT c.courseId, c.courseCode, c.courseName, c.teacherId, t.teacherName, c.credits, ct.courseTypeId, ct.typeName, c.createTime, c.delFlag, ec.maximumQuantity, ec.enrollmentId ");
+        sb.append("FROM enrollment_course ec ");
+        sb.append("JOIN enrollment e ON ec.enrollmentId = e.enrollmentId ");
+        sb.append("JOIN course c ON ec.courseId = c.courseId ");
+        sb.append("JOIN course_type ct ON c.courseTypeId = ct.courseTypeId ");
+        sb.append("JOIN teacher t ON c.teacherId = t.teacherId "); // 加入 teacher 表的连接
+        sb.append("WHERE ec.enrollmentId = ? ");
+        sb.append("AND e.delFlag = 1");
+
+        List<Object> params = new ArrayList<>();
+        params.add(Id);
+
+        // 获取查询结果
+        List<Course> courseList = GetListparams(sb.toString(), params);
+
+        // 如果没有找到对应的记录，返回空列表
+        if (courseList == null || courseList.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        // 遍历课程列表，为每个课程计算 selectednumberpeople
+        for (Course course : courseList) {
+            int selectedNumberPeople = getSelectedNumberPeople(course.getCourseCode());
+            course.setSelectednumberpeople(selectedNumberPeople);
+        }
+
+        // 返回查询到的课程列表
+        return courseList;
+    }
+
+    // 根据 enrollmentId 查询 enrollment_student 表的记录数
+    public int getSelectedNumberPeople(String Id) {
+        // 构建查询的 SQL 语句
+        String sql = "SELECT COUNT(*) FROM enrollment_student WHERE courseCode = '" + Id + "'";
+
+        // 使用 ExecuteQueryCount 方法执行查询并返回结果数量
+        return ExecuteQueryCount(sql);
+    }
+
+
+    /**
+     * 通过传学生id查找数据(我的选课)
+     * @param Id id（学生id）
+     * @return 执行状态
+     */
+    public List<Course> GetMyclassstudentcourseList(String studentId) {
+        // 构建查询的 SQL 语句
+        StringBuilder sb = new StringBuilder();
+        sb.append("SELECT c.*, ct.typeName, t.teacherName ");
+        sb.append("FROM enrollment_student es ");
+        sb.append("JOIN course c ON es.courseCode = c.courseCode ");
+        sb.append("JOIN course_type ct ON c.courseTypeId = ct.courseTypeId ");
+        sb.append("JOIN teacher t ON c.teacherId = t.teacherId ");
+        sb.append("WHERE es.studentCode = ? ");
+        sb.append("AND c.delFlag = 1");
+
+        List<Object> params = new ArrayList<>();
+        params.add(studentId);
+
+        // 获取查询结果
+        List<Course> courseList = GetListparams(sb.toString(), params);
+
+        // 如果没有找到对应的记录，返回空列表
+        if (courseList == null || courseList.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        // 返回查询到的课程列表
+        return courseList;
+    }
+
+
 }

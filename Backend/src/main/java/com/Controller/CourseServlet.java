@@ -5,6 +5,7 @@ import com.Pojo.ClassInfo;
 import com.Pojo.Course;
 import com.Pojo.DTO.ListResultDto;
 import com.Pojo.DTO.PagerInfoDto;
+import com.Pojo.EnrollmentStudent;
 import com.Service.CourseService;
 import com.Tools.APIHelper;
 import com.Tools.DateTimeHelper;
@@ -200,6 +201,15 @@ public class CourseServlet extends BaseServlet{
         int courseId = Integer.parseInt(req.getParameter("courseId"));
         Course course = _courseServise.GetCourseInfo(courseId);
         writer.println(SUCCESS(course));
+    }
+
+    // 查询我的选课
+    public void myclassscourse(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        // 数据
+        String Id = req.getParameter("studentCode");
+        List<Course> Course = _courseServise.GetMyclassstudentcourseList(Id);
+        PrintWriter w = resp.getWriter();
+        w.println(SUCCESS(Course));
     }
 }
 

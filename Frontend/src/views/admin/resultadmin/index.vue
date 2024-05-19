@@ -156,4 +156,17 @@ onMounted(() => {
 })
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.classadmin-container{
+    padding: $base-main-padding;
+    background-color: $base-color-white;
+
+    .row {
+        margin: 20px 0;
+    }
+
+    .group {
+        margin: 0 20px;
+    }
+}
+</style>

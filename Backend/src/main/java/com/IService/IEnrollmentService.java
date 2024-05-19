@@ -2,7 +2,6 @@ package com.IService;
 
 import com.Pojo.Course;
 import com.Pojo.Enrollment;
-import com.Service.BaseService;
 
 import java.util.List;
 
@@ -13,4 +12,6 @@ public interface IEnrollmentService extends IBaseService<Enrollment> {
     boolean DeleteEnrollment(int id);
     Enrollment GetEnrollmentInfo(int id);
     String Release(int id);
+
+    List<Enrollment> GetstudentEnrollmentList(String Id);
 }

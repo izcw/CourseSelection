@@ -98,19 +98,19 @@ export const asyncRoutes = [
     name: 'Choose',
     role: 'student',
     rolearr: ['student'],
-    meta: { title: global.t('route.choose'), icon: 'icon-full-selection' },
+    // meta: { title: global.t('route.choose'), icon: 'icon-full-selection' },
     children: [
-      {
-        path: '/courseinfo',
-        name: 'courseinfo',
-        component: () => import('@/views/choose/index.vue'),
-        meta: {
-          title: global.t('route.courseinfoTxt'),
-          icon: 'icon-eyes',
-          role: 'student',
-          rolearr: ['student'],
-        },
-      },
+      // {
+      //   path: '/courseinfo',
+      //   name: 'courseinfo',
+      //   component: () => import('@/views/choose/index.vue'),
+      //   meta: {
+      //     title: global.t('route.courseinfoTxt'),
+      //     icon: 'icon-eyes',
+      //     role: 'student',
+      //     rolearr: ['student'],
+      //   },
+      // },
       {
         path: '/sinceChoose',
         name: 'sinceChoose',

@@ -38,7 +38,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onUnmounted, watchEffect } from 'vue';
+import { ref, computed, onUnmounted,watch, watchEffect,defineProps } from 'vue';
 import stopimg from "@/assets/icon/stop.png"
 
 
@@ -49,10 +49,16 @@ const updateStatus = ()=>{
     emits("status",childStatus.value)
 }
 
+const props = defineProps({
+  openness: Boolean
+});
 
+watch(() => props.openness, (newVal) => {
+  Notopen.value = newVal;
+});
 
-
-const Notopen = ref(false); // 是否开放选课时间，默认为开放
+const Notopen = ref(props.openness); // 是否开放选课时间，默认为开放
+console.log(props.openness,"是否开放选课时间，默认为开放");
 const statusTime = ref(false); // 倒计时状态
 const deadline = new Date('2024-05-13T22:07:00'); // 选课开放时间
 

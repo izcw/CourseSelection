@@ -1,11 +1,13 @@
 package com.Service;
 
-import com.IService.ICourseTypeService;
 import com.IService.IEnrollmentClassService;
 import com.IService.IEnrollmentCourseService;
 import com.IService.IEnrollmentService;
 import com.Pojo.*;
+import com.Pojo.DTO.StudentListResultDto;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class EnrollmentService extends BaseService<Enrollment> implements IEnrollmentService {
@@ -99,4 +101,36 @@ public class EnrollmentService extends BaseService<Enrollment> implements IEnrol
         }
 
     }
+
+
+    /**
+     * 通过传班级id查找数据
+     * @param Id id（班级id）
+     * @return 执行状态
+     */
+    public List<Enrollment> GetstudentEnrollmentList(String Id) {
+        // 构建查询enrollment_class表的语句
+        StringBuilder sb = new StringBuilder("SELECT e.* ");
+        sb.append("FROM enrollment_class ec ");
+        sb.append("LEFT JOIN enrollment e ON ec.enrollmentId = e.enrollmentId ");
+        sb.append("WHERE ec.classId = ? ");
+        sb.append("AND e.delFlag = 1");
+
+        List<Object> params = new ArrayList<>();
+        params.add(Id);
+
+        List<Enrollment> enrollmentList = GetListparams(sb.toString(), params);
+
+        // 如果没有找到对应的记录，返回空
+        if (enrollmentList == null || enrollmentList.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        // 返回查询到的enrollment列表
+        return enrollmentList;
+    }
+
+
+
+
 }

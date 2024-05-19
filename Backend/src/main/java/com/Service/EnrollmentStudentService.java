@@ -2,12 +2,14 @@ package com.Service;
 
 import com.Controller.BaseServlet;
 import com.IService.IEnrollmentStudentService;
-import com.Pojo.ClassInfo;
+import com.Pojo.*;
 import com.Pojo.DTO.ListResultDto;
 import com.Pojo.DTO.PagerInfoDto;
-import com.Pojo.EnrollmentCourse;
-import com.Pojo.EnrollmentStudent;
+import com.Tools.DateTimeHelper;
+import com.Tools.MD5Helper;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class EnrollmentStudentService extends BaseService<EnrollmentStudent> implements IEnrollmentStudentService {
@@ -44,5 +46,50 @@ public class EnrollmentStudentService extends BaseService<EnrollmentStudent> imp
         dto.setList(enrollmentStudents);
         dto.setPagerInfoDto(p);
         return dto;
+    }
+
+
+    /**
+     * 通过传学生id查找数据(查询学生选的课程)
+     * @param Id id（学生id）
+     * @return 执行状态
+     */
+    public List<EnrollmentStudent> GetMystudentcourseList(String Id) {
+        // 构建查询enrollment_class表的语句
+        StringBuilder sb = new StringBuilder("SELECT e.* ");
+        sb.append("FROM enrollment_student e ");
+        sb.append("WHERE e.studentCode = ? ");
+
+        List<Object> params = new ArrayList<>();
+        params.add(Id);
+
+        List<EnrollmentStudent> enrollmentList = GetListparams(sb.toString(), params);
+
+        // 返回查询到的enrollment列表
+        return enrollmentList;
+    }
+
+
+
+    /**
+     * 添加数据（选择课程）
+     * @param enrollmentStudent 对象
+     * @return 执行状态
+     */
+    public Object[] SelectEnrollmentStudent(EnrollmentStudent enrollmentStudent) {
+        // 构建学生信息插入语句
+        String enrollmentstudentSql = String.format("INSERT INTO enrollment_student ( enrollmentId,courseCode, studentCode, enrollmentTime) VALUES ('%d', '%s', '%s', '%s')",
+                enrollmentStudent.getEnrollmentId(),enrollmentStudent.getCourseCode(), enrollmentStudent.getStudentCode(), DateTimeHelper.GetCurrentTimeToString());
+
+        // 执行学生信息插入操作
+        int Result = ExecuteUpdate(enrollmentstudentSql);
+
+
+        // 检查是否成功插入学生信息和用户信息
+        if (Result > 0) {
+            return new Object[]{200, "选择成功"};
+        } else {
+            return new Object[]{400, "选择失败"};
+        }
     }
 }

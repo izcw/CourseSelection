@@ -10,6 +10,8 @@ public  class Course extends BaseModel{
     public Double Credits;
     public Teacher Teacher;
     public CourseType CourseType;
+    private int maximumQuantity; // 新增字段
+    private int selectednumberpeople;
 
 
     public Course() {
@@ -88,5 +90,20 @@ public  class Course extends BaseModel{
 
     public void setCourseType(com.Pojo.CourseType courseType) {
         CourseType = courseType;
+    }
+    public int getMaximumQuantity() {
+        return maximumQuantity;
+    }
+
+    public void setMaximumQuantity(int maximumQuantity) {
+        this.maximumQuantity = maximumQuantity;
+    }
+
+    public int getSelectednumberpeople() {
+        return selectednumberpeople;
+    }
+
+    public void setSelectednumberpeople(int selectednumberpeople) {
+        this.selectednumberpeople = selectednumberpeople;
     }
 }
