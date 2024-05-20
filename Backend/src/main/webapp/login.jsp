@@ -470,16 +470,18 @@
 
                 // 响应后的回调函数
                 httpRequest.onreadystatechange = function (res) {
-                    let data = JSON.parse(res.target.response)
-                    if (data.code == 200) {
-                        console.log("1111")
-                        closeLoading();
-                        window.sessionStorage.setItem("token", data.data)
-                        location.href = "http://localhost:8089/"
-                    } else if (data.code == 401) {
-                        closeLoading();
-                        alert(data.msg)
+                    if (httpRequest.readyState === 4) { // 请求已完成
+                        let data = JSON.parse(res.target.response)
+                        if (data.code == 200) {
+                            console.log("1111")
+                            closeLoading();
+                            window.sessionStorage.setItem("token", data.data)
+                            location.href = "http://localhost:8089/"
+                        } else if (data.code == 401) {
+                            closeLoading();
+                            alert(data.msg)
 
+                        }
                     }
                 };
 
