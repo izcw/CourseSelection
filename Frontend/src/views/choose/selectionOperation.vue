@@ -61,9 +61,9 @@
                                 <el-button
                                     v-if="scope.row.maximumQuantity > scope.row.selectednumberpeople && !isSelected[scope.$index]"
                                     type="warning" size="small">选择</el-button>
-                                <el-button v-else-if="isSelected[scope.$index]" type="info" size="small"
+                                <el-button v-else-if="isSelected[scope.$index]" disabled plain type="info" size="small"
                                     round>已选</el-button>
-                                <el-button v-else type="info" size="small" round disabled>已满</el-button>
+                                <el-button v-else type="info" size="small" round disabled plain>已满</el-button>
                             </template>
                         </el-popconfirm>
                     </template>
