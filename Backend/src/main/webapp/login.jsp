@@ -409,7 +409,21 @@
                 <input id="password" type="password" value="" required>
                 <label for="">密码</label>
             </div>
-
+            <%--        验证码输入框--%>
+            <p style="font-family: 楷体;margin-bottom: 40px">
+                验证码:
+                <input
+                        type="text"
+                        name="validationCode"
+                        id="validationCode"
+                        class="Captcha"
+                        placeholder="请输入验证码"
+                        data-error-id="codeError"
+                />
+                <a href="javascript:reloadCode()">
+                    <img src="ValidateCodeServlet" id="imagecode"/>
+                </a>
+            </p>
             <div class="select">
                 <select name="cars" id="select">
                     <option value="student" selected>学生</option>
@@ -428,6 +442,14 @@
 
         </div>
         <script type="text/javascript">
+            //验证码的点击刷新
+            function reloadCode() {
+                //切换验证码
+                var time = new Date().getTime();
+                document.getElementById("imagecode").src =
+                    "ValidateCodeServlet?d=" + time;
+            }
+
             function loading() {
                 document.getElementById("loadDiv").style.visibility = "visible";//显示
             }
@@ -444,6 +466,7 @@
 
                 var username = document.getElementById('username').value
                 var password = document.getElementById('password').value
+                var validationCode = document.getElementById('validationCode').value
                 var selectVal = document.getElementById('select').value
 
                 if (username === '') {
@@ -454,7 +477,10 @@
                     alert('密码不能为空')
                     return
                 }
-
+                if (validationCode === '') {
+                    alert('验证码不能为空')
+                    return
+                }
                 loading();
                 var url = "/LoginServlet?action=Login";
                 var httpRequest = new XMLHttpRequest();
@@ -463,6 +489,7 @@
                 var obj = {
                     "username": username,
                     "password": password,
+                    "validationCode":validationCode,
                     "userType": selectVal
                 };
 
