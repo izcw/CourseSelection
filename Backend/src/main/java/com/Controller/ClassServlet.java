@@ -165,7 +165,14 @@ public class ClassServlet extends BaseServlet{
             writer.println(ERROR("班级id为空"));
             return;
         }
+
         Integer classId = postData.getInteger("classId");
+
+        List<Student> students = _studentService.GetList(String.format("select * from student where classId = %d and delFlag = 1", classId));
+        if (!students.isEmpty()){
+            writer.println(ERROR("请先把当前班级学生绑定到别的班级再删除"));
+            return;
+        }
         boolean b = _classService.DeleteClass(classId);
         if (b){
             writer.println(SUCCESS("删除成功"));

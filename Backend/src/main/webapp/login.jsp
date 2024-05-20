@@ -413,7 +413,7 @@
             <div class="select">
                 <select name="cars" id="select">
                     <option value="student" selected>学生</option>
-                    <option value="teacher">老师</option>
+
                     <option value="admin">管理员</option>
                 </select>
             </div>
@@ -478,7 +478,8 @@
                         location.href = "http://localhost:8089/"
                     } else if (data.code == 401) {
                         closeLoading();
-                        alert(data.message)
+                        alert(data.msg)
+
                     }
                 };
 

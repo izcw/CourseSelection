@@ -51,7 +51,7 @@ public class LoginServlet extends BaseServlet{
             w.println(SUCCESS(token));
         }else {
 
-            w.println(ERROR("你没有权限登录本系统"));
+            w.println(ERROR("账号或密码或身份有错误"));
         }
 
 
