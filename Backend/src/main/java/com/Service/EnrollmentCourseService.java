@@ -43,6 +43,12 @@ public class EnrollmentCourseService extends BaseService<EnrollmentCourse> imple
         return i >0;
     }
 
+    @Override
+    public List<EnrollmentCourse> GetNotOptional(int id) {
+
+        String Sql = String.format("select * from enrollment_course where enrollmentId <> %d ",id);
+        return GetList(Sql);
+    }
 
 
 }

@@ -182,7 +182,16 @@ public class EnrollmentServlet extends  BaseServlet{
         }
 
     }
-
+    public void GetNotOptional(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        PrintWriter writer = resp.getWriter();
+        if (req.getParameter("enrollmentId")==null){
+            writer.println(ERROR("enrollmentId为空"));
+            return;
+        }
+        int enrollmentId = Integer.parseInt(req.getParameter("enrollmentId"));
+        List<EnrollmentCourse> enrollmentCourses = _enrollmentCourseService.GetNotOptional(enrollmentId);
+        writer.println(SUCCESS(enrollmentCourses));
+    }
     public void BindingCourse(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         PrintWriter writer = resp.getWriter();
         JSONObject postData = APIHelper.getPostData(req);

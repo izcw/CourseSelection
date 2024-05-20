@@ -73,3 +73,11 @@ export const getList = (params) => {
   
     });
   };
+  export const GetNotOptional = (params) => {
+    return request({
+      url: '/EnrollmentServlet?action=GetNotOptional',
+      method: 'get',
+      params:params,
+  
+    });
+  };

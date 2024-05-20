@@ -74,7 +74,7 @@
     <el-dialog v-model="bindingCourseVisible" title="绑定课程" width="50%" draggable overflow>
       <el-table ref="courseMultipleTableRef" :data="courseList" style="width: 100%" @select-all="courseHandleAllChange"
         @select="courseHandleSelectionChange" @cell-click="showUnitInput">
-        <el-table-column type="selection" width="55" />
+        <el-table-column type="selection" width="55" :selectable="checkSelectable" />
         <el-table-column prop="courseCode" label="课程代码" width="150">
 
         </el-table-column>
@@ -164,7 +164,8 @@ import {
   BindingCourse as bindingCourse,
   BindingClass as bindingClass,
   GetBoundCourse as getBoundCourse,
-  GetBoundClass as getBoundClass
+  GetBoundClass as getBoundClass,
+  GetNotOptional as getNotOptional
 } from '@/api/enrollment';
 import {
   getList as getClassList,
@@ -203,6 +204,7 @@ const classPager = ref({
 })
 const courseTotal = ref(0)
 const classTotal = ref(0)
+const notOptional = ref([])
 const disabledDate = (time) => {
 
   return time.getTime() < Date.now() - 8.64e7
@@ -519,13 +521,22 @@ const bindingCourseShow = async (index, row) => {
   nextTick(() => {
     courseMultipleTableRef.value.clearSelection()
   })
-
+ await GetNotOptional();
   // 获取回显数据列表
   await GetBoundCourse();
   // 获取分页列表
   await GetCourseList();
+  
 
-
+}
+const GetNotOptional = async()=>{
+  let params = {
+    enrollmentId: selectionEnrollmentId.value
+  }
+  getNotOptional(params).then(c=>{
+    notOptional.value = c.data
+    console.log(notOptional.value);
+  })
 }
 const GetBoundCourse = async () => {
   let params = {
@@ -592,6 +603,9 @@ const courseHandleSelectionChange = (selecteds, row) => {
       }
     });
   }
+}
+const checkSelectable=(row)=>{
+  return notOptional.value.findIndex(c=>c.courseId ===row.courseId)==-1 
 }
 const courseHandleAllChange = (selecteds) => {
   if (selecteds.length > 0) {

@@ -12,5 +12,5 @@ public interface IEnrollmentCourseService extends IBaseService<EnrollmentCourse>
 
     Boolean  BindingCourse(EnrollmentBindingDto dto);
 
-
+    List<EnrollmentCourse> GetNotOptional(int id);
 }
