@@ -1,6 +1,6 @@
 <template>
   <div class="right-panel">
-    <icon-theme class="icon-hover theme" :title="t('navbar.theme')" theme="outline" :strokeWidth="4" size="16"
+    <!-- <icon-theme class="icon-hover theme" :title="t('navbar.theme')" theme="outline" :strokeWidth="4" size="16"
       :fill="color" @click="handleChangeTheme" />
     <el-popover v-if="settings.notice" placement="bottom" :width="320" trigger="hover">
       <template #reference>
@@ -21,10 +21,10 @@
           <el-tab-pane :label="`${t('tabs.email')} (0)`" name="third">暂无邮件</el-tab-pane>
         </el-tabs>
       </div>
-    </el-popover>
+    </el-popover> -->
 
-    <FullScreen :color="color" v-if="settings.fullScreen" @refresh="onRefresh" />
-    <LangChange :color="color" />
+    <!-- <FullScreen :color="color" v-if="settings.fullScreen" @refresh="onRefresh" />
+    <LangChange :color="color" /> -->
     <icon-refresh v-if="settings.refresh" :title="t('navbar.refresh')" @click="handleRefresh" class="icon-hover refresh"
       theme="filled" size="16" :fill="color" :strokeWidth="4" />
     <Avatar :color="color" />

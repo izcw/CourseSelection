@@ -1,28 +1,31 @@
 <template>
-  <el-dropdown @command="handleCommand">
-    <span class="avatar-dropdown" :style="{ color }">
-      <!--<el-avatar class="user-avatar" :src="avatar"></el-avatar>-->
-      <img class="user-avatar" :src="avatar1" alt="" />
-      <div class="user-name">
-        <div v-if="userType == 'student'">
-          <p>{{info.userName}}</p>
-      </div>
-      <div v-else-if="userType == 'teacher'">
-          <p>{{info.teacherName}}</p>
-      </div>
-      <div v-else>
-          <p>{{info.userName}}</p>
-      </div>
-        <i class="el-icon-arrow-down el-icon--right"></i>
-      </div>
-    </span>
-    <template #dropdown>
-      <el-dropdown-menu>
-        <el-dropdown-item command="github">Github</el-dropdown-item>
-        <el-dropdown-item command="logout" divided>{{ t('navbar.logOut') }}</el-dropdown-item>
-      </el-dropdown-menu>
-    </template>
-  </el-dropdown>
+  <div class="touxloginbox">
+    <el-dropdown @command="handleCommand">
+      <span class="avatar-dropdown" :style="{ color }">
+        <!--<el-avatar class="user-avatar" :src="avatar"></el-avatar>-->
+        <img class="user-avatar" :src="avatar1" alt="" />
+        <div class="user-name">
+          <div v-if="userType == 'student'">
+            <p>{{ info.userName }}</p>
+          </div>
+          <div v-else-if="userType == 'teacher'">
+            <p>{{ info.teacherName }}</p>
+          </div>
+          <div v-else>
+            <p>{{ info.userName }}</p>
+          </div>
+          <i class="el-icon-arrow-down el-icon--right"></i>
+        </div>
+      </span>
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item command="github">Github</el-dropdown-item>
+          <!-- <el-dropdown-item command="logout" divided>{{ t('navbar.logOut') }}</el-dropdown-item> -->
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
+    <el-button type="primary" @click="handleLogout()" link style="margin:0 6px ;">{{ t('navbar.logOut') }}</el-button>
+  </div>
 </template>
 
 
@@ -45,11 +48,11 @@ const store = useStore();
 const info = ref({})
 const userType = ref({})
 async function getUserInfo() {
-    info.value = await store.getters['user/info'][0]
-    userType.value = await store.getters['user/userType']
+  info.value = await store.getters['user/info'][0]
+  userType.value = await store.getters['user/userType']
 }
 setTimeout(() => {
-    getUserInfo()
+  getUserInfo()
 }, 200)
 
 const { title, recordRoute } = setting;
@@ -121,5 +124,10 @@ const handleLogout = () => {
     margin-left: $base-margin-5;
     cursor: pointer;
   }
+}
+
+.touxloginbox {
+  display: flex;
+  align-items: center;
 }
 </style>
