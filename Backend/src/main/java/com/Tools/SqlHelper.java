@@ -3,6 +3,7 @@ package com.Tools;
 import com.alibaba.druid.pool.DruidDataSourceFactory;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -18,13 +19,15 @@ public class SqlHelper {
      */
     public static Connection GetConnection() {
         Connection con = null;
+        Properties pro = null;
+        InputStream is = null;
         try {
             // 加载配置文件
             //1、导入jar包
             //2、定义配置文件
             //3、加载配置文件
-            Properties pro = new Properties();
-            InputStream is = SqlHelper.class.getClassLoader().getResourceAsStream("Druid.properties");
+            pro =  new Properties();
+            is =  SqlHelper.class.getClassLoader().getResourceAsStream("Druid.properties");
             pro.load(is);
 
             // 获取数据源
@@ -32,9 +35,22 @@ public class SqlHelper {
 
             // 获取连接
             con = ds.getConnection();
+
         } catch (Exception e) {
             // 抛出运行时异常
             throw new RuntimeException(e);
+        }
+        finally {
+            if (pro != null) {
+                pro.clone();
+            }
+            try {
+                if (is != null) {
+                    is.close();
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
         return con;
     }

@@ -53,6 +53,39 @@ public class BaseRepository<T> implements IBaseRepository<T> {
         } finally {
             SqlHelper.CloseResources(conn, sm,rs);
         }
+        SqlHelper.CloseResources(conn, sm,rs);
+        return list;
+    }
+
+    @Override
+    public <T2> List<T2> GetTList(String sql,Class<T2> t2Class) {
+        List<T2> list = new ArrayList<>();
+        Connection conn = null;
+        Statement sm = null;
+        ResultSet rs = null;
+        try {
+            conn = SqlHelper.GetConnection();
+            sm = SqlHelper.GetStatement(conn);
+            rs = sm.executeQuery(sql);
+
+            ResultSetMetaData md = rs.getMetaData();
+            int columnCount = md.getColumnCount();
+
+            while (rs.next()) {
+                Map<String, Object> rowData = new CaseInsensitiveMap<>();
+                for (int i = 1; i <= columnCount; i++) {
+                    rowData.put(md.getColumnLabel(i).toUpperCase(), rs.getObject(i));
+                }
+
+
+                T2 t = initTClass(t2Class, rowData);
+                list.add(t);
+            }
+        } catch (SQLException | NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } finally {
+            SqlHelper.CloseResources(conn, sm,rs);
+        }
         return list;
     }
 
@@ -119,6 +152,7 @@ public class BaseRepository<T> implements IBaseRepository<T> {
 
             if (rs.first()) {
                 ResultSetMetaData md = rs.getMetaData();
+
                 int columnCount = md.getColumnCount();
                 Map<String, Object> rowData = new CaseInsensitiveMap<>();
                 for (int i = 1; i <= columnCount; i++) {
@@ -313,6 +347,7 @@ public class BaseRepository<T> implements IBaseRepository<T> {
             String fieldName = f1.getName().toUpperCase();
 
             Object o1 = dataMap.get(fieldName);
+
             try {
                 if (o1.getClass().toString().equals("class java.time.LocalDateTime")) {
                     String pattern = "yyyy-MM-dd HH:mm:ss";
@@ -359,5 +394,8 @@ public class BaseRepository<T> implements IBaseRepository<T> {
      */
     public Class<T> getTClass() {
         return (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+    }
+    public <T2> Class<T2> getTClass(Class<T2> t2) {
+        return (Class<T2>) ((ParameterizedType)t2.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
 }

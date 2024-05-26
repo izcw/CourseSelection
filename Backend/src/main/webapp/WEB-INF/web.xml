@@ -12,9 +12,7 @@
   </welcome-file-list>
   <display-name>Archetype Created Web Application</display-name>
 
-  <listener>
-    <listener-class>com.Tools.InitListener</listener-class>
-  </listener>
+
   <!-- 拦截器属性 -->
 
 

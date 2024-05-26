@@ -20,4 +20,5 @@ public interface IStudentService extends IBaseService<Student>{
     Object[] EditorList(Student student);
     String NumberingRules(Student student,String classId);
     int GetStudentCountByClassId(int classId);
+    Student GetStudentByCode(String code);
 }

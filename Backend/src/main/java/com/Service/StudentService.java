@@ -217,4 +217,12 @@ public class StudentService extends BaseService<Student> implements IStudentServ
         return i;
     }
 
+    @Override
+    public Student GetStudentByCode(String code) {
+
+        String sql = String.format(" select * from student where studentCode = '%s' limit 1 ",code);
+        Student student = GetFirst(sql);
+        return student;
+    }
+
 }

@@ -26,7 +26,8 @@ const scroll = ref(null);
 
 const router = useRouter();
 
-onMounted(() => {
+onMounted(async() => {
+ await setUserInfo();
   changeBodyWidth();
   window.addEventListener('resize', changeResize);
  
@@ -50,8 +51,8 @@ const changeResize = () => {
 
 
 // 获取用户信息
-// async function setUserInfo() {
-   getUserInfoData({
+ async function setUserInfo() {
+  await getUserInfoData({
     token: store.getters['user/accessToken']
   }).then(res => {
     if (res.code !== 200) {
@@ -65,8 +66,8 @@ const changeResize = () => {
       }
     }
   });
-// }
-// setUserInfo()
+ }
+ setUserInfo()
 
 </script>
 

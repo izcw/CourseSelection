@@ -56,14 +56,11 @@ public class EnrollmentStudentService extends BaseService<EnrollmentStudent> imp
      */
     public List<EnrollmentStudent> GetMystudentcourseList(String Id) {
         // 构建查询enrollment_class表的语句
-        StringBuilder sb = new StringBuilder("SELECT e.* ");
-        sb.append("FROM enrollment_student e ");
-        sb.append("WHERE e.studentCode = ? ");
+        String sql = String.format(" SELECT * from enrollment_student where studentCode = '%s' ",Id);
 
-        List<Object> params = new ArrayList<>();
-        params.add(Id);
 
-        List<EnrollmentStudent> enrollmentList = GetListparams(sb.toString(), params);
+
+        List<EnrollmentStudent> enrollmentList = GetList(sql);
 
         // 返回查询到的enrollment列表
         return enrollmentList;

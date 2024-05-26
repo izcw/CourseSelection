@@ -23,7 +23,7 @@ public class UserService extends BaseService<User> implements IUserService {
     //返回一个用户实体根据用户id
     @Override
     public User GetUserById(Integer userId) {
-        User user = GetFirst(String.format("select * from user where user userId = %d limit 1", userId));
+        User user = GetFirst(String.format("select * from user where userId = %d limit 1", userId));
         return user;
     }
 

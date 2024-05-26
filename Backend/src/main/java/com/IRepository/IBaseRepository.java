@@ -5,6 +5,7 @@ import java.util.List;
 public interface IBaseRepository <T> {
     //获取集合
     List<T> GetList(String sql);
+    <T2> List<T2> GetTList(String sql,Class<T2> t2Class);
     //获取首行
     T GetFirst(String sql);
     //增删改

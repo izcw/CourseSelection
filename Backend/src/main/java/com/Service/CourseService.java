@@ -5,6 +5,7 @@ import com.Pojo.ClassInfo;
 import com.Pojo.Course;
 import com.Pojo.DTO.ListResultDto;
 import com.Pojo.DTO.PagerInfoDto;
+import com.Pojo.DTO.SelectionOperationDto;
 
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
@@ -83,37 +84,46 @@ public class CourseService extends BaseService<Course> implements ICourseService
 
 
     /**
-     * 通过传选课类别id查找数据
-     * @param Id id（选课类别id）
+     * 通过传选班级id查找数据
+     * @param ClsssId id（选课类别id）
      * @return 执行状态
      */
-    public List<Course> GetstudentshowCourseList(String Id) {
+    public List<SelectionOperationDto> GetstudentshowCourseList(Integer ClsssId) {
         // 构建查询的 SQL 语句
+//        StringBuilder sb = new StringBuilder();
         StringBuilder sb = new StringBuilder();
-        sb.append("SELECT c.courseId, c.courseCode, c.courseName, c.teacherId, t.teacherName, c.credits, ct.courseTypeId, ct.typeName, c.createTime, c.delFlag, ec.maximumQuantity, ec.enrollmentId ");
-        sb.append("FROM enrollment_course ec ");
-        sb.append("JOIN enrollment e ON ec.enrollmentId = e.enrollmentId ");
-        sb.append("JOIN course c ON ec.courseId = c.courseId ");
-        sb.append("JOIN course_type ct ON c.courseTypeId = ct.courseTypeId ");
-        sb.append("JOIN teacher t ON c.teacherId = t.teacherId "); // 加入 teacher 表的连接
-        sb.append("WHERE ec.enrollmentId = ? ");
-        sb.append("AND e.delFlag = 1");
+        sb.append(" select ec.enrollmentId,ec.maximumQuantity,ec.courseId,c.courseCode,c.courseName,c.teacherId,c.teacherName,c.credits,c.courseTypeId,c.typeName,e1.selectionPlanName,e1.beginTime,e1.endTime,e1.enrollmentMethod from enrollment_course as ec ");
+        //左连接课程表
+        sb.append(" left join (select c1.courseId, c1.courseCode, c1.courseName, t.teacherId, t.teacherName, c1.credits, ct.courseTypeId, ct.typeName from course as  c1 left join teacher as t on c1.teacherId = t.teacherId left join course_type as ct on c1.courseTypeId = ct.courseTypeId) as c on ec.courseId = c.courseId  ");
+        sb.append(" left join enrollment as e1 on ec.enrollmentId = e1.enrollmentId ");//左连接选课方案表
+        sb.append(" where ec.enrollmentId in ");
+        //先根据班级id查找选课方案id再筛选符合当前日期的数据
+        sb.append(String.format(" (select enrollmentId FROM enrollment as e where enrollmentId in (select enrollmentId from enrollment_class where classId = %d ) and (e.beginTime <= NOW()  and e.endTime >= now()) and e.delFlag ='1')  ",ClsssId));
 
-        List<Object> params = new ArrayList<>();
-        params.add(Id);
+//        sb.append("SELECT c.courseId, c.courseCode, c.courseName, c.teacherId, t.teacherName, c.credits, ct.courseTypeId, ct.typeName, c.createTime, c.delFlag, ec.maximumQuantity, ec.enrollmentId ");
+//        sb.append("FROM enrollment_course ec ");
+//        sb.append("JOIN enrollment e ON ec.enrollmentId = e.enrollmentId ");
+//        sb.append("JOIN course c ON ec.courseId = c.courseId ");
+//        sb.append("JOIN course_type ct ON c.courseTypeId = ct.courseTypeId ");
+//        sb.append("JOIN teacher t ON c.teacherId = t.teacherId "); // 加入 teacher 表的连接
+//        sb.append("WHERE ec.enrollmentId = ? ");
+//        sb.append("AND e.delFlag = 1");
+
+//        List<Object> params = new ArrayList<>();
+//        params.add(ClsssId);
 
         // 获取查询结果
-        List<Course> courseList = GetListparams(sb.toString(), params);
+        List<SelectionOperationDto> courseList = GetTList(sb.toString(),SelectionOperationDto.class);
 
-        // 如果没有找到对应的记录，返回空列表
-        if (courseList == null || courseList.isEmpty()) {
-            return Collections.emptyList();
-        }
-
+//        // 如果没有找到对应的记录，返回空列表
+//        if (courseList == null || courseList.isEmpty()) {
+//            return Collections.emptyList();
+//        }
+//
         // 遍历课程列表，为每个课程计算 selectednumberpeople
-        for (Course course : courseList) {
-            int selectedNumberPeople = getSelectedNumberPeople(course.getCourseCode());
-            course.setSelectednumberpeople(selectedNumberPeople);
+        for (SelectionOperationDto selectionOperationDto : courseList) {
+            int selectedNumberPeople = getSelectedNumberPeople(selectionOperationDto.getCourseCode());
+            selectionOperationDto.setSelectednumberpeople(selectedNumberPeople);
         }
 
         // 返回查询到的课程列表

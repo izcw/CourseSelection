@@ -4,7 +4,7 @@
       <countdownTime @status="handleStatusUpdate" :openness="opennessStatus"></countdownTime>
     </div>
     <div v-else>
-      <selectionOperation :data="enrollmentArrData" :studentinfo="info"></selectionOperation>
+      <selectionOperation  ></selectionOperation>
     </div>
   </div>
 </template>
