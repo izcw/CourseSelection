@@ -69,6 +69,7 @@ public class BaseServlet extends HttpServlet {
             } else {
                 // 如果没有找到对应的方法，可以返回错误信息或者进行其他处理
                 resp.getWriter().write("没有这样的方法: " + action);
+
             }
         } catch (Exception e) {
             e.printStackTrace();

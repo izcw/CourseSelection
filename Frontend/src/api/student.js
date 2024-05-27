@@ -1,5 +1,6 @@
 import request from '@/utils/request.js';
 
+// 获取数据
 export const getStudentList = (params) => {
   return request({
     url: '/StudentServlet?action=query',
@@ -7,6 +8,7 @@ export const getStudentList = (params) => {
     params:params,
   });
 };
+
 export const GetStudentCountByClassId = (params) => {
   return request({
     url: '/StudentServlet?action=GetStudentCountByClassId',
@@ -14,6 +16,8 @@ export const GetStudentCountByClassId = (params) => {
     params:params,
   });
 };
+
+// 添加
 export const getAddStudentList = (data) => {
     return request({
       url: '/StudentServlet?action=add',
@@ -31,7 +35,7 @@ export const getAddStudentList = (data) => {
     });
   };
   
-
+// 编辑
   export const getEditorStudentList = (data) => {
     return request({
       url: '/StudentServlet?action=editor',

@@ -141,7 +141,7 @@ const store = useStore();
 const studentInfo = ref()
 const enrollmentId = ref()
 const rowdata = ref()
-// 查看选课
+// 查看可选选课
 const showarrData = ref([])
 const showCourse = (row) => {
     rowdata.value = row
@@ -194,7 +194,7 @@ const selectMultiple = (data) => {
     });
 }
 
-// 查看我的选课
+// 查询学生选的课程(用于判断该学生是否已选这门课)
 const myselectArr = ref()
 const showMyselect = async () => {
 

@@ -40,7 +40,7 @@
 
             .loginBox {
                 width: 400px;
-                height: 470px;
+                height: 520px;
                 background-color: #fff;
                 margin: 100px auto;
                 border-radius: 10px;
@@ -419,6 +419,8 @@
                         class="Captcha"
                         placeholder="请输入验证码"
                         data-error-id="codeError"
+                        style="font-size: 18px;
+    border-bottom: 1px solid #ccc;"
                 />
                 <a href="javascript:reloadCode()">
                     <img src="ValidateCodeServlet" id="imagecode"/>
@@ -480,6 +482,9 @@
                 if (validationCode === '') {
                     alert('验证码不能为空')
                     return
+                }else if (validationCode.length != 4){
+                    alert('验证码不能为'+validationCode.length+'位，必须是4位')
+                    return
                 }
                 loading();
                 var url = "/LoginServlet?action=Login";
@@ -513,8 +518,6 @@
                 };
 
             }
-
-
         </script>
     </body>
 

@@ -1,0 +1,55 @@
+@charset "UTF-8";
+/**
+ * 全局主题变量配置
+ */
+.icon-hover {
+  cursor: pointer;
+}
+.icon-hover:hover {
+  background-color: #f5f5f5;
+}
+
+.i-icon:focus-visible {
+  border: none !important;
+  outline: none !important;
+}
+
+html body {
+  position: relative;
+  box-sizing: border-box;
+  height: 100vh;
+  padding: 0;
+  overflow: hidden;
+}
+html body::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+html body::-webkit-scrollbar-thumb {
+  background-color: #ddd;
+  background-clip: padding-box;
+  border: 3px solid transparent;
+  border-radius: 7px;
+}
+html body::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+html body::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+html div::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+html div::-webkit-scrollbar-thumb {
+  background-color: #ddd;
+  background-clip: padding-box;
+  border: 3px solid transparent;
+  border-radius: 7px;
+}
+html div::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+html div::-webkit-scrollbar-track {
+  background-color: transparent;
+}

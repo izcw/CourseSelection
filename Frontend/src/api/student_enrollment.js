@@ -27,7 +27,7 @@ export const getviewcoursetList = (params) => {
     });
   };
   
-//   查询学生选的课程
+  // 查询学生选的课程(用于判断该学生是否已选这门课)
   export const getSelectcoursesList = (params) => {
     return request({
       url: '/EnrollmentStudentServlet?action=mycourse',

@@ -1,6 +1,6 @@
 import request from '@/utils/request.js';
 
-
+// 获取数据
 export const getTeacherList = (params) => {
   return request({
     url: '/TeacherServlet?action=query',
@@ -9,6 +9,7 @@ export const getTeacherList = (params) => {
   });
 };
 
+// 添加
 export const getAddTeacherList = (data) => {
     return request({
       url: '/TeacherServlet?action=add',
@@ -26,7 +27,7 @@ export const getAddTeacherList = (data) => {
     });
   };
   
-
+// 编辑
   export const getEditorTeacherList = (data) => {
     return request({
       url: '/TeacherServlet?action=editor',
