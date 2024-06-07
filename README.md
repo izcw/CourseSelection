@@ -52,6 +52,12 @@ yarn build:preview
 
 `/Backend`目录
 
+依赖版本：
+
+Tomcat 10.1.19
+
+Java 21
+
 ## 第三方插件
 
 * [vue3-admin-element-template](https://gitee.com/hu-snail/vue3-admin-element-template#https://hu-snail.gitee.io/vue3-admin-element-template)
